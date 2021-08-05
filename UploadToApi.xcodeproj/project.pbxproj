@@ -3,23 +3,49 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D366B2126BA2DC200AE668A /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2026BA2DC200AE668A /* ImagePicker.swift */; };
+		3D366B2526BA2F8100AE668A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2426BA2F8100AE668A /* ProfileView.swift */; };
+		3D366B2726BA386E00AE668A /* StorageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2626BA386E00AE668A /* StorageViewModel.swift */; };
+		3D366B2A26BA6C0700AE668A /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3D366B2926BA6C0700AE668A /* FacebookLogin */; };
+		3D366B2C26BA6F3B00AE668A /* LoginFBButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */; };
+		3D366B2E26BA7B7A00AE668A /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3D366B2D26BA7B7A00AE668A /* FacebookCore */; };
+		3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */; };
 		3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */; };
-		3DAEA54B26B7779F009187B9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54A26B7779F009187B9 /* ContentView.swift */; };
-		3DAEA54D26B777A1009187B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA54C26B777A1009187B9 /* Assets.xcassets */; };
+		3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54A26B7779F009187B9 /* HomeView.swift */; };
 		3DAEA55026B777A1009187B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA54F26B777A1009187B9 /* Preview Assets.xcassets */; };
+		3DAEA55826B778EC009187B9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA55726B778EC009187B9 /* GoogleService-Info.plist */; };
+		3DAEA55E26B77E4A009187B9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA55D26B77E4A009187B9 /* Assets.xcassets */; };
+		3DAEA56226B78A25009187B9 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA56126B78A25009187B9 /* LoginView.swift */; };
+		3DAEA56426B78A37009187B9 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA56326B78A37009187B9 /* SignInView.swift */; };
+		3DAEA56826B8D960009187B9 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA56726B8D960009187B9 /* AuthViewModel.swift */; };
+		3DAEA56A26BA1DDE009187B9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA56926BA1DDE009187B9 /* Launch Screen.storyboard */; };
+		9C4CF25913011B7D2413CF2D /* Pods_UploadToApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8289B81C4454251BCA4B8329 /* Pods_UploadToApi.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D366B2026BA2DC200AE668A /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		3D366B2426BA2F8100AE668A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		3D366B2626BA386E00AE668A /* StorageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageViewModel.swift; sourceTree = "<group>"; };
+		3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFBButton.swift; sourceTree = "<group>"; };
+		3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		3DAEA54526B7779F009187B9 /* UploadToApi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UploadToApi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadToApiApp.swift; sourceTree = "<group>"; };
-		3DAEA54A26B7779F009187B9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		3DAEA54C26B777A1009187B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3DAEA54A26B7779F009187B9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		3DAEA54F26B777A1009187B9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3DAEA55126B777A1009187B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DAEA55726B778EC009187B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3DAEA55D26B77E4A009187B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3DAEA56126B78A25009187B9 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		3DAEA56326B78A37009187B9 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		3DAEA56726B8D960009187B9 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		3DAEA56926BA1DDE009187B9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		701712CA3D6725DDDF63F9DA /* Pods-UploadToApi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UploadToApi.release.xcconfig"; path = "Target Support Files/Pods-UploadToApi/Pods-UploadToApi.release.xcconfig"; sourceTree = "<group>"; };
+		8289B81C4454251BCA4B8329 /* Pods_UploadToApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UploadToApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F31494201332C916131EA8C8 /* Pods-UploadToApi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UploadToApi.debug.xcconfig"; path = "Target Support Files/Pods-UploadToApi/Pods-UploadToApi.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,17 +53,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D366B2A26BA6C0700AE668A /* FacebookLogin in Frameworks */,
+				3D366B2E26BA7B7A00AE668A /* FacebookCore in Frameworks */,
+				9C4CF25913011B7D2413CF2D /* Pods_UploadToApi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D366B1F26BA2D8A00AE668A /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				3D366B2026BA2DC200AE668A /* ImagePicker.swift */,
+				3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		3DAEA53C26B7779F009187B9 = {
 			isa = PBXGroup;
 			children = (
 				3DAEA54726B7779F009187B9 /* UploadToApi */,
 				3DAEA54626B7779F009187B9 /* Products */,
+				FBA920E67BE21B33FFFC514F /* Pods */,
+				48574E1B45A56F6C14CE8AF1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,11 +92,16 @@
 		3DAEA54726B7779F009187B9 /* UploadToApi */ = {
 			isa = PBXGroup;
 			children = (
+				3DAEA55B26B77B4C009187B9 /* ViewModel */,
+				3DAEA55A26B77B47009187B9 /* View */,
+				3DAEA55926B77B41009187B9 /* Model */,
 				3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */,
-				3DAEA54A26B7779F009187B9 /* ContentView.swift */,
-				3DAEA54C26B777A1009187B9 /* Assets.xcassets */,
+				3DAEA55D26B77E4A009187B9 /* Assets.xcassets */,
+				3DAEA55726B778EC009187B9 /* GoogleService-Info.plist */,
+				3DAEA54A26B7779F009187B9 /* HomeView.swift */,
 				3DAEA55126B777A1009187B9 /* Info.plist */,
 				3DAEA54E26B777A1009187B9 /* Preview Content */,
+				3DAEA56926BA1DDE009187B9 /* Launch Screen.storyboard */,
 			);
 			path = UploadToApi;
 			sourceTree = "<group>";
@@ -69,6 +114,51 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		3DAEA55926B77B41009187B9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3DAEA55A26B77B47009187B9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3D366B1F26BA2D8A00AE668A /* Component */,
+				3DAEA56126B78A25009187B9 /* LoginView.swift */,
+				3DAEA56326B78A37009187B9 /* SignInView.swift */,
+				3D366B2426BA2F8100AE668A /* ProfileView.swift */,
+				3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3DAEA55B26B77B4C009187B9 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3DAEA56726B8D960009187B9 /* AuthViewModel.swift */,
+				3D366B2626BA386E00AE668A /* StorageViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		48574E1B45A56F6C14CE8AF1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8289B81C4454251BCA4B8329 /* Pods_UploadToApi.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FBA920E67BE21B33FFFC514F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F31494201332C916131EA8C8 /* Pods-UploadToApi.debug.xcconfig */,
+				701712CA3D6725DDDF63F9DA /* Pods-UploadToApi.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -76,15 +166,21 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3DAEA55426B777A1009187B9 /* Build configuration list for PBXNativeTarget "UploadToApi" */;
 			buildPhases = (
+				5CB57BCE461B8D896639ABF4 /* [CP] Check Pods Manifest.lock */,
 				3DAEA54126B7779F009187B9 /* Sources */,
 				3DAEA54226B7779F009187B9 /* Frameworks */,
 				3DAEA54326B7779F009187B9 /* Resources */,
+				FCB3D04CE322AB4FA74A837F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = UploadToApi;
+			packageProductDependencies = (
+				3D366B2926BA6C0700AE668A /* FacebookLogin */,
+				3D366B2D26BA7B7A00AE668A /* FacebookCore */,
+			);
 			productName = UploadToApi;
 			productReference = 3DAEA54526B7779F009187B9 /* UploadToApi.app */;
 			productType = "com.apple.product-type.application";
@@ -112,6 +208,9 @@
 				Base,
 			);
 			mainGroup = 3DAEA53C26B7779F009187B9;
+			packageReferences = (
+				3D366B2826BA6C0700AE668A /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+			);
 			productRefGroup = 3DAEA54626B7779F009187B9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -127,19 +226,71 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DAEA55026B777A1009187B9 /* Preview Assets.xcassets in Resources */,
-				3DAEA54D26B777A1009187B9 /* Assets.xcassets in Resources */,
+				3DAEA55E26B77E4A009187B9 /* Assets.xcassets in Resources */,
+				3DAEA56A26BA1DDE009187B9 /* Launch Screen.storyboard in Resources */,
+				3DAEA55826B778EC009187B9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5CB57BCE461B8D896639ABF4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UploadToApi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FCB3D04CE322AB4FA74A837F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-UploadToApi/Pods-UploadToApi-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-UploadToApi/Pods-UploadToApi-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UploadToApi/Pods-UploadToApi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3DAEA54126B7779F009187B9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DAEA54B26B7779F009187B9 /* ContentView.swift in Sources */,
+				3DAEA56226B78A25009187B9 /* LoginView.swift in Sources */,
+				3DAEA56826B8D960009187B9 /* AuthViewModel.swift in Sources */,
+				3D366B2726BA386E00AE668A /* StorageViewModel.swift in Sources */,
+				3D366B2126BA2DC200AE668A /* ImagePicker.swift in Sources */,
+				3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */,
+				3DAEA56426B78A37009187B9 /* SignInView.swift in Sources */,
+				3D366B2526BA2F8100AE668A /* ProfileView.swift in Sources */,
+				3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */,
 				3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */,
+				3D366B2C26BA6F3B00AE668A /* LoginFBButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,9 +415,11 @@
 		};
 		3DAEA55526B777A1009187B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F31494201332C916131EA8C8 /* Pods-UploadToApi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"UploadToApi/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -285,9 +438,11 @@
 		};
 		3DAEA55626B777A1009187B9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 701712CA3D6725DDDF63F9DA /* Pods-UploadToApi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"UploadToApi/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -326,6 +481,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3D366B2826BA6C0700AE668A /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3D366B2926BA6C0700AE668A /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D366B2826BA6C0700AE668A /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		3D366B2D26BA7B7A00AE668A /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3D366B2826BA6C0700AE668A /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3DAEA53D26B7779F009187B9 /* Project object */;
 }
