@@ -14,6 +14,7 @@
 		3D366B2C26BA6F3B00AE668A /* LoginFBButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */; };
 		3D366B2E26BA7B7A00AE668A /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3D366B2D26BA7B7A00AE668A /* FacebookCore */; };
 		3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */; };
+		3D366B3226BB861000AE668A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3D366B3126BB861000AE668A /* .gitignore */; };
 		3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */; };
 		3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54A26B7779F009187B9 /* HomeView.swift */; };
 		3DAEA55026B777A1009187B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA54F26B777A1009187B9 /* Preview Assets.xcassets */; };
@@ -32,6 +33,7 @@
 		3D366B2626BA386E00AE668A /* StorageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageViewModel.swift; sourceTree = "<group>"; };
 		3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFBButton.swift; sourceTree = "<group>"; };
 		3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
+		3D366B3126BB861000AE668A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		3DAEA54526B7779F009187B9 /* UploadToApi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UploadToApi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadToApiApp.swift; sourceTree = "<group>"; };
 		3DAEA54A26B7779F009187B9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		3DAEA53C26B7779F009187B9 = {
 			isa = PBXGroup;
 			children = (
+				3D366B3126BB861000AE668A /* .gitignore */,
 				3DAEA54726B7779F009187B9 /* UploadToApi */,
 				3DAEA54626B7779F009187B9 /* Products */,
 				FBA920E67BE21B33FFFC514F /* Pods */,
@@ -225,6 +228,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D366B3226BB861000AE668A /* .gitignore in Resources */,
 				3DAEA55026B777A1009187B9 /* Preview Assets.xcassets in Resources */,
 				3DAEA55E26B77E4A009187B9 /* Assets.xcassets in Resources */,
 				3DAEA56A26BA1DDE009187B9 /* Launch Screen.storyboard in Resources */,
