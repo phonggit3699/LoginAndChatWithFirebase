@@ -14,6 +14,7 @@ struct ImagePicker: UIViewControllerRepresentable{
     @Environment (\.presentationMode) var presentationMode
     @EnvironmentObject var storage: StorageViewModel
     @Binding var image: UIImage?
+
     
     func makeCoordinator() -> Coordinator {
        return Coordinator(self)

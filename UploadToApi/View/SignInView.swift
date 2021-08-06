@@ -20,114 +20,112 @@ struct SignInView: View {
     @EnvironmentObject var auth: AuthViewModel
     
     var body: some View {
-        GeometryReader {proxy in
-            ZStack{
-                VStack {
-                    //username field
-                    TextField("Email", text: $username)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal)
-                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.username != "" || self.isTabFieldUsername ? Color.black: Color.gray, lineWidth: 1))
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            self.isTabFieldUsername.toggle()
-                            self.isTabFieldPassword = false
-                            self.isTabFieldRePassword = false
-                        }
+        ZStack{
+            VStack {
+                //username field
+                TextField("Email", text: $username)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal)
+                    .background(RoundedRectangle(cornerRadius: 4).stroke(self.username != "" || self.isTabFieldUsername ? Color.black: Color.gray, lineWidth: 1))
+                    .padding(.horizontal)
+                    .onTapGesture {
+                        self.isTabFieldUsername.toggle()
+                        self.isTabFieldPassword = false
+                        self.isTabFieldRePassword = false
+                    }.padding(.top, 10)
+                
+                // Password field
+                ZStack{
+                    if self.showPassword {
+                        TextField("Password", text: $password)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal)
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" || self.isTabFieldPassword ? Color.black: Color.gray, lineWidth: 1))
+                            .onTapGesture {
+                                self.isTabFieldPassword.toggle()
+                                self.isTabFieldUsername = false
+                                self.isTabFieldRePassword = false
+                            }
+                    }else{
+                        SecureField("Password", text: $password)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal)
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.password !=  "" || self.isTabFieldPassword ? Color.black: Color.gray, lineWidth: 1))
+                            .onTapGesture {
+                                self.isTabFieldPassword.toggle()
+                                self.isTabFieldUsername = false
+                                self.isTabFieldRePassword = false
+                            }
+                    }
                     
-                    // Password field
-                    ZStack{
-                        if self.showPassword {
-                            TextField("Password", text: $password)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal)
-                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" || self.isTabFieldPassword ? Color.black: Color.gray, lineWidth: 1))
-                                .onTapGesture {
-                                    self.isTabFieldPassword.toggle()
-                                    self.isTabFieldUsername = false
-                                    self.isTabFieldRePassword = false
-                                }
-                        }else{
-                            SecureField("Password", text: $password)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal)
-                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.password !=  "" || self.isTabFieldPassword ? Color.black: Color.gray, lineWidth: 1))
-                                .onTapGesture {
-                                    self.isTabFieldPassword.toggle()
-                                    self.isTabFieldUsername = false
-                                    self.isTabFieldRePassword = false
-                                }
-                        }
-                        
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                self.showPassword.toggle()
-                            }, label: {
-                                Image(systemName: self.showPassword ? "eye.slash.fill" : "eye.fill")
-                                    .foregroundColor(self.password != "" || self.isTabFieldPassword ? Color.black: Color.gray)
-                            }).padding(.trailing, 5)
-                        }
-                    }.padding([.horizontal,.top])
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            self.showPassword.toggle()
+                        }, label: {
+                            Image(systemName: self.showPassword ? "eye.slash.fill" : "eye.fill")
+                                .foregroundColor(self.password != "" || self.isTabFieldPassword ? Color.black: Color.gray)
+                        }).padding(.trailing, 5)
+                    }
+                }.padding([.horizontal,.top])
+                
+                // Confirm Password field
+                ZStack{
+                    if self.showRePassword {
+                        TextField("Confirm password", text: $repassword)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal)
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.repassword != "" || self.isTabFieldRePassword ? Color.black: Color.gray, lineWidth: 1))
+                            .onTapGesture {
+                                self.isTabFieldRePassword.toggle()
+                                self.isTabFieldUsername = false
+                                self.isTabFieldPassword = false
+                            }
+                    }else{
+                        SecureField("Confirm password", text: $repassword)
+                            .padding(.vertical, 10)
+                            .padding(.horizontal)
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.repassword !=  "" || self.isTabFieldRePassword ? Color.black: Color.gray, lineWidth: 1))
+                            .onTapGesture {
+                                self.isTabFieldRePassword.toggle()
+                                self.isTabFieldUsername = false
+                                self.isTabFieldPassword = false
+                            }
+                    }
                     
-                    // Confirm Password field
-                    ZStack{
-                        if self.showRePassword {
-                            TextField("Confirm password", text: $repassword)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal)
-                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.repassword != "" || self.isTabFieldRePassword ? Color.black: Color.gray, lineWidth: 1))
-                                .onTapGesture {
-                                    self.isTabFieldRePassword.toggle()
-                                    self.isTabFieldUsername = false
-                                    self.isTabFieldPassword = false
-                                }
-                        }else{
-                            SecureField("Confirm password", text: $repassword)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal)
-                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.repassword !=  "" || self.isTabFieldRePassword ? Color.black: Color.gray, lineWidth: 1))
-                                .onTapGesture {
-                                    self.isTabFieldRePassword.toggle()
-                                    self.isTabFieldUsername = false
-                                    self.isTabFieldPassword = false
-                                }
-                        }
-                        
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                self.showRePassword.toggle()
-                            }, label: {
-                                Image(systemName: self.showRePassword ? "eye.slash.fill" : "eye.fill")
-                                    .foregroundColor(self.repassword != "" || self.isTabFieldRePassword ? Color.black: Color.gray)
-                                    
-                            }).padding(.trailing, 5)
-                        }
-                    }.padding([.horizontal,.top])
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            self.showRePassword.toggle()
+                        }, label: {
+                            Image(systemName: self.showRePassword ? "eye.slash.fill" : "eye.fill")
+                                .foregroundColor(self.repassword != "" || self.isTabFieldRePassword ? Color.black: Color.gray)
+                            
+                        }).padding(.trailing, 5)
+                    }
+                }.padding([.horizontal,.top])
+                
+                Button(action: {
+                    self.auth.checkField(username: self.username, password: self.password, repass: self.repassword)
                     
-                    Button(action: {
-                        self.auth.checkField(username: self.username, password: self.password, repass: self.repassword)
-                        
-                        self.auth.createAccount(email: username, password: password)
-                    }, label: {
-                        Text("Create acccount")
-                            .foregroundColor(self.password != "" && self.username != "" ? Color.black: Color.gray)
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .padding()
-                            .frame(width: 200, height: 50, alignment: .center)
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color("lightBlue")))
-                    }).disabled(self.password == "" || self.username == "" || self.repassword == "")
-                    .padding()
-                    
-                }
-                .frame(width: proxy.size.width / 1.2, height: proxy.size.height / 2.5, alignment: .center)
-                .background(Color.white.opacity(0.2).clipShape(RoundedRectangle.init(cornerRadius: 15)))
-            }.navigationTitle("Sign In")
-            .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-            .background(LinearGradient(gradient: Gradient(colors: [Color("lightBlue"), Color.blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
-        }
+                    self.auth.createAccount(email: username, password: password)
+                }, label: {
+                    Text("Create acccount")
+                        .foregroundColor(self.password != "" && self.username != "" ? Color.black: Color.gray)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding()
+                        .frame(width: 200, height: 50, alignment: .center)
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color("lightBlue")))
+                }).disabled(self.password == "" || self.username == "" || self.repassword == "")
+                .padding(.vertical, 10)
+                
+            }.padding()
+            .background(Color.white.opacity(0.2).clipShape(RoundedRectangle.init(cornerRadius: 15)))
+        }.navigationTitle("Sign In")
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(LinearGradient(gradient: Gradient(colors: [Color("lightBlue"), Color.blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
         .ignoresSafeArea()
         .alert(isPresented: self.$auth.showAlert, content: {
             Alert(title: Text("Erorr"), message: Text("\(self.auth.erorr)"), dismissButton: .default(Text("OK")))

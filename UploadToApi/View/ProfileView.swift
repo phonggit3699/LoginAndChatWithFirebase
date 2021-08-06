@@ -44,12 +44,18 @@ struct ProfileView: View {
                     Text("\(auth.auth.currentUser?.displayName ?? "None")")
                     
                 }
+                Spacer()
                 Button(action: {
                     auth.logout()
                 }, label: {
                     Text("Log out")
+                        .foregroundColor(Color.gray)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding()
+                        .frame(width: 200, height: 50, alignment: .center)
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color("lightBlue")))
                 })
-                Spacer()
             }
             .frame(width: size.width, height: size.height)
             .sheet(isPresented: self.$showImagePicker, onDismiss: loadImage, content: {

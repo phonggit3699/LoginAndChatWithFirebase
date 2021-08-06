@@ -17,6 +17,7 @@ class AuthViewModel: ObservableObject {
     @Published var isLogin = false
     @Published var showAlert = false
     @Published var erorr: String = ""
+    @Published var fbLoginManager = LoginManager()
     
     let auth = Auth.auth()
     
@@ -44,6 +45,8 @@ class AuthViewModel: ObservableObject {
             withAnimation(){
                 self.isLogin = true
             }
+            
+            UserDefaults.standard.setValue(self.auth.currentUser?.uid, forKey: "UserUid")
         }
     }
     
@@ -65,6 +68,7 @@ class AuthViewModel: ObservableObject {
             withAnimation(){
                 isLogin = false
             }
+            UserDefaults.standard.setValue(nil, forKey: "UserUid")
         } catch{
             print(error.localizedDescription)
         }
@@ -107,26 +111,36 @@ class AuthViewModel: ObservableObject {
                 withAnimation(){
                     self.isLogin = true
                 }
+                UserDefaults.standard.setValue(self.auth.currentUser?.uid, forKey: "UserUid")
                 
             }
             
         }
     }
-    
-    func signInWithFaceBook(token: String) {
-        let credential = FacebookAuthProvider
-            .credential(withAccessToken: token)
-        auth.signIn(with: credential) { authResult, error in
+    func signInWithFaceBook() {
+        fbLoginManager.logIn(permissions: ["public_profile", "email"], from: nil) { res, error in
             if let error = error {
                 self.erorr = error.localizedDescription
                 self.showAlert.toggle()
                 return
             }
-            
-            withAnimation(){
-                self.isLogin = true
+            if let token = AccessToken.current,
+               !token.isExpired {
+                self.auth.signIn(with: FacebookAuthProvider
+                                .credential(withAccessToken: token.tokenString)) { authResult, error in
+                    if let error = error {
+                        self.erorr = error.localizedDescription
+                        self.showAlert.toggle()
+                        return
+                    }
+                    
+                    withAnimation(){
+                        self.isLogin = true
+                    }
+                    UserDefaults.standard.setValue(self.auth.currentUser?.uid, forKey: "UserUid")
+                    
+                }
             }
-            
         }
     }
     

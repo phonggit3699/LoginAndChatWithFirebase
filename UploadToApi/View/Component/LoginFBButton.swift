@@ -18,6 +18,7 @@ struct LoginFBButton: UIViewRepresentable {
     func makeUIView(context: Context) -> FBLoginButton {
         let fbButton = FBLoginButton()
         fbButton.delegate = context.coordinator
+        
 
         fbButton.permissions = ["public_profile", "email"]
         return fbButton
@@ -42,7 +43,7 @@ struct LoginFBButton: UIViewRepresentable {
             }
             if let token = AccessToken.current,
                !token.isExpired {
-                parent.auth.signInWithFaceBook(token: token.tokenString)
+     
             }
         }
         

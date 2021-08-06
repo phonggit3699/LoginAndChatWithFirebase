@@ -213,6 +213,7 @@
 			mainGroup = 3DAEA53C26B7779F009187B9;
 			packageReferences = (
 				3D366B2826BA6C0700AE668A /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				3D366B3326BCD6D300AE668A /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 3DAEA54626B7779F009187B9 /* Products */;
 			projectDirPath = "";
@@ -493,6 +494,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 11.1.0;
+			};
+		};
+		3D366B3326BCD6D300AE668A /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
