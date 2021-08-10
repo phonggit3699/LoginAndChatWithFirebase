@@ -26,7 +26,7 @@ struct ImagePicker: UIViewControllerRepresentable{
         var config = PHPickerConfiguration()
         config.filter = .any(of: [.images, .videos, .livePhotos])
         config.selectionLimit = 1
-        config.preferredAssetRepresentationMode = .current
+        config.preferredAssetRepresentationMode = .automatic
         
         let controller = PHPickerViewController(configuration: config)
         controller.delegate = context.coordinator
@@ -46,6 +46,9 @@ struct ImagePicker: UIViewControllerRepresentable{
         }
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true) {
+                self.parent.presentationMode.wrappedValue.dismiss()
+            }
             guard !results.isEmpty else {
                 return
             }
@@ -62,6 +65,7 @@ struct ImagePicker: UIViewControllerRepresentable{
                 }
             }
         }
+        
         
         
         private func getPhoto(from itemProvider: NSItemProvider, isLivePhoto: Bool) {

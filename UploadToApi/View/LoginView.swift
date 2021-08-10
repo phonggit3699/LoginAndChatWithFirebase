@@ -16,6 +16,7 @@ struct LoginView: View {
     @State private var isTabFieldUsername = false
     @State private var isTabFieldPassword = false
     @EnvironmentObject var auth: AuthViewModel
+ 
     
     var body: some View {
         NavigationView{

@@ -15,6 +15,14 @@
 		3D366B2E26BA7B7A00AE668A /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3D366B2D26BA7B7A00AE668A /* FacebookCore */; };
 		3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */; };
 		3D366B3226BB861000AE668A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3D366B3126BB861000AE668A /* .gitignore */; };
+		3D366B3726BE0E4300AE668A /* RealtimeDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B3626BE0E4300AE668A /* RealtimeDatabase.swift */; };
+		3D366B3926BE13E400AE668A /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B3826BE13E400AE668A /* Comment.swift */; };
+		3D366B3B26BF5BE500AE668A /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B3A26BF5BE500AE668A /* ChatViewModel.swift */; };
+		3D366B3D26BF5CFD00AE668A /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B3C26BF5CFD00AE668A /* ChatModel.swift */; };
+		3D366B3F26BF61F600AE668A /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B3E26BF61F600AE668A /* ChatView.swift */; };
+		3D366B4126BF6DAA00AE668A /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4026BF6DAA00AE668A /* ChatMessage.swift */; };
+		3D366B4326C0B0B100AE668A /* ListChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4226C0B0B100AE668A /* ListChatView.swift */; };
+		3D366B4526C20F7500AE668A /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4426C20F7500AE668A /* ChatBubble.swift */; };
 		3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */; };
 		3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54A26B7779F009187B9 /* HomeView.swift */; };
 		3DAEA55026B777A1009187B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA54F26B777A1009187B9 /* Preview Assets.xcassets */; };
@@ -34,6 +42,14 @@
 		3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFBButton.swift; sourceTree = "<group>"; };
 		3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		3D366B3126BB861000AE668A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		3D366B3626BE0E4300AE668A /* RealtimeDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDatabase.swift; sourceTree = "<group>"; };
+		3D366B3826BE13E400AE668A /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = UploadToApi/View/Comment.swift; sourceTree = SOURCE_ROOT; };
+		3D366B3A26BF5BE500AE668A /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		3D366B3C26BF5CFD00AE668A /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		3D366B3E26BF61F600AE668A /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		3D366B4026BF6DAA00AE668A /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		3D366B4226C0B0B100AE668A /* ListChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChatView.swift; sourceTree = "<group>"; };
+		3D366B4426C20F7500AE668A /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 		3DAEA54526B7779F009187B9 /* UploadToApi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UploadToApi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadToApiApp.swift; sourceTree = "<group>"; };
 		3DAEA54A26B7779F009187B9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -67,8 +83,11 @@
 		3D366B1F26BA2D8A00AE668A /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				3D366B3826BE13E400AE668A /* Comment.swift */,
 				3D366B2026BA2DC200AE668A /* ImagePicker.swift */,
 				3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */,
+				3D366B4026BF6DAA00AE668A /* ChatMessage.swift */,
+				3D366B4426C20F7500AE668A /* ChatBubble.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -120,6 +139,7 @@
 		3DAEA55926B77B41009187B9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3D366B3C26BF5CFD00AE668A /* ChatModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -132,6 +152,8 @@
 				3DAEA56326B78A37009187B9 /* SignInView.swift */,
 				3D366B2426BA2F8100AE668A /* ProfileView.swift */,
 				3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */,
+				3D366B3E26BF61F600AE668A /* ChatView.swift */,
+				3D366B4226C0B0B100AE668A /* ListChatView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -141,6 +163,8 @@
 			children = (
 				3DAEA56726B8D960009187B9 /* AuthViewModel.swift */,
 				3D366B2626BA386E00AE668A /* StorageViewModel.swift */,
+				3D366B3626BE0E4300AE668A /* RealtimeDatabase.swift */,
+				3D366B3A26BF5BE500AE668A /* ChatViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -286,12 +310,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D366B3B26BF5BE500AE668A /* ChatViewModel.swift in Sources */,
+				3D366B4126BF6DAA00AE668A /* ChatMessage.swift in Sources */,
+				3D366B3726BE0E4300AE668A /* RealtimeDatabase.swift in Sources */,
 				3DAEA56226B78A25009187B9 /* LoginView.swift in Sources */,
+				3D366B3D26BF5CFD00AE668A /* ChatModel.swift in Sources */,
 				3DAEA56826B8D960009187B9 /* AuthViewModel.swift in Sources */,
 				3D366B2726BA386E00AE668A /* StorageViewModel.swift in Sources */,
+				3D366B4526C20F7500AE668A /* ChatBubble.swift in Sources */,
 				3D366B2126BA2DC200AE668A /* ImagePicker.swift in Sources */,
+				3D366B3F26BF61F600AE668A /* ChatView.swift in Sources */,
 				3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */,
 				3DAEA56426B78A37009187B9 /* SignInView.swift in Sources */,
+				3D366B4326C0B0B100AE668A /* ListChatView.swift in Sources */,
+				3D366B3926BE13E400AE668A /* Comment.swift in Sources */,
 				3D366B2526BA2F8100AE668A /* ProfileView.swift in Sources */,
 				3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */,
 				3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */,

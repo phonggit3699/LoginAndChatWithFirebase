@@ -13,13 +13,15 @@ struct HomeView: View {
     var body: some View {
         ZStack{
             if self.auth.isLogin {
-                ProfileView().environmentObject(auth)
+                ListChatView()
                     .transition(.move(edge: .trailing))
                    
             }else{
                 LoginView().environmentObject(auth)
                     .transition(.move(edge: .leading))
             }
+        }.onAppear{
+            auth.onAppear()
         }
          
     }

@@ -18,6 +18,8 @@ class AuthViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var erorr: String = ""
     @Published var fbLoginManager = LoginManager()
+    @AppStorage("currentUser") var user = ""
+    @AppStorage("userID") var userID = ""
     
     let auth = Auth.auth()
     
@@ -111,7 +113,8 @@ class AuthViewModel: ObservableObject {
                 withAnimation(){
                     self.isLogin = true
                 }
-                UserDefaults.standard.setValue(self.auth.currentUser?.uid, forKey: "UserUid")
+                self.user = auth.currentUser!.displayName!
+                self.userID = auth.currentUser!.uid
                 
             }
             
@@ -127,7 +130,7 @@ class AuthViewModel: ObservableObject {
             if let token = AccessToken.current,
                !token.isExpired {
                 self.auth.signIn(with: FacebookAuthProvider
-                                .credential(withAccessToken: token.tokenString)) { authResult, error in
+                                    .credential(withAccessToken: token.tokenString)) { authResult, error in
                     if let error = error {
                         self.erorr = error.localizedDescription
                         self.showAlert.toggle()
@@ -137,7 +140,8 @@ class AuthViewModel: ObservableObject {
                     withAnimation(){
                         self.isLogin = true
                     }
-                    UserDefaults.standard.setValue(self.auth.currentUser?.uid, forKey: "UserUid")
+                    self.user = self.auth.currentUser!.displayName!
+                    self.userID = self.auth.currentUser!.uid
                     
                 }
             }
@@ -155,6 +159,12 @@ class AuthViewModel: ObservableObject {
                 
             }
             
+        }
+    }
+    
+    func onAppear(){
+        if self.user != "" && self.userID != "" {
+            self.isLogin = true
         }
     }
 }

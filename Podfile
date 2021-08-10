@@ -9,4 +9,7 @@ target 'UploadToApi' do
 	pod 'Firebase/Auth'
 	pod 'Firebase/Storage'
 pod 'GoogleSignIn'
+pod 'Firebase/Database'
+pod 'Firebase/Firestore'
+pod 'FirebaseFirestoreSwift'
 end

@@ -44,6 +44,10 @@ struct ProfileView: View {
                     Text("\(auth.auth.currentUser?.displayName ?? "None")")
                     
                 }
+                
+                Comment()
+                    .padding()
+                    .environmentObject(auth)
                 Spacer()
                 Button(action: {
                     auth.logout()
