@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Combine
+import UIKit
 
 struct ChatView: View {
     @Binding var currentRoom: String
@@ -15,6 +17,7 @@ struct ChatView: View {
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
     
+    
     var body: some View {
         VStack{
             ScrollViewReader { scrollView in
@@ -22,22 +25,28 @@ struct ChatView: View {
                     LazyVStack{
                         ForEach(self.allMessages, id: \.self){
                             mgs in
-                            ChatMessage(chatMessage: mgs, allMessages: $allMessages)
+                            ChatMessage(chatMessage: mgs)
                         }
                     }.onChange(of: allMessages, perform: { _ in
                         if(!allMessages.isEmpty){
                             scrollView.scrollTo(allMessages[allMessages.endIndex - 1])
                         }
+                    }).onReceive(Publishers.keyboardDidShow, perform: { _ in
+                        if(!allMessages.isEmpty){
+                            withAnimation(){
+                                scrollView.scrollTo(allMessages[allMessages.endIndex - 1])
+                            }
+                        }
                     })
                 })
-            }
+            }.padding(.bottom, 5)
             
             HStack{
                 TextField("", text: $message)
                     .padding(.vertical, 10)
                     .padding(.horizontal, 10)
-                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
-                    .frame(width: UIScreen.main.bounds.width - 80, height: 50)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(height: 50)
                 Button(action: {
                     withAnimation(){
                         if message != "" {
@@ -45,25 +54,32 @@ struct ChatView: View {
                             self.message = ""
                         }
                     }
-                    
                 }, label: {
-                        Image(systemName: "paperplane.fill")
-                    })
-                }.padding()
-            }.onAppear{
-                chat.readMessage(room: currentRoom) { value in
-                    self.allMessages = value
-                }
-                
+                    Image(systemName: "paperplane.fill")
+                })
+            }.padding(.horizontal)
+        }.onAppear{
+            chat.readMessage(room: currentRoom) { value in
+                self.allMessages = value
             }
-            .navigationBarTitle("\(currentRoom)", displayMode: .inline)
+            
         }
+        .navigationBarTitle("\(currentRoom)", displayMode: .inline)
     }
-    
-    
-    struct ChatView_Previews: PreviewProvider {
-        static var previews: some View {
-            ChatView(currentRoom: .constant("VIP"))
-        }
+}
+
+
+extension Publishers{
+    static var keyboardDidShow: NotificationCenter.Publisher {
+        let didShow = NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)
+        return didShow
     }
+}
+
+
+struct ChatView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChatView(currentRoom: .constant("VIP"))
+    }
+}
 

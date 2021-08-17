@@ -14,6 +14,7 @@ struct HomeView: View {
         ZStack{
             if self.auth.isLogin {
                 ListChatView()
+                    .environmentObject(auth)
                     .transition(.move(edge: .trailing))
                    
             }else{

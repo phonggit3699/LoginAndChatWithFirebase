@@ -60,4 +60,5 @@ class ChatViewModel: ObservableObject{
         }
         
     }
+    
 }

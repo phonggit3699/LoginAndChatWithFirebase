@@ -23,6 +23,10 @@
 		3D366B4126BF6DAA00AE668A /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4026BF6DAA00AE668A /* ChatMessage.swift */; };
 		3D366B4326C0B0B100AE668A /* ListChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4226C0B0B100AE668A /* ListChatView.swift */; };
 		3D366B4526C20F7500AE668A /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4426C20F7500AE668A /* ChatBubble.swift */; };
+		3D366B4726C34C8500AE668A /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4626C34C8500AE668A /* PushNotification.swift */; };
+		3D79F6A826C8ACCA009F2ADF /* FlexibleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */; };
+		3D79F6AC26C9F6AF009F2ADF /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */; };
+		3D79F6AE26C9F829009F2ADF /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */; };
 		3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */; };
 		3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54A26B7779F009187B9 /* HomeView.swift */; };
 		3DAEA55026B777A1009187B9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA54F26B777A1009187B9 /* Preview Assets.xcassets */; };
@@ -50,6 +54,11 @@
 		3D366B4026BF6DAA00AE668A /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		3D366B4226C0B0B100AE668A /* ListChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChatView.swift; sourceTree = "<group>"; };
 		3D366B4426C20F7500AE668A /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		3D366B4626C34C8500AE668A /* PushNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
+		3D79F6A626C610EE009F2ADF /* UploadToApi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UploadToApi.entitlements; sourceTree = "<group>"; };
+		3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleSheet.swift; sourceTree = "<group>"; };
+		3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		3DAEA54526B7779F009187B9 /* UploadToApi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UploadToApi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadToApiApp.swift; sourceTree = "<group>"; };
 		3DAEA54A26B7779F009187B9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -88,6 +97,7 @@
 				3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */,
 				3D366B4026BF6DAA00AE668A /* ChatMessage.swift */,
 				3D366B4426C20F7500AE668A /* ChatBubble.swift */,
+				3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -114,6 +124,7 @@
 		3DAEA54726B7779F009187B9 /* UploadToApi */ = {
 			isa = PBXGroup;
 			children = (
+				3D79F6A626C610EE009F2ADF /* UploadToApi.entitlements */,
 				3DAEA55B26B77B4C009187B9 /* ViewModel */,
 				3DAEA55A26B77B47009187B9 /* View */,
 				3DAEA55926B77B41009187B9 /* Model */,
@@ -140,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				3D366B3C26BF5CFD00AE668A /* ChatModel.swift */,
+				3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,6 +177,8 @@
 				3D366B2626BA386E00AE668A /* StorageViewModel.swift */,
 				3D366B3626BE0E4300AE668A /* RealtimeDatabase.swift */,
 				3D366B3A26BF5BE500AE668A /* ChatViewModel.swift */,
+				3D366B4626C34C8500AE668A /* PushNotification.swift */,
+				3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -311,11 +325,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D366B3B26BF5BE500AE668A /* ChatViewModel.swift in Sources */,
+				3D79F6AE26C9F829009F2ADF /* UserViewModel.swift in Sources */,
+				3D79F6AC26C9F6AF009F2ADF /* UserModel.swift in Sources */,
 				3D366B4126BF6DAA00AE668A /* ChatMessage.swift in Sources */,
+				3D79F6A826C8ACCA009F2ADF /* FlexibleSheet.swift in Sources */,
 				3D366B3726BE0E4300AE668A /* RealtimeDatabase.swift in Sources */,
 				3DAEA56226B78A25009187B9 /* LoginView.swift in Sources */,
 				3D366B3D26BF5CFD00AE668A /* ChatModel.swift in Sources */,
 				3DAEA56826B8D960009187B9 /* AuthViewModel.swift in Sources */,
+				3D366B4726C34C8500AE668A /* PushNotification.swift in Sources */,
 				3D366B2726BA386E00AE668A /* StorageViewModel.swift in Sources */,
 				3D366B4526C20F7500AE668A /* ChatBubble.swift in Sources */,
 				3D366B2126BA2DC200AE668A /* ImagePicker.swift in Sources */,
@@ -457,6 +475,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CODE_SIGN_ENTITLEMENTS = UploadToApi/UploadToApi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"UploadToApi/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -480,6 +499,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				CODE_SIGN_ENTITLEMENTS = UploadToApi/UploadToApi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"UploadToApi/Preview Content\"";
 				ENABLE_PREVIEWS = YES;

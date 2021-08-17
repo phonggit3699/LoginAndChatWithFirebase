@@ -42,10 +42,24 @@ class StorageViewModel: ObservableObject{
         
     }
     
+    func loadImage (url: URL, _ com: @escaping (UIImage)-> Void){
+        
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: url) else{
+                print("Can't get image")
+                return
+            }
+            if  let imageFromOnline = UIImage(data: data){
+                DispatchQueue.main.async {
+                    com(imageFromOnline)
+                }
+            }
+        }
+    }
     
     func downloadProfileImage(_ com: @escaping (UIImage)-> Void) {
         let storageRef = storage.reference()
-        guard let userUid = UserDefaults.standard.string(forKey: "UserUid") else{
+        guard let userUid = UserDefaults.standard.string(forKey: "userID") else{
             return
         }
         // Create a reference to the file you want to download

@@ -9,7 +9,7 @@ import Foundation
 import FirebaseDatabase
 
 class RealtimeDatabase: ObservableObject {
-    @Published var userData: [UserModel] = []
+    @Published var userData: [RealTimeModel] = []
     var ref: DatabaseReference! = Database.database(url: "https://uploadfile-43e92-default-rtdb.asia-southeast1.firebasedatabase.app").reference()
     var refHandle: DatabaseHandle?
     func writeDataTest(username: String, userUid: String){
@@ -27,15 +27,15 @@ class RealtimeDatabase: ObservableObject {
             guard let value = snapshot.value as? NSDictionary else {
                 return
             }
-            print(value)
+            
             let username = value["username"] as? String ?? ""
             let userID = value["userID"] as? String ?? ""
-            self.userData.append(UserModel(id: userID, username: username))
+            self.userData.append(RealTimeModel(id: userID, username: username))
         })
     }
 }
 
-struct UserModel: Identifiable, Codable {
+struct RealTimeModel: Identifiable, Codable {
     var id: String
     var username: String
 }

@@ -10,8 +10,14 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var auth: AuthViewModel
     @ObservedObject var storage = StorageViewModel()
+    @ObservedObject var userModel = UserViewModel()
     @State var profileImg: UIImage?
     @State var showImagePicker = false
+    @AppStorage("currentUser") var user = ""
+    @AppStorage("userID") var userID = ""
+    @AppStorage("userPhotoURL") var userPhotoURL: URL?
+    @State var userProfile: UserModel?
+    
     var body: some View {
         GeometryReader{proxy in
             let size = proxy.size
@@ -41,14 +47,27 @@ struct ProfileView: View {
                     self.showImagePicker.toggle()
                 }
                 HStack{
-                    Text("\(auth.auth.currentUser?.displayName ?? "None")")
+                    Text("\(self.user)")
                     
                 }
-                
-                Comment()
-                    .padding()
-                    .environmentObject(auth)
                 Spacer()
+                
+                Button(action: {
+                    let userProfileInput = UserModel(id: self.userID, name: "Phong", address: "HaiDUong", phone: 123456)
+                    
+                    userModel.postProfile(user: userProfileInput)
+                    
+                    print("submit")
+                }, label: {
+                    Text("Submit")
+                        .foregroundColor(Color.gray)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding()
+                        .frame(width: 200, height: 50, alignment: .center)
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color("lightBlue")))
+                })
+                
                 Button(action: {
                     auth.logout()
                 }, label: {
@@ -62,20 +81,28 @@ struct ProfileView: View {
                 })
             }
             .frame(width: size.width, height: size.height)
-            .sheet(isPresented: self.$showImagePicker, onDismiss: loadImage, content: {
+            .sheet(isPresented: self.$showImagePicker, onDismiss: {}, content: {
                 ImagePicker(image: self.$profileImg).environmentObject(storage)
             })
             .onAppear(perform: {
-                storage.downloadProfileImage { image in
-                    self.profileImg = image
+                if let url = userPhotoURL{
+                    storage.loadImage(url: url) { data in
+                        profileImg = data
+                    }
+                }else{
+                    storage.downloadProfileImage { image in
+                        self.profileImg = image
+                    }
                 }
+                userModel.getProfileByID(id: self.userID) { data in
+                    if !data.isEmpty{
+                        self.userProfile = data[0]
+                        print(data[0])
+                    }
+                }
+                
             })
         }
-    }
-}
-extension ProfileView {
-    func loadImage() {
-        print("run")
     }
 }
 

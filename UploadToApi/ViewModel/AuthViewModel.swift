@@ -16,10 +16,12 @@ import FBSDKLoginKit
 class AuthViewModel: ObservableObject {
     @Published var isLogin = false
     @Published var showAlert = false
+    @Published var showProgress = false
     @Published var erorr: String = ""
     @Published var fbLoginManager = LoginManager()
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
+    @AppStorage("userPhotoURL") var userPhotoURL: URL?
     
     let auth = Auth.auth()
     
@@ -37,18 +39,28 @@ class AuthViewModel: ObservableObject {
     }
     
     func login(email: String, password: String){
+        if erorr.isEmpty{
+            self.showProgress = true
+        }
         auth.signIn(withEmail: email, password: password) { re, error in
             if let error = error {
                 self.erorr = error.localizedDescription
                 self.showAlert.toggle()
+                self.showProgress = false
                 return
             }
+            
+            
+            guard let user = self.auth.currentUser else{
+                return
+            }
+            self.user = user.displayName  ?? user.email!
+            self.userID = user.uid
+            self.userPhotoURL = user.photoURL
             
             withAnimation(){
                 self.isLogin = true
             }
-            
-            UserDefaults.standard.setValue(self.auth.currentUser?.uid, forKey: "UserUid")
         }
     }
     
@@ -67,16 +79,22 @@ class AuthViewModel: ObservableObject {
     func logout(){
         do {
             try auth.signOut()
+            self.showProgress = false
             withAnimation(){
                 isLogin = false
             }
-            UserDefaults.standard.setValue(nil, forKey: "UserUid")
+            self.user = ""
+            self.userID = ""
+            self.userPhotoURL = nil
         } catch{
             print(error.localizedDescription)
         }
     }
     
     func sighInWithGoogle(){
+        if erorr.isEmpty{
+            self.showProgress = true
+        }
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         
         // Create Google Sign In configuration object.
@@ -107,20 +125,28 @@ class AuthViewModel: ObservableObject {
             auth.signIn(with: credential) { authResult, error in
                 if let error = error {
                     print(error.localizedDescription)
+                    self.showProgress = false
                     return
                 }
-                
+
+                guard let user = auth.currentUser else{
+                    return
+                }
+                self.user = user.displayName  ?? user.email!
+                self.userID = user.uid
+                self.userPhotoURL = user.photoURL
                 withAnimation(){
                     self.isLogin = true
+                    
                 }
-                self.user = auth.currentUser!.displayName!
-                self.userID = auth.currentUser!.uid
-                
             }
             
         }
     }
     func signInWithFaceBook() {
+        if erorr.isEmpty{
+            self.showProgress = true
+        }
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: nil) { res, error in
             if let error = error {
                 self.erorr = error.localizedDescription
@@ -134,15 +160,19 @@ class AuthViewModel: ObservableObject {
                     if let error = error {
                         self.erorr = error.localizedDescription
                         self.showAlert.toggle()
+                        self.showProgress = false
                         return
                     }
                     
+                    guard let user = self.auth.currentUser else{
+                        return
+                    }
+                    self.user = user.displayName  ?? user.email!
+                    self.userID = user.uid
+                    self.userPhotoURL = user.photoURL
                     withAnimation(){
                         self.isLogin = true
                     }
-                    self.user = self.auth.currentUser!.displayName!
-                    self.userID = self.auth.currentUser!.uid
-                    
                 }
             }
         }

@@ -10,8 +10,12 @@ import SwiftUI
 struct ChatMessage: View {
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
+    @AppStorage("userPhotoURL") var userPhotoURL: URL?
+    @ObservedObject var storage = StorageViewModel()
+    @Environment(\.scenePhase) private var scenePhase
+    @State var profileImg: UIImage?
     var chatMessage: ChatModel
-    @Binding var allMessages: [ChatModel]
+    
     var body: some View {
         VStack{
             if(chatMessage.user.name == user){
@@ -22,7 +26,13 @@ struct ChatMessage: View {
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .clipShape(ChatBubble(myMsg: chatMessage.user.name == user))
-                    Image(systemName: "moon")
+                    if profileImg != nil {
+                        Image(uiImage: profileImg!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .clipShape(Circle())
+                            .frame(width: 30, height: 30)
+                    }
                 }
                 
             }
@@ -39,6 +49,17 @@ struct ChatMessage: View {
                                 
             }
         }.padding(.all, 5)
+        .onAppear{
+            if let url = userPhotoURL{
+                storage.loadImage(url: url) { data in
+                    profileImg = data
+                }
+            }else{
+                storage.downloadProfileImage { image in
+                    self.profileImg = image
+                }
+            }
+        }
     }
 }
 
@@ -46,7 +67,7 @@ struct ChatMessage_Previews: PreviewProvider {
     static var chatMessage = ChatModel(id: nil, name: "VIP", user: User(id: nil, name: "Phong"), message: "", date: Date())
     static var allMessages = [ChatModel(id: nil, name: "VIP", user: User(id: nil, name: "Phong"), message: "", date: Date())]
     static var previews: some View {
-        ChatMessage(chatMessage: chatMessage, allMessages: .constant(allMessages))
+        ChatMessage(chatMessage: chatMessage)
     }
 }
 
