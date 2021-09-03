@@ -109,6 +109,7 @@ class AuthViewModel: ObservableObject {
             
             if let error = error {
                 self.erorr = error.localizedDescription
+                self.showProgress = false
                 showAlert.toggle()
                 return
             }
@@ -150,6 +151,7 @@ class AuthViewModel: ObservableObject {
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: nil) { res, error in
             if let error = error {
                 self.erorr = error.localizedDescription
+                self.showProgress = false
                 self.showAlert.toggle()
                 return
             }

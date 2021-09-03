@@ -11,6 +11,8 @@ import Firebase
 class ChatViewModel: ObservableObject{
     let db = Firestore.firestore()
     var ref: DocumentReference?
+    @Published var myMess: [ChatModel] = []
+    @Published var friendMess: [ChatModel] = []
     
     func sendMessage(chat: ChatModel, room: String) {
         
@@ -39,9 +41,10 @@ class ChatViewModel: ObservableObject{
         }
     }
     
-    func readMessage(room: String,_ com: @escaping ([ChatModel]) -> Void) {
-        
-        db.collection(room).order(by: "date").addSnapshotListener { querySnapshot, error in
+    
+    func getMessage(room: String,_ com: @escaping ([ChatModel]) -> Void) {
+
+        self.db.collection(room).order(by: "date").addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error retreiving collection: \(error.localizedDescription)")
                 return
@@ -50,15 +53,20 @@ class ChatViewModel: ObservableObject{
             guard let data = querySnapshot else {
                 return
             }
- 
+            
             let chatData = data.documents.compactMap({ (doc) -> ChatModel? in
                 return try? doc.data(as: ChatModel.self)
             })
+            
             DispatchQueue.main.async {
                 com(chatData)
             }
+            
         }
         
+        
     }
+    
+   
     
 }

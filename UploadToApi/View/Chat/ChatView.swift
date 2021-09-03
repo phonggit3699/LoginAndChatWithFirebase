@@ -10,12 +10,15 @@ import Combine
 import UIKit
 
 struct ChatView: View {
-    @Binding var currentRoom: String
+    var friendRoom: RoomDetailModel
     @State var message: String = ""
     @StateObject var chat = ChatViewModel()
     @State var allMessages: [ChatModel] = []
+    @State var isKeyBoardShow: Bool = false
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
+
+    
     
     
     var body: some View {
@@ -26,14 +29,16 @@ struct ChatView: View {
                         ForEach(self.allMessages, id: \.self){
                             mgs in
                             ChatMessage(chatMessage: mgs)
+                                .id(UUID())
                         }
                     }.onChange(of: allMessages, perform: { _ in
                         if(!allMessages.isEmpty){
                             scrollView.scrollTo(allMessages[allMessages.endIndex - 1])
                         }
-                    }).onReceive(Publishers.keyboardDidShow, perform: { _ in
-                        if(!allMessages.isEmpty){
-                            withAnimation(){
+                    })
+                    .onChange(of: isKeyBoardShow, perform: { _ in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            if(!allMessages.isEmpty){
                                 scrollView.scrollTo(allMessages[allMessages.endIndex - 1])
                             }
                         }
@@ -50,7 +55,7 @@ struct ChatView: View {
                 Button(action: {
                     withAnimation(){
                         if message != "" {
-                            chat.sendMessage(chat: ChatModel(id: nil, name: userID, user: User(id: userID, name: user), message: message, date: Date()), room: currentRoom)
+                            chat.sendMessage(chat: ChatModel(id: nil, name: user, user: User(id: userID, name: user), message: message, date: Date()), room: friendRoom.roomID)
                             self.message = ""
                         }
                     }
@@ -58,28 +63,36 @@ struct ChatView: View {
                     Image(systemName: "paperplane.fill")
                 })
             }.padding(.horizontal)
-        }.onAppear{
-            chat.readMessage(room: currentRoom) { value in
-                self.allMessages = value
+        }
+        .onAppear{
+            chat.getMessage(room: friendRoom.roomID) { mess in
+                self.allMessages = mess
+            }
+            
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
+                self.isKeyBoardShow = true
+            }
+            
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                self.isKeyBoardShow = false
             }
             
         }
-        .navigationBarTitle("\(currentRoom)", displayMode: .inline)
+        .onDisappear{
+            NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
+            NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+        }
+        .navigationBarTitle("\(friendRoom.name)", displayMode: .inline)
     }
 }
 
 
-extension Publishers{
-    static var keyboardDidShow: NotificationCenter.Publisher {
-        let didShow = NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)
-        return didShow
-    }
-}
 
 
 struct ChatView_Previews: PreviewProvider {
+    static var room = RoomDetailModel(roomID: "dsadsad", name: "VIP")
     static var previews: some View {
-        ChatView(currentRoom: .constant("VIP"))
+        ChatView(friendRoom: room)
     }
 }
 

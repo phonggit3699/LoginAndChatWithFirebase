@@ -11,10 +11,12 @@ struct UserModel: Identifiable, Codable {
     var name: String
     var address: String
     var phone: Int
+    var avatarUrl: URL?
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case address
         case phone
+        case avatarUrl
     }
 }

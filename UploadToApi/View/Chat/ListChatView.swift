@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ListChatView: View {
-    @State var currentRoom: String = ""
-    @State var isActive: Bool = false
+    @AppStorage("userID") var userID = ""
     @State var profileImg: UIImage?
     @AppStorage("userPhotoURL") var userPhotoURL: URL?
     @ObservedObject var storage = StorageViewModel()
     @EnvironmentObject var auth: AuthViewModel
     @State var showProfile: Bool = false
     @State private var sheetMode: SheetMode = .none
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -24,17 +24,19 @@ struct ListChatView: View {
                 VStack {
                     List(){
                         Section(header: Text("VIP")) {
-                            NavigationLink(
-                                destination: ChatView(currentRoom: $currentRoom),
-                                isActive: $isActive,
-                                label: {
-                                    Text("Chat")
-                                    
-                                }).onChange(of: isActive, perform: { value in
-                                    if value {
-                                        self.currentRoom = "Chats"
+                            ForEach(exRoom){ room in
+                                if room.id == userID {
+                                    ForEach(room.listRoom, id: \.self){ fRoom in
+                                        NavigationLink(
+                                            destination: ChatView(friendRoom: fRoom),
+                                            label: {
+                                                Text(fRoom.name)
+                                                
+                                            })
                                     }
-                                })
+                                }
+                                
+                            }
                         }
                     }
                     
@@ -46,6 +48,7 @@ struct ListChatView: View {
                         })
                     
                 }.onAppear(perform: {
+                    self.profileImg = UIImage(systemName: "person.crop.circle")
                     if let url = userPhotoURL{
                         storage.loadImage(url: url) { data in
                             profileImg = data
@@ -55,6 +58,7 @@ struct ListChatView: View {
                             self.profileImg = image
                         }
                     }
+                    
                 })
                 .navigationTitle("Chat chit")
                 .navigationBarItems(
@@ -80,7 +84,7 @@ struct ListChatView: View {
                         }, label: {
                             Image(systemName: "gearshape")
                                 .resizable()
-                                .foregroundColor(.black)
+                                .foregroundColor(self.colorScheme == .dark ? .white : .black)
                                 .clipShape(Circle())
                                 .frame(width: 25, height: 25)
                         }))
@@ -90,7 +94,7 @@ struct ListChatView: View {
                 VStack {
                     ZStack {
                         Capsule()
-                            .fill(Color.gray)
+                            .fill(self.colorScheme == .dark ? Color.white : Color.gray)
                             .frame(width: 40, height: 8)
                             .padding(.vertical, 5)
                             .gesture(DragGesture().onChanged({ value in
@@ -139,7 +143,7 @@ struct ListChatView: View {
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.white)
+                .background(Color("darkSheet"))
                 .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
             }
             .zIndex(2)

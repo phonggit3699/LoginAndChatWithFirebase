@@ -25,9 +25,10 @@ struct ChatModel: Identifiable, Codable, Hashable {
 }
 
 struct User: Identifiable, Codable, Hashable{
-    @DocumentID var id: String?
+    var id: String
     var name: String
     enum CodingKeys: String, CodingKey {
+        case id
         case name
     }
 }

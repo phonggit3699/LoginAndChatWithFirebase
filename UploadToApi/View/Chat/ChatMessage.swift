@@ -18,14 +18,14 @@ struct ChatMessage: View {
     
     var body: some View {
         VStack{
-            if(chatMessage.user.name == user){
+            if(chatMessage.user.id == userID){
                 HStack{
                     Spacer()
                     Text(chatMessage.message)
                         .padding(.all, 8)
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .clipShape(ChatBubble(myMsg: chatMessage.user.name == user))
+                        .clipShape(ChatBubble(myMsg: chatMessage.user.id == userID))
                     if profileImg != nil {
                         Image(uiImage: profileImg!)
                             .resizable()
@@ -36,14 +36,14 @@ struct ChatMessage: View {
                 }
                 
             }
-            if(chatMessage.user.name != user){
+            if(chatMessage.user.id !=  userID){
                 HStack{
                     Image(systemName: "sun.min")
                     Text(chatMessage.message)
                         .padding(.all, 8)
                         .background(Color.gray)
                         .foregroundColor(.white)
-                        .clipShape(ChatBubble(myMsg: chatMessage.user.name == user))
+                        .clipShape(ChatBubble(myMsg: chatMessage.user.id == userID))
                     Spacer()
                 }
                                 
@@ -64,8 +64,9 @@ struct ChatMessage: View {
 }
 
 struct ChatMessage_Previews: PreviewProvider {
-    static var chatMessage = ChatModel(id: nil, name: "VIP", user: User(id: nil, name: "Phong"), message: "", date: Date())
-    static var allMessages = [ChatModel(id: nil, name: "VIP", user: User(id: nil, name: "Phong"), message: "", date: Date())]
+    static var chatMessage = ChatModel(id: nil, name: "VIP", user: User(id: "12345", name: "Phong"), message: "", date: Date())
+    static var allMessages = [ChatModel(id: nil, name: "VIP", user: User(id: "12345", name: "Phong"), message: "", date: Date())]
+    
     static var previews: some View {
         ChatMessage(chatMessage: chatMessage)
     }
