@@ -10,7 +10,7 @@ struct UserModel: Identifiable, Codable {
     var id: String
     var name: String
     var address: String
-    var phone: Int
+    var phone: String
     var avatarUrl: URL?
     enum CodingKeys: String, CodingKey {
         case id

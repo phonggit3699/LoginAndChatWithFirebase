@@ -17,10 +17,8 @@ struct ChatView: View {
     @State var isKeyBoardShow: Bool = false
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
+    @EnvironmentObject var storage: StorageViewModel
 
-    
-    
-    
     var body: some View {
         VStack{
             ScrollViewReader { scrollView in
@@ -29,6 +27,7 @@ struct ChatView: View {
                         ForEach(self.allMessages, id: \.self){
                             mgs in
                             ChatMessage(chatMessage: mgs)
+                                .environmentObject(storage)
                                 .id(UUID())
                         }
                     }.onChange(of: allMessages, perform: { _ in
@@ -65,10 +64,12 @@ struct ChatView: View {
             }.padding(.horizontal)
         }
         .onAppear{
-            chat.getMessage(room: friendRoom.roomID) { mess in
-                self.allMessages = mess
+            DispatchQueue.global(qos: .background).async {
+                chat.getMessage(room: friendRoom.roomID) { mess in
+                    self.allMessages = mess
+                }
+                
             }
-            
             NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
                 self.isKeyBoardShow = true
             }
@@ -92,7 +93,7 @@ struct ChatView: View {
 struct ChatView_Previews: PreviewProvider {
     static var room = RoomDetailModel(roomID: "dsadsad", name: "VIP")
     static var previews: some View {
-        ChatView(friendRoom: room)
+        ChatView(friendRoom: room).environmentObject(StorageViewModel())
     }
 }
 

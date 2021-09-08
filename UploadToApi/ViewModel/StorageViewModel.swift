@@ -10,17 +10,19 @@ import Firebase
 
 class StorageViewModel: ObservableObject{
     let storage = Storage.storage()
+    @Published var profileImage: UIImage?
     
     
     func uploadPhoto(image: UIImage){
         let storageRef = storage.reference()
-        guard let userUid = UserDefaults.standard.string(forKey: "UserUid") else{
+        guard let userID = UserDefaults.standard.string(forKey: "userID") else{
             return
         }
         // Create a reference to 'images/mountains.jpg'
-        let profileImagesRef = storageRef.child("images/\(userUid).jpg")
+        let profileImagesRef = storageRef.child("images/\(userID).jpg")
         
         guard let imageData = image.jpegData(compressionQuality: 1) else {
+            print("Image is not jpeg")
             return
         }
         profileImagesRef.putData(imageData, metadata: nil) { (metadata, error) in
@@ -28,23 +30,28 @@ class StorageViewModel: ObservableObject{
                 print(error.localizedDescription)
                 return
             }
-//            profileImagesRef.downloadURL { (url, error) in
-//                if let error = error {
-//                    print(error.localizedDescription)
-//                    return
-//                }
-//                guard let downloadURL = url else {
-//                    return
-//                }
-//                UserDefaults.standard.set(downloadURL, forKey: "profileImageUrl")
-//            }
+            
+            print("success")
+        }
+        
+    }
+    
+    func getImageProfile(url: URL?){
+        if let urlProfile = url {
+            loadImage(url: urlProfile) { img in
+                self.profileImage = img
+            }
+        }else{
+            downloadProfileImage { img in
+                self.profileImage = img
+            }
         }
         
     }
     
     func loadImage (url: URL, _ com: @escaping (UIImage)-> Void){
         
-        DispatchQueue.global().async {
+        DispatchQueue.global(qos: .background).async {
             guard let data = try? Data(contentsOf: url) else{
                 print("Can't get image")
                 return
@@ -75,10 +82,9 @@ class StorageViewModel: ObservableObject{
                 return
             }
             DispatchQueue.main.async {
-                com(image)
+               com(image)
             } 
           }
         }
-        
     }
 }

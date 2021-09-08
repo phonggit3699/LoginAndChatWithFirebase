@@ -18,6 +18,7 @@ struct FlexibleSheet<Content: View>: View {
     
     let content: () -> Content
     var sheetMode: Binding<SheetMode>
+    @Environment(\.colorScheme) var colorScheme
     
     init(sheetMode: Binding<SheetMode>, @ViewBuilder content: @escaping () -> Content) {
         
@@ -42,9 +43,57 @@ struct FlexibleSheet<Content: View>: View {
     }
     
     var body: some View {
-        content()
-            .offset(y: calculateOffset())
-            .animation(.default)
+        VStack {
+            //TODO: top controll
+            ZStack {
+                Button {
+                    if sheetMode.wrappedValue == .half {
+                        sheetMode.wrappedValue = .full
+                    }
+                    else{
+                        sheetMode.wrappedValue = .half
+                    }
+                } label: {
+                    if sheetMode.wrappedValue == .full {
+                        Image(systemName: "chevron.compact.down")
+                            .resizable()
+                            .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
+                            .frame(width: 40, height: 15)
+                    }else{
+                        Image(systemName: "chevron.compact.up")
+                            .resizable()
+                            .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
+                            .frame(width: 40, height: 15)
+                    }
+                }
+                
+                
+                HStack {
+                    Button(action: {
+                        sheetMode.wrappedValue = .none
+                    }, label: {
+                        Text("Cancel")
+                    })
+                    Spacer()
+                    
+                    Button(action: {
+                        sheetMode.wrappedValue = .none
+                    }, label: {
+                        Text("Done")
+                    })
+                }.padding(.vertical, 10)
+                .padding(.horizontal, 15)
+            }
+            
+            content()
+            
+            
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("darkSheet"))
+        .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
+        .offset(y: calculateOffset())
+        .animation(.default)
     }
 }
 

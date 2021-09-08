@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>pp.UploadToApi.refresh</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -37,8 +41,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<false/>
 	<key>FacebookAppID</key>
 	<string>345949493855549</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<true/>
 	<key>FacebookClientToken</key>
 	<string>c019998e60766992873243a79f4d86f9</string>
 	<key>FacebookDisplayName</key>
@@ -75,6 +83,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchScreen</key>

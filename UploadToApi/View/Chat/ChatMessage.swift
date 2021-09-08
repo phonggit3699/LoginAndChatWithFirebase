@@ -8,13 +8,10 @@
 import SwiftUI
 
 struct ChatMessage: View {
-    @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
-    @AppStorage("userPhotoURL") var userPhotoURL: URL?
-    @ObservedObject var storage = StorageViewModel()
     @Environment(\.scenePhase) private var scenePhase
-    @State var profileImg: UIImage?
     var chatMessage: ChatModel
+    @EnvironmentObject var storage: StorageViewModel
     
     var body: some View {
         VStack{
@@ -26,11 +23,14 @@ struct ChatMessage: View {
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .clipShape(ChatBubble(myMsg: chatMessage.user.id == userID))
-                    if profileImg != nil {
-                        Image(uiImage: profileImg!)
+                    if storage.profileImage != nil {
+                        Image(uiImage: storage.profileImage!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .clipShape(Circle())
+                            .frame(width: 30, height: 30)
+                    }else{
+                        Circle().fill(Color.gray.opacity(0.8))
                             .frame(width: 30, height: 30)
                     }
                 }
@@ -49,17 +49,6 @@ struct ChatMessage: View {
                                 
             }
         }.padding(.all, 5)
-        .onAppear{
-            if let url = userPhotoURL{
-                storage.loadImage(url: url) { data in
-                    profileImg = data
-                }
-            }else{
-                storage.downloadProfileImage { image in
-                    self.profileImg = image
-                }
-            }
-        }
     }
 }
 
@@ -68,7 +57,7 @@ struct ChatMessage_Previews: PreviewProvider {
     static var allMessages = [ChatModel(id: nil, name: "VIP", user: User(id: "12345", name: "Phong"), message: "", date: Date())]
     
     static var previews: some View {
-        ChatMessage(chatMessage: chatMessage)
+        ChatMessage(chatMessage: chatMessage).environmentObject(StorageViewModel())
     }
 }
 

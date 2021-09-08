@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import GoogleSignIn
 import FBSDKCoreKit
+import BackgroundTasks
 
 @main
 struct UploadToApiApp: App {
@@ -26,29 +27,48 @@ class Delegate: NSObject, UIApplicationDelegate{
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
         
+        //TODO: Set up for login
         ApplicationDelegate.shared.application(
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
+        
+        //TODO: Setup push notifications
         if #available(iOS 10.0, *) {
-          // For iOS 10 display notification (sent via APNS)
-          UNUserNotificationCenter.current().delegate = self
-
-          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-          UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in }
-          )
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: { _, _ in }
+            )
         } else {
-          let settings: UIUserNotificationSettings =
-            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-          application.registerUserNotificationSettings(settings)
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
         }
         application.registerForRemoteNotifications()
-
+        
+        //TODO: Register Background Tasks to Update Your App
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "pp.UploadToApi.refresh", using: nil) { task in
+            self.handleAppRefresh(task: task as! BGAppRefreshTask)
+        }
+        
         return true
     }
     
+    
+    
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        completionHandler(.newData)
+    }
+    
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        
+        //TODO: Schedule Background Tasks to Update Your App
+        self.scheduleAppRefresh()
+    }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print(userInfo)
@@ -56,6 +76,8 @@ class Delegate: NSObject, UIApplicationDelegate{
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        //TODO: Setup login with GOOLGE
         ApplicationDelegate.shared.application(
             app,
             open: url,
@@ -65,12 +87,14 @@ class Delegate: NSObject, UIApplicationDelegate{
         return GIDSignIn.sharedInstance.handle(url)
     }
 }
+
+//TODO: Push notifications
 extension Delegate: UNUserNotificationCenterDelegate{
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         let userInfo = notification.request.content.userInfo
-           // Print full message.
-           print(userInfo)
+        // Print full message.
+        print(userInfo)
         completionHandler([.badge, .banner, .sound])
     }
     
@@ -81,34 +105,51 @@ extension Delegate: UNUserNotificationCenterDelegate{
             
         }
         let userInfo = response.notification.request.content.userInfo
-
-            // ...
-
-            // With swizzling disabled you must let Messaging know about the message, for Analytics
-            // Messaging.messaging().appDidReceiveMessage(userInfo)
-
-            // Print full message.
-            print(userInfo)
+        
+        print(userInfo)
         completionHandler()
     }
     
-    func createNotification(title: String, subtitle: String){
-        let content = UNMutableNotificationContent()
-        content.title = title
-        content.subtitle = subtitle
-        content.categoryIdentifier = "ACTIONS"
+}
+
+//TODO: Using Background Tasks to Update Your App
+extension Delegate {
+    
+    func scheduleAppRefresh() {
+        let request = BGAppRefreshTaskRequest(identifier: "pp.UploadToApi.refresh")
+        // Fetch no earlier than 15 minutes from now.
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 1 * 60)
         
-//        let date = Date().addingTimeInterval(3)
-//
-//        let dateComponents  = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            print("Could not schedule app refresh: \(error)")
+        }
+    }
+    
+    func handleAppRefresh(task: BGAppRefreshTask) {
+        // Schedule a new refresh task.
+        scheduleAppRefresh()
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
-//        let trigger  = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let operationQueue = OperationQueue()
+        // Create an operation that performs the main part of the background task.
+        let operation = Operation()
         
-        let request = UNNotificationRequest.init(identifier: "IN-APP", content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        // Provide the background task with an expiration handler that cancels the operation.
+        task.expirationHandler = {
+            operation.cancel()
+        }
+        
+        // Inform the system that the background task is complete
+        // when the operation completes.
+        operation.completionBlock = {
+            task.setTaskCompleted(success: !operation.isCancelled)
+        }
+        
+        // Start the operation.
+        operationQueue.addOperation(operation)
     }
 }
 
 
-    
+
