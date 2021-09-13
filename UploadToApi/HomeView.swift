@@ -10,6 +10,8 @@ import Firebase
 
 struct HomeView: View {
     @StateObject var auth = AuthViewModel()
+    @Environment(\.scenePhase) private var scenePhase
+    @AppStorage("rememberMe") var rememberMe = false
     var body: some View {
         ZStack{
             if self.auth.isLogin {
@@ -23,6 +25,12 @@ struct HomeView: View {
             }
         }.onAppear{
             auth.onAppear()
+        }
+        .alert(isPresented: $auth.showAlert) {
+            Alert(title: Text("Hey"), message: Text("Do you want save account"), primaryButton: .default(Text("Save"), action: {
+                rememberMe = true
+
+            }), secondaryButton: .destructive(Text("Cancel")))
         }
          
     }

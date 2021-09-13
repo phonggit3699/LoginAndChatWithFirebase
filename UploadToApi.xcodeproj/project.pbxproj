@@ -24,6 +24,7 @@
 		3D366B4326C0B0B100AE668A /* ListChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4226C0B0B100AE668A /* ListChatView.swift */; };
 		3D366B4526C20F7500AE668A /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4426C20F7500AE668A /* ChatBubble.swift */; };
 		3D366B4726C34C8500AE668A /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B4626C34C8500AE668A /* PushNotification.swift */; };
+		3D7227B326EF364700C3DF47 /* RoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7227B226EF364700C3DF47 /* RoomViewModel.swift */; };
 		3D79F6A826C8ACCA009F2ADF /* FlexibleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */; };
 		3D79F6AC26C9F6AF009F2ADF /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */; };
 		3D79F6AE26C9F829009F2ADF /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */; };
@@ -60,6 +61,7 @@
 		3D366B4226C0B0B100AE668A /* ListChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListChatView.swift; sourceTree = "<group>"; };
 		3D366B4426C20F7500AE668A /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 		3D366B4626C34C8500AE668A /* PushNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
+		3D7227B226EF364700C3DF47 /* RoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewModel.swift; sourceTree = "<group>"; };
 		3D79F6A626C610EE009F2ADF /* UploadToApi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = UploadToApi.entitlements; sourceTree = "<group>"; };
 		3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleSheet.swift; sourceTree = "<group>"; };
 		3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				3D366B3A26BF5BE500AE668A /* ChatViewModel.swift */,
 				3D366B4626C34C8500AE668A /* PushNotification.swift */,
 				3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */,
+				3D7227B226EF364700C3DF47 /* RoomViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */,
 				3DAEA56426B78A37009187B9 /* SignInView.swift in Sources */,
 				3D366B4326C0B0B100AE668A /* ListChatView.swift in Sources */,
+				3D7227B326EF364700C3DF47 /* RoomViewModel.swift in Sources */,
 				3D366B3926BE13E400AE668A /* Comment.swift in Sources */,
 				3D841B7226E64F70006CF4FA /* Test.swift in Sources */,
 				3D841B6A26E3AABC006CF4FA /* ChatCard.swift in Sources */,

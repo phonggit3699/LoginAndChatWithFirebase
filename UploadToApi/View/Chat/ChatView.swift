@@ -11,13 +11,15 @@ import UIKit
 
 struct ChatView: View {
     var friendRoom: RoomDetailModel
+    @EnvironmentObject var storage: StorageViewModel
     @State var message: String = ""
     @StateObject var chat = ChatViewModel()
     @State var allMessages: [ChatModel] = []
     @State var isKeyBoardShow: Bool = false
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
-    @EnvironmentObject var storage: StorageViewModel
+    var profileImg: UIImage?
+    @State var roomImg: UIImage?
 
     var body: some View {
         VStack{
@@ -26,8 +28,7 @@ struct ChatView: View {
                     LazyVStack{
                         ForEach(self.allMessages, id: \.self){
                             mgs in
-                            ChatMessage(chatMessage: mgs)
-                                .environmentObject(storage)
+                            ChatMessage(chatMessage: mgs, profileImg: profileImg, roomImg: roomImg)
                                 .id(UUID())
                         }
                     }.onChange(of: allMessages, perform: { _ in
@@ -69,6 +70,9 @@ struct ChatView: View {
                     self.allMessages = mess
                 }
                 
+            }
+            storage.loadImage(url: friendRoom.roomImgUrl) { img in
+                self.roomImg = img
             }
             NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
                 self.isKeyBoardShow = true

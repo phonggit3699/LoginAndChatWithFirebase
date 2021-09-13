@@ -17,6 +17,7 @@ struct ProfileView: View {
     @AppStorage("userPhotoURL") var userPhotoURL: URL?
     @State var userProfile: UserModel = UserModel(id: "", name: "", address: "", phone: "", avatarUrl: nil)
     @State var showActionSheet: Bool = false
+    @State var profileImg: UIImage?
     
     var body: some View {
         
@@ -36,8 +37,8 @@ struct ProfileView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: screenSize().width / 4)
                     
-                    if storage.profileImage != nil {
-                        Image(uiImage: storage.profileImage!)
+                    if profileImg != nil {
+                        Image(uiImage: profileImg!)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .clipShape(Circle())
@@ -92,7 +93,7 @@ struct ProfileView: View {
             })
         })
         .sheet(isPresented: self.$showImagePicker, onDismiss: {}, content: {
-            ImagePicker(image: self.$storage.profileImage).environmentObject(storage)
+            ImagePicker(image: $profileImg).environmentObject(storage)
         })
         .navigationTitle("Profile")
         .actionSheet(isPresented: $showActionSheet, content: {

@@ -11,8 +11,6 @@ import Firebase
 class ChatViewModel: ObservableObject{
     let db = Firestore.firestore()
     var ref: DocumentReference?
-    @Published var myMess: [ChatModel] = []
-    @Published var friendMess: [ChatModel] = []
     
     func sendMessage(chat: ChatModel, room: String) {
         
@@ -23,24 +21,6 @@ class ChatViewModel: ObservableObject{
             print("Error writing city to Firestore: \(error.localizedDescription)")
         }
     }
-    
-    func getRoom(_ com: @escaping ([ChatModel]) -> Void){
-        db.collection("Chats").getDocuments() { (querySnapshot, err) in
-            guard let data = querySnapshot else {
-                return
-            }
-            if let err = err {
-                print("Error getting documents: \(err)")
-            }
-            let chatData = data.documents.compactMap({ (doc) -> ChatModel? in
-                return try? doc.data(as: ChatModel.self)
-            })
-            DispatchQueue.main.async {
-                com(chatData)
-            }
-        }
-    }
-    
     
     func getMessage(room: String,_ com: @escaping ([ChatModel]) -> Void) {
 

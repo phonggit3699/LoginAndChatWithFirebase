@@ -7,11 +7,11 @@
 
 import Foundation
 import Firebase
+import SwiftUI
 
 class StorageViewModel: ObservableObject{
     let storage = Storage.storage()
-    @Published var profileImage: UIImage?
-    
+    @AppStorage("userID") var userID = ""
     
     func uploadPhoto(image: UIImage){
         let storageRef = storage.reference()
@@ -36,23 +36,40 @@ class StorageViewModel: ObservableObject{
         
     }
     
-    func getImageProfile(url: URL?){
+    func getImageProfile(url: URL?,_ com: @escaping (UIImage)-> Void){
         if let urlProfile = url {
             loadImage(url: urlProfile) { img in
-                self.profileImage = img
+                com(img)
             }
         }else{
             downloadProfileImage { img in
-                self.profileImage = img
+                com(img)
             }
         }
         
     }
     
-    func loadImage (url: URL, _ com: @escaping (UIImage)-> Void){
+    func downLoadImageURL(){
+        let storageRef = storage.reference()
+        let starsRef = storageRef.child("images/\(userID).jpg")
+
+        // Fetch the download URL
+        starsRef.downloadURL { url, error in
+          if let error = error {
+            print(error)
+          } else {
+            print(url!)
+          }
+        }
+    }
+    
+    func loadImage (url: URL?, _ com: @escaping (UIImage)-> Void){
         
+        guard let imgURL = url else {
+            return
+        }
         DispatchQueue.global(qos: .background).async {
-            guard let data = try? Data(contentsOf: url) else{
+            guard let data = try? Data(contentsOf: imgURL) else{
                 print("Can't get image")
                 return
             }

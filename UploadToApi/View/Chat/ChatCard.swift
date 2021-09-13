@@ -8,20 +8,30 @@
 import SwiftUI
 
 struct ChatCard: View {
-    var name: String
-    
+    var room: RoomDetailModel
+    @EnvironmentObject var storage: StorageViewModel
     @Environment(\.colorScheme) var colorScheme
+    @State var roomImg: UIImage?
     
-    init(name: String){
-        self.name = name
+    init(room: RoomDetailModel){
+        self.room = room
     }
     
     var body: some View {
         HStack(spacing: 10){
             ZStack(alignment: .bottomTrailing){
-                Circle()
-                    .fill(Color.gray)
-                    .frame(width: 50, height: 50)
+                if roomImg != nil {
+                    Image(uiImage: roomImg!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .clipShape(Circle())
+                        .frame(width: 50, height: 50)
+                    
+                }else{
+                    Circle()
+                        .fill(Color.gray)
+                        .frame(width: 50, height: 50)
+                }
                 ZStack{
                     Circle()
                         .stroke( colorScheme == .light ? Color.white : Color.black, lineWidth: 3)
@@ -32,16 +42,22 @@ struct ChatCard: View {
                 }.offset(x: -1, y: -1)
             }
             VStack(alignment: .leading){
-                Text(name)
+                Text(room.name)
                     .fontWeight(.bold)
                     .foregroundColor( colorScheme == .light ? .black : .white )
                 
-                Text("Message ds;aldkasl;dklas;kdl;sadkl;askdl;askd;kls;a")
+                Text("Tap to chat")
                     .foregroundColor(.gray)
                     .lineLimit(1)
             }
             
             Spacer()
+        }
+        .onAppear{
+        
+            storage.loadImage(url: room.roomImgUrl) { img in
+                self.roomImg = img
+            }
         }
         .frame(maxWidth: .infinity)
         .frame(height: 60)
@@ -51,6 +67,6 @@ struct ChatCard: View {
 
 struct ChatCard_Previews: PreviewProvider {
     static var previews: some View {
-        ChatCard(name: "VIP")
+        ChatCard(room: RoomDetailModel(roomID: "", name: "", roomImgUrl: nil)).environmentObject(StorageViewModel())
     }
 }

@@ -16,7 +16,8 @@ struct LoginView: View {
     @State private var isTabFieldUsername = false
     @State private var isTabFieldPassword = false
     @EnvironmentObject var auth: AuthViewModel
- 
+    @AppStorage("rememberMe") var rememberMe = false
+    @State private var isRemember = false
     
     var body: some View {
         NavigationView{
@@ -76,6 +77,29 @@ struct LoginView: View {
                             Text("Create new acccount")
                         }).padding(.vertical, 10)
                         
+                        //TODO: Remember user
+                        HStack{
+                            
+                            Button(action: {
+                                withAnimation {
+                                    isRemember.toggle()
+                                }
+                            }, label: {
+                                Image(systemName: isRemember ? "checkmark.square" : "square")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.black)
+                            })
+                            Text("Remember Me")
+                        }.padding(.bottom, 10)
+                        .onChange(of: isRemember) { value in
+                            if value {
+                                rememberMe = true
+                            }else{
+                                rememberMe = false
+                            }
+                        }
+                        
                         NavigationLink(
                             destination: SignInView(),
                             isActive: self.$isCreateAccount,
@@ -83,8 +107,11 @@ struct LoginView: View {
                                 EmptyView()
                             })
                         
+                        //TODO: Login by account
                         Button(action: {
                             self.auth.login(email: self.username, password: self.password)
+                            self.password = ""
+                            self.username = ""
                         }, label: {
                             HStack {
                                 Spacer()
@@ -165,6 +192,7 @@ struct LoginView: View {
                 
             }.navigationTitle("Login")
             .padding()
+            .padding(.top, 50)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(LinearGradient(gradient: Gradient(colors: [Color("lightBlue"), Color.blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
             .alert(isPresented: self.$auth.showAlert, content: {

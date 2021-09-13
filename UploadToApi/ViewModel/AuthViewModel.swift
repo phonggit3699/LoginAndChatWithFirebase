@@ -22,8 +22,21 @@ class AuthViewModel: ObservableObject {
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
     @AppStorage("userPhotoURL") var userPhotoURL: URL?
+    @AppStorage("rememberMe") var rememberMe = false
+    
+    static let shared = AuthViewModel()
     
     let auth = Auth.auth()
+    
+    //TODO: Call when app terminated to logout in UIApplicationDelegate
+    var isRemember: Bool {
+        if rememberMe {
+            return true
+        }
+        else{
+            return false
+        }
+    }
     
     func createAccount(email: String, password: String) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
@@ -86,6 +99,7 @@ class AuthViewModel: ObservableObject {
             self.user = ""
             self.userID = ""
             self.userPhotoURL = nil
+            self.rememberMe = false
         } catch{
             print(error.localizedDescription)
         }
@@ -138,8 +152,9 @@ class AuthViewModel: ObservableObject {
                 self.userPhotoURL = user.photoURL
                 withAnimation(){
                     self.isLogin = true
-                    
+                    showAlert.toggle()
                 }
+                
             }
             
         }
@@ -174,6 +189,7 @@ class AuthViewModel: ObservableObject {
                     self.userPhotoURL = user.photoURL
                     withAnimation(){
                         self.isLogin = true
+                        self.showAlert.toggle()
                     }
                 }
             }

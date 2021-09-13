@@ -86,6 +86,13 @@ class Delegate: NSObject, UIApplicationDelegate{
         )
         return GIDSignIn.sharedInstance.handle(url)
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        if !AuthViewModel.shared.isRemember {
+            AuthViewModel.shared.logout()
+        }
+      
+    }
 }
 
 //TODO: Push notifications
