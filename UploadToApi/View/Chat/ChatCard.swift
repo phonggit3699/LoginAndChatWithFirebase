@@ -12,6 +12,9 @@ struct ChatCard: View {
     @EnvironmentObject var storage: StorageViewModel
     @Environment(\.colorScheme) var colorScheme
     @State var roomImg: UIImage?
+    @ObservedObject var chat = ChatViewModel()
+    @State var newMessage: String = ""
+    @AppStorage("userID") var userID = ""
     
     init(room: RoomDetailModel){
         self.room = room
@@ -46,18 +49,37 @@ struct ChatCard: View {
                     .fontWeight(.bold)
                     .foregroundColor( colorScheme == .light ? .black : .white )
                 
-                Text("Tap to chat")
+                Text(newMessage)
                     .foregroundColor(.gray)
                     .lineLimit(1)
             }
             
             Spacer()
+            
+            Circle()
+                .fill(Color.blue)
+                .frame(width: 12, height: 12)
+            
         }
         .onAppear{
-        
+            
             storage.loadImage(url: room.roomImgUrl) { img in
                 self.roomImg = img
             }
+            
+            chat.getLastMessage(roomDetail: room) { mgs in
+                if mgs.isEmpty == false {
+                    if mgs[0].user.id == userID {
+                        self.newMessage = "You: " + mgs[0].message
+                    }else{
+                        self.newMessage = mgs[0].message
+                    }
+                    
+                }
+            }
+            
+            
+            
         }
         .frame(maxWidth: .infinity)
         .frame(height: 60)
@@ -67,6 +89,6 @@ struct ChatCard: View {
 
 struct ChatCard_Previews: PreviewProvider {
     static var previews: some View {
-        ChatCard(room: RoomDetailModel(roomID: "", name: "", roomImgUrl: nil)).environmentObject(StorageViewModel())
+        ChatCard(room: RoomDetailModel(roomID: "", name: "", friendId: "",roomImgUrl: nil)).environmentObject(StorageViewModel())
     }
 }

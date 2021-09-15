@@ -95,7 +95,7 @@ struct ChatView: View {
 
 
 struct ChatView_Previews: PreviewProvider {
-    static var room = RoomDetailModel(roomID: "dsadsad", name: "VIP")
+    static var room = RoomDetailModel(roomID: "dsadsad", name: "VIP", friendId: "")
     static var previews: some View {
         ChatView(friendRoom: room).environmentObject(StorageViewModel())
     }

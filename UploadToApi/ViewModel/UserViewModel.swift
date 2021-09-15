@@ -28,6 +28,7 @@ class UserViewModel: ObservableObject{
             
             if let err = err {
                 print("Error getting documents: \(err)")
+                return
             }
             
             
