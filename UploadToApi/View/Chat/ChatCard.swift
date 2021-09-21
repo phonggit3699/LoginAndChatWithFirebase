@@ -56,10 +56,6 @@ struct ChatCard: View {
             
             Spacer()
             
-            Circle()
-                .fill(Color.blue)
-                .frame(width: 12, height: 12)
-            
         }
         .onAppear{
             

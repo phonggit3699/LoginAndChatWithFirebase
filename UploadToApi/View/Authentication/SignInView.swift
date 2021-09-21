@@ -106,7 +106,7 @@ struct SignInView: View {
                 }.padding([.horizontal,.top])
                 
                 Button(action: {
-                    self.auth.checkField(username: self.username, password: self.password, repass: self.repassword)
+                    self.auth.checkField(email: self.username, password: self.password, repass: self.repassword)
                     
                     self.auth.createAccount(email: username, password: password)
                 }, label: {
@@ -128,7 +128,7 @@ struct SignInView: View {
         .background(LinearGradient(gradient: Gradient(colors: [Color("lightBlue"), Color.blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
         .ignoresSafeArea()
         .alert(isPresented: self.$auth.showAlert, content: {
-            Alert(title: Text("Erorr"), message: Text("\(self.auth.erorr)"), dismissButton: .default(Text("OK")))
+            Alert(title: Text("Erorr"), message: Text("\(self.auth.error)"), dismissButton: .default(Text("OK")))
         })
         
     }

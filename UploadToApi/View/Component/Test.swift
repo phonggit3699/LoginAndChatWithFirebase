@@ -29,10 +29,7 @@ struct Test: View {
                 })
             }
             
-            
-            FlexibleSheet(sheetMode: $sheetMode) {
-                Text("Hi")
-            }
+
         }
         
     }

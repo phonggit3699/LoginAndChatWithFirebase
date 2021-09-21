@@ -58,4 +58,23 @@ class RoomViewModel: ObservableObject{
             
         }
     }
+    
+    func saveRoom(room: RoomModel){
+        guard let saveRoom = try? PropertyListEncoder().encode(room) else {
+            return
+        }
+        UserDefaults.standard.set(saveRoom, forKey: "saveRooms")
+    }
+    
+    func getRoomLocal(_ com: @escaping (RoomModel) -> Void){
+        guard let roomData = UserDefaults.standard.value(forKey: "saveRooms") as? Data else { return }
+        
+        if let room = try? PropertyListDecoder().decode(RoomModel.self, from: roomData){
+            DispatchQueue.main.async {
+                com(room)
+                
+            }
+        }
+        
+    }
 }

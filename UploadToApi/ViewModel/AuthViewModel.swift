@@ -16,8 +16,9 @@ import FBSDKLoginKit
 class AuthViewModel: ObservableObject {
     @Published var isLogin = false
     @Published var showAlert = false
+    @Published var showError = false
     @Published var showProgress = false
-    @Published var erorr: String = ""
+    @Published var error: String = ""
     @Published var fbLoginManager = LoginManager()
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
@@ -52,13 +53,12 @@ class AuthViewModel: ObservableObject {
     }
     
     func login(email: String, password: String){
-        if erorr.isEmpty{
-            self.showProgress = true
-        }
+        //Validate text input
+        checkField(email: email, password: password, repass: password)
+        
         auth.signIn(withEmail: email, password: password) { re, error in
             if let error = error {
-                self.erorr = error.localizedDescription
-                self.showAlert.toggle()
+                print(error.localizedDescription)
                 self.showProgress = false
                 return
             }
@@ -73,19 +73,43 @@ class AuthViewModel: ObservableObject {
             
             withAnimation(){
                 self.isLogin = true
+                self.error = ""
             }
         }
     }
     
-    func checkField(username: String, password: String, repass: String){
-        if (password.count < 6){
-            showAlert.toggle()
-            self.erorr = "Password must greater 6 character"
+    func checkField(email: String, password: String, repass: String){
+        
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        
+        
+//        let phoneRegEx = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$" //Phone of vietnam
+
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        
+        if email.isEmpty {
+            showError.toggle()
+            self.error = "Email is invalid"
+            return
         }
         
-        if username != "" && password != repass{
-            showAlert.toggle()
-            self.erorr = "Password missmath"
+        if !emailPred.evaluate(with: email) {
+            showError.toggle()
+            self.error = "The email address is badly formatted"
+            return
+        }
+        
+        if (password.count < 6){
+            showError.toggle()
+            self.error = "Password must greater 6 character"
+            return
+        }
+        
+        if email != "" && password != repass{
+            showError.toggle()
+            self.error = "Password missmath"
+            return
         }
     }
     
@@ -100,15 +124,13 @@ class AuthViewModel: ObservableObject {
             self.userID = ""
             self.userPhotoURL = nil
             self.rememberMe = false
+            self.error = ""
         } catch{
             print(error.localizedDescription)
         }
     }
     
     func sighInWithGoogle(){
-        if erorr.isEmpty{
-            self.showProgress = true
-        }
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         
         // Create Google Sign In configuration object.
@@ -122,9 +144,9 @@ class AuthViewModel: ObservableObject {
         GIDSignIn.sharedInstance.signIn(with: config, presenting: presenting) { [unowned self] user, error in
             
             if let error = error {
-                self.erorr = error.localizedDescription
+                self.error = error.localizedDescription
                 self.showProgress = false
-                showAlert.toggle()
+                showError.toggle()
                 return
             }
             
@@ -153,6 +175,7 @@ class AuthViewModel: ObservableObject {
                 withAnimation(){
                     self.isLogin = true
                     showAlert.toggle()
+                    self.error = ""
                 }
                 
             }
@@ -160,14 +183,12 @@ class AuthViewModel: ObservableObject {
         }
     }
     func signInWithFaceBook() {
-        if erorr.isEmpty{
-            self.showProgress = true
-        }
+
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: nil) { res, error in
             if let error = error {
-                self.erorr = error.localizedDescription
+                self.error = error.localizedDescription
                 self.showProgress = false
-                self.showAlert.toggle()
+                self.showError.toggle()
                 return
             }
             if let token = AccessToken.current,
@@ -175,7 +196,7 @@ class AuthViewModel: ObservableObject {
                 self.auth.signIn(with: FacebookAuthProvider
                                     .credential(withAccessToken: token.tokenString)) { authResult, error in
                     if let error = error {
-                        self.erorr = error.localizedDescription
+                        self.error = error.localizedDescription
                         self.showAlert.toggle()
                         self.showProgress = false
                         return
@@ -190,6 +211,7 @@ class AuthViewModel: ObservableObject {
                     withAnimation(){
                         self.isLogin = true
                         self.showAlert.toggle()
+                        self.error = ""
                     }
                 }
             }
@@ -199,11 +221,11 @@ class AuthViewModel: ObservableObject {
     func resetPassword(username: String) {
         auth.sendPasswordReset(withEmail: username) { error in
             if let error = error {
-                self.erorr = error.localizedDescription
-                self.showAlert.toggle()
+                self.error = error.localizedDescription
+                self.showError.toggle()
             }else{
-                self.erorr = "We send link reset to email \(username)"
-                self.showAlert.toggle()
+                self.error = "We send link reset to email \(username)"
+                self.showError.toggle()
                 
             }
             

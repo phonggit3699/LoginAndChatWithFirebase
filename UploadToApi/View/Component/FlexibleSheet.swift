@@ -17,94 +17,129 @@ enum SheetMode {
 struct FlexibleSheet<Content: View>: View {
     
     let content: () -> Content
-    var sheetMode: Binding<SheetMode>
+    @Binding var showSheet: Bool
+    @State var offset: CGFloat = getRect().height
+    @State var lastOffset: CGFloat = getRect().height
     @Environment(\.colorScheme) var colorScheme
+    @GestureState private var translation: CGFloat = 0
     
-    init(sheetMode: Binding<SheetMode>, @ViewBuilder content: @escaping () -> Content) {
+    init(showSheet: Binding<Bool>, @ViewBuilder content: @escaping () -> Content) {
         
         self.content = content
-        self.sheetMode = sheetMode
+        self._showSheet = showSheet
         
     }
     
-    private func calculateOffset() -> CGFloat {
-        
-        switch sheetMode.wrappedValue {
-        case .none:
-            return UIScreen.main.bounds.height
-        case .quarter:
-            return UIScreen.main.bounds.height - 200
-        case .half:
-            return UIScreen.main.bounds.height/2
-        case .full:
-            return 0
-        }
-        
-    }
+    
     
     var body: some View {
-        VStack {
-            //TODO: top controll
-            ZStack {
-                Button {
-                    if sheetMode.wrappedValue == .half {
-                        sheetMode.wrappedValue = .full
-                    }
-                    else{
-                        sheetMode.wrappedValue = .half
-                    }
-                } label: {
-                    if sheetMode.wrappedValue == .full {
-                        Image(systemName: "chevron.compact.down")
-                            .resizable()
-                            .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
-                            .frame(width: 40, height: 15)
+        GeometryReader {proxy in
+            VStack {
+                //TODO: top controll
+                ZStack {
+                    Capsule()
+                        .fill(Color.white)
+                        .frame(width: 40, height: 8)
+                        .padding(.vertical, 5)
+                    
+                    
+                    
+                    HStack {
+                        Button(action: {
+                            withAnimation {
+                                self.showSheet.toggle()
+                            }
+                            
+                        }, label: {
+                            Text("Cancel")
+                        })
+                        Spacer()
+                        
+                        Button(action: {
+                            withAnimation {
+                                self.showSheet.toggle()
+                            }
+                        }, label: {
+                            Text("Done")
+                        })
+                    }.padding(.vertical, 10)
+                    .padding(.horizontal, 15)
+                }
+                Spacer()
+                content()
+                Spacer()
+                
+            }
+            
+            .background(Color("bg2"))
+            .clipShape(CustomCorner())
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .gesture(DragGesture()
+                        .updating($translation, body: { value, state, _ in
+                            state = value.translation.height
+                            self.onChange()
+                        })
+                        .onEnded({ value in
+                            
+                            if offset <  (proxy.frame(in: .global).height / 2) {
+                                withAnimation(.spring()) {
+                                    offset = 0
+                                }
+                            }else{
+                                withAnimation {
+                                    showSheet = false
+                                }
+                                
+                            }
+                            
+                            
+                            
+                            
+                            
+                            lastOffset = offset
+                            
+                        }))
+            .onChange(of: self.showSheet, perform: { value in
+                let height = proxy.frame(in: .global).height
+                withAnimation {
+                    if value {
+                        self.offset = height / 2
                     }else{
-                        Image(systemName: "chevron.compact.up")
-                            .resizable()
-                            .foregroundColor(self.colorScheme == .dark ? Color.white : Color.gray)
-                            .frame(width: 40, height: 15)
+                        self.offset = height
                     }
                 }
                 
-                
-                HStack {
-                    Button(action: {
-                        sheetMode.wrappedValue = .none
-                    }, label: {
-                        Text("Cancel")
-                    })
-                    Spacer()
-                    
-                    Button(action: {
-                        sheetMode.wrappedValue = .none
-                    }, label: {
-                        Text("Done")
-                    })
-                }.padding(.vertical, 10)
-                .padding(.horizontal, 15)
-            }
-            
-            content()
+            })
+            .offset(y: self.offset)
             
             
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("darkSheet"))
-        .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
-        .offset(y: calculateOffset())
-        .animation(.default)
+        
+    }
+    func onChange(){
+        DispatchQueue.main.async {
+            if self.offset >= 0 {
+                self.offset += self.translation
+            }
+        }
+        
     }
 }
 
 struct FlexibleSheet_Previews: PreviewProvider {
     static var previews: some View {
-        FlexibleSheet(sheetMode: .constant(.none)) {
-            VStack {
-                Text("Hello World")
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.blue)
-            .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
-        }
+        //        FlexibleSheet(showSheet: .constant(false)) {
+        //            VStack {
+        //                Text("Hello World")
+        //            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+        //            .background(Color.blue)
+        //            .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
+        //        }
+        
+        ListChatView()
     }
+}
+
+public func getRect() -> CGRect {
+    return UIScreen.main.bounds
 }

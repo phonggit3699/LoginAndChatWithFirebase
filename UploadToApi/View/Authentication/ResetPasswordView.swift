@@ -46,7 +46,7 @@ struct ResetPasswordView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(LinearGradient(gradient: Gradient(colors: [Color("lightBlue"), Color.blue]), startPoint: .topLeading, endPoint: .bottomTrailing)).ignoresSafeArea()
         .alert(isPresented: self.$auth.showAlert, content: {
-            Alert(title: Text("Reset password"), message: Text("\(self.auth.erorr)"), dismissButton: .cancel(Text("OK"), action: {
+            Alert(title: Text("Reset password"), message: Text("\(self.auth.error)"), dismissButton: .cancel(Text("OK"), action: {
                 self.presentationMode.wrappedValue.dismiss()
             }))
         })

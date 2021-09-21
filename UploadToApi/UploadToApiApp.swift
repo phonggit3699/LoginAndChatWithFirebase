@@ -20,13 +20,14 @@ struct UploadToApiApp: App {
         WindowGroup {
             HomeView()
                 .onOpenURL { (url) in
-                                ApplicationDelegate.shared.application(
-                                    UIApplication.shared,
-                                    open: url,
-                                    sourceApplication: nil,
-                                    annotation: [UIApplication.OpenURLOptionsKey.annotation]
-                                )
-                            }
+                    //TODO: Setup login with Facebook
+                    ApplicationDelegate.shared.application(
+                        UIApplication.shared,
+                        open: url,
+                        sourceApplication: nil,
+                        annotation: [UIApplication.OpenURLOptionsKey.annotation]
+                    )
+                }
         }
     }
 }
@@ -85,13 +86,14 @@ class Delegate: NSObject, UIApplicationDelegate{
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        //TODO: Setup login with GOOLGE
+        //TODO: Setup login with Facebook
         ApplicationDelegate.shared.application(
             app,
             open: url,
             sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
             annotation: options[UIApplication.OpenURLOptionsKey.annotation]
         )
+        //TODO: Setup login with Google
         return GIDSignIn.sharedInstance.handle(url)
     }
     
@@ -99,7 +101,7 @@ class Delegate: NSObject, UIApplicationDelegate{
         if !AuthViewModel.shared.isRemember {
             AuthViewModel.shared.logout()
         }
-      
+        
     }
 }
 

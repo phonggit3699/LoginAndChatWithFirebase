@@ -13,11 +13,13 @@ struct ListChatView: View {
     @ObservedObject var storage = StorageViewModel()
     @ObservedObject var roomModel = RoomViewModel()
     @EnvironmentObject var auth: AuthViewModel
-    @State var profileImg: UIImage?
-    @State var room: RoomModel?
-    @State var showProfile: Bool = false
-    @State private var sheetMode: SheetMode = .none
+    @State private var profileImg: UIImage?
+    @State private var room: RoomModel?
+    @State private var showProfile: Bool = false
+    @State private var showSheet: Bool = false
+    @State private var showSpinner: Bool = false
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         
@@ -51,9 +53,11 @@ struct ListChatView: View {
                 .navigationTitle("Chat chit")
                 .navigationBarItems(
                     leading:
+                        
+                        //Show profile view
                         Button(action: {
                             self.showProfile.toggle()
-                            self.sheetMode = .none
+                            showSheet = false
                         }, label: {
                             if profileImg != nil {
                                 Image(uiImage: profileImg!)
@@ -68,27 +72,61 @@ struct ListChatView: View {
                             
                         }),
                     trailing:
-                        Button(action: {
-                            if sheetMode == .half || sheetMode == .full {
-                                sheetMode = .none
-                            }else{
-                                sheetMode = .half
+                        
+                        HStack(spacing: 15){
+                            
+                            //Show notification
+                            ZStack(alignment: .topTrailing){
+                                Button(action: {
+                                    showSheet.toggle()
+                                }, label: {
+                                    Image(systemName: "bell")
+                                        .resizable()
+                                        .foregroundColor(self.colorScheme == .dark ? .white : .black)
+                                        .clipShape(Circle())
+                                        .frame(width: 25, height: 25)
+                                })
+                                
+                                Text("1")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 10))
+                                    .padding(5)
+                                    .background(Color.red)
+                                    .frame(width: 15, height: 15)
+                                    .clipShape(Circle())
+                                    .offset(y: -2)
                             }
-                        }, label: {
-                            Image(systemName: "gearshape")
-                                .resizable()
-                                .foregroundColor(self.colorScheme == .dark ? .white : .black)
-                                .clipShape(Circle())
-                                .frame(width: 25, height: 25)
-                        }))
+                          
+                            
+                            //Show setting
+                            Button(action: {
+                                showSheet.toggle()
+                            }, label: {
+                                Image(systemName: "gearshape")
+                                    .resizable()
+                                    .foregroundColor(self.colorScheme == .dark ? .white : .black)
+                                    .clipShape(Circle())
+                                    .frame(width: 25, height: 25)
+                            })
+                        })
+                        
             }
             .zIndex(1)
-            FlexibleSheet(sheetMode: $sheetMode) {
+            FlexibleSheet(showSheet: $showSheet) {
                 SettingView()
             }
             .zIndex(2)
+            
+            if showSpinner {
+                
+            }
         }
         .onAppear(perform: {
+            roomModel.getRoomLocal { room in
+                print(room)
+                self.room = room
+            }
+            
             roomModel.getRoomChat(id: userID) { roomData in
                 self.room = roomData
             }
@@ -96,6 +134,14 @@ struct ListChatView: View {
                 self.profileImg = image
             }
         })
+        .onChange(of: scenePhase) { value in
+            if scenePhase == .background || scenePhase == .inactive {
+                if let room = self.room {
+                    roomModel.saveRoom(room: room)
+                }
+                
+            }
+        }
     }
     
 }

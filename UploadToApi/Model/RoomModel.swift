@@ -10,6 +10,11 @@ import SwiftUI
 struct RoomModel: Identifiable, Codable{
     var id: String
     var listRoom: [RoomDetailModel]
+    
+    init(id: String, listRoom: [RoomDetailModel]) {
+        self.id = id
+        self.listRoom = listRoom
+    }
 }
 
 struct RoomDetailModel: Codable, Hashable {
