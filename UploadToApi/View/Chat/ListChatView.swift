@@ -12,14 +12,18 @@ struct ListChatView: View {
     @AppStorage("userPhotoURL") var userPhotoURL: URL?
     @ObservedObject var storage = StorageViewModel()
     @ObservedObject var roomModel = RoomViewModel()
+    @StateObject var NotificationVM = NotifyViewModel()
     @EnvironmentObject var auth: AuthViewModel
     @State private var profileImg: UIImage?
     @State private var room: RoomModel?
     @State private var showProfile: Bool = false
     @State private var showSheet: Bool = false
     @State private var showSpinner: Bool = false
+    @State private var showNotification: Bool = false
+    @State var countNewNotification: Int = 0
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.scenePhase) private var scenePhase
+    
     
     var body: some View {
         
@@ -42,9 +46,18 @@ struct ListChatView: View {
                         }
                     }
                     
+                    //Navigate to ProfileView
                     NavigationLink(
                         destination: ProfileView(profileImg: self.profileImg).environmentObject(auth).environmentObject(storage),
                         isActive: self.$showProfile,
+                        label: {
+                            EmptyView()
+                        })
+                    
+                    //Navigate to NotificationView
+                    NavigationLink(
+                        destination: ListNotificationView(countNewNotification: $countNewNotification),
+                        isActive: $showNotification,
                         label: {
                             EmptyView()
                         })
@@ -78,7 +91,7 @@ struct ListChatView: View {
                             //Show notification
                             ZStack(alignment: .topTrailing){
                                 Button(action: {
-                                    showSheet.toggle()
+                                    showNotification.toggle()
                                 }, label: {
                                     Image(systemName: "bell")
                                         .resizable()
@@ -87,14 +100,16 @@ struct ListChatView: View {
                                         .frame(width: 25, height: 25)
                                 })
                                 
-                                Text("1")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 10))
-                                    .padding(5)
-                                    .background(Color.red)
-                                    .frame(width: 15, height: 15)
-                                    .clipShape(Circle())
-                                    .offset(y: -2)
+                                if NotificationVM.countNewNoti > 0 {
+                                    Text(String(NotificationVM.countNewNoti))
+                                        .foregroundColor(.white)
+                                        .font(.system(size: 10))
+                                        .padding(5)
+                                        .background(Color.red)
+                                        .frame(width: 15, height: 15)
+                                        .clipShape(Circle())
+                                        .offset(y: -2)
+                                }
                             }
                           
                             
@@ -123,7 +138,6 @@ struct ListChatView: View {
         }
         .onAppear(perform: {
             roomModel.getRoomLocal { room in
-                print(room)
                 self.room = room
             }
             
@@ -133,6 +147,8 @@ struct ListChatView: View {
             storage.getImageProfile(url: userPhotoURL) { image in
                 self.profileImg = image
             }
+            
+            NotificationVM.countNotification(id: userID)
         })
         .onChange(of: scenePhase) { value in
             if scenePhase == .background || scenePhase == .inactive {
