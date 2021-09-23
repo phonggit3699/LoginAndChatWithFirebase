@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @EnvironmentObject var auth: AuthViewModel
+    @ObservedObject var auth: AuthViewModel
     @EnvironmentObject var storage: StorageViewModel
     @ObservedObject var userModel = UserViewModel()
     @State var editProfile: Bool = false
@@ -85,6 +85,7 @@ struct ProfileView: View {
                 })
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.top)
         .toolbar(content: {
             Button(action: {
                 self.editProfile.toggle()
@@ -125,7 +126,7 @@ extension ProfileView {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView().environmentObject(AuthViewModel())
+        ProfileView(auth: AuthViewModel())
     }
 }
 

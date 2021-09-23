@@ -37,6 +37,11 @@
 		3D84F16826FAB3DD00806622 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F16726FAB3DD00806622 /* NotificationModel.swift */; };
 		3D84F16A26FAB4C900806622 /* NotifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F16926FAB4C900806622 /* NotifyViewModel.swift */; };
 		3D84F16F26FABDDB00806622 /* ListNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F16E26FABDDB00806622 /* ListNotificationView.swift */; };
+		3D84F17226FB74DC00806622 /* NewFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17126FB74DC00806622 /* NewFeedView.swift */; };
+		3D84F17426FB75B600806622 /* NotificationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17326FB75B600806622 /* NotificationButton.swift */; };
+		3D84F17626FC103A00806622 /* TabViewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17526FC103A00806622 /* TabViewButton.swift */; };
+		3D84F17826FC119600806622 /* CustomTabViewBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17726FC119600806622 /* CustomTabViewBar.swift */; };
+		3D84F17A26FC1C5400806622 /* EdgeBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17926FC1C5400806622 /* EdgeBorder.swift */; };
 		3D99A1A926F2D2080066DBFE /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D99A1A826F2D2080066DBFE /* Reachability.swift */; };
 		3D99A1AF26F341BB0066DBFE /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D99A1AE26F341BB0066DBFE /* SpinnerView.swift */; };
 		3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */; };
@@ -81,6 +86,11 @@
 		3D84F16726FAB3DD00806622 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		3D84F16926FAB4C900806622 /* NotifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyViewModel.swift; sourceTree = "<group>"; };
 		3D84F16E26FABDDB00806622 /* ListNotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListNotificationView.swift; sourceTree = "<group>"; };
+		3D84F17126FB74DC00806622 /* NewFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeedView.swift; sourceTree = "<group>"; };
+		3D84F17326FB75B600806622 /* NotificationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationButton.swift; sourceTree = "<group>"; };
+		3D84F17526FC103A00806622 /* TabViewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewButton.swift; sourceTree = "<group>"; };
+		3D84F17726FC119600806622 /* CustomTabViewBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabViewBar.swift; sourceTree = "<group>"; };
+		3D84F17926FC1C5400806622 /* EdgeBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeBorder.swift; sourceTree = "<group>"; };
 		3D99A1A826F2D2080066DBFE /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		3D99A1AE26F341BB0066DBFE /* SpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		3DAEA54526B7779F009187B9 /* UploadToApi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UploadToApi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,6 +133,10 @@
 				3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */,
 				3D841B6D26E45C19006CF4FA /* SettingView.swift */,
 				3D841B7126E64F70006CF4FA /* Test.swift */,
+				3D84F17326FB75B600806622 /* NotificationButton.swift */,
+				3D84F17526FC103A00806622 /* TabViewButton.swift */,
+				3D84F17726FC119600806622 /* CustomTabViewBar.swift */,
+				3D84F17926FC1C5400806622 /* EdgeBorder.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -165,6 +179,14 @@
 				3D84F16E26FABDDB00806622 /* ListNotificationView.swift */,
 			);
 			path = Notification;
+			sourceTree = "<group>";
+		};
+		3D84F17026FB74CF00806622 /* NewFeed */ = {
+			isa = PBXGroup;
+			children = (
+				3D84F17126FB74DC00806622 /* NewFeedView.swift */,
+			);
+			path = NewFeed;
 			sourceTree = "<group>";
 		};
 		3D99A1A526F2D1DD0066DBFE /* Middleware */ = {
@@ -235,6 +257,7 @@
 		3DAEA55A26B77B47009187B9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D84F17026FB74CF00806622 /* NewFeed */,
 				3D84F16D26FABDC900806622 /* Notification */,
 				3D841B6426E11621006CF4FA /* Profile */,
 				3D841B6326E11602006CF4FA /* Authentication */,
@@ -401,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3D366B3B26BF5BE500AE668A /* ChatViewModel.swift in Sources */,
+				3D84F17826FC119600806622 /* CustomTabViewBar.swift in Sources */,
 				3D79F6AE26C9F829009F2ADF /* UserViewModel.swift in Sources */,
 				3D79F6AC26C9F6AF009F2ADF /* UserModel.swift in Sources */,
 				3D84F16626F968D000806622 /* CustomCorner.swift in Sources */,
@@ -418,7 +442,9 @@
 				3D366B4526C20F7500AE668A /* ChatBubble.swift in Sources */,
 				3D366B2126BA2DC200AE668A /* ImagePicker.swift in Sources */,
 				3D84F16A26FAB4C900806622 /* NotifyViewModel.swift in Sources */,
+				3D84F17226FB74DC00806622 /* NewFeedView.swift in Sources */,
 				3D99A1AF26F341BB0066DBFE /* SpinnerView.swift in Sources */,
+				3D84F17626FC103A00806622 /* TabViewButton.swift in Sources */,
 				3D84F16826FAB3DD00806622 /* NotificationModel.swift in Sources */,
 				3D366B3F26BF61F600AE668A /* ChatView.swift in Sources */,
 				3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */,
@@ -428,7 +454,9 @@
 				3D366B3926BE13E400AE668A /* Comment.swift in Sources */,
 				3D841B7226E64F70006CF4FA /* Test.swift in Sources */,
 				3D841B6A26E3AABC006CF4FA /* ChatCard.swift in Sources */,
+				3D84F17A26FC1C5400806622 /* EdgeBorder.swift in Sources */,
 				3D366B2526BA2F8100AE668A /* ProfileView.swift in Sources */,
+				3D84F17426FB75B600806622 /* NotificationButton.swift in Sources */,
 				3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */,
 				3D841B7026E4B57C006CF4FA /* EditProfile.swift in Sources */,
 				3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */,

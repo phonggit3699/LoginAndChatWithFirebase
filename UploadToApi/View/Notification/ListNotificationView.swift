@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ListNotificationView: View {
-    @ObservedObject var NotificationVM = NotifyViewModel()
-    @Binding var countNewNotification: Int
-    @State private var notification: NoticationModel?
     @AppStorage("userID") var userID = ""
+    
+    @ObservedObject var NotificationVM: NotifyViewModel
+    
+    @State private var notification: NoticationModel?
+    
     
     var body: some View {
         VStack{
@@ -33,8 +35,6 @@ struct ListNotificationView: View {
             
             NotificationVM.getNotification(id: userID) {value in
                 self.notification = value
-                let seenNoti = value.content.filter{$0.seen == false}
-                self.countNewNotification = seenNoti.count
             }
         }
         .onDisappear{
@@ -51,6 +51,6 @@ struct ListNotificationView: View {
 
 struct ListNotificationView_Previews: PreviewProvider {
     static var previews: some View {
-        ListNotificationView(countNewNotification: .constant(0))
+        ListNotificationView(NotificationVM: NotifyViewModel())
     }
 }

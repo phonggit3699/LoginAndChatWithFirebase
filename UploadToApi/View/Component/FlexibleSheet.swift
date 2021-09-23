@@ -74,6 +74,7 @@ struct FlexibleSheet<Content: View>: View {
             .background(Color("bg2"))
             .clipShape(CustomCorner())
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .ignoresSafeArea(edges: .bottom)
             .gesture(DragGesture()
                         .updating($translation, body: { value, state, _ in
                             state = value.translation.height
@@ -91,21 +92,15 @@ struct FlexibleSheet<Content: View>: View {
                                 }
                                 
                             }
-                            
-                            
-                            
-                            
-                            
                             lastOffset = offset
                             
                         }))
             .onChange(of: self.showSheet, perform: { value in
-                let height = proxy.frame(in: .global).height
                 withAnimation {
                     if value {
-                        self.offset = height / 2
+                        self.offset =  getRect().height / 2
                     }else{
-                        self.offset = height
+                        self.offset =  getRect().height
                     }
                 }
                 
@@ -128,15 +123,13 @@ struct FlexibleSheet<Content: View>: View {
 
 struct FlexibleSheet_Previews: PreviewProvider {
     static var previews: some View {
-        //        FlexibleSheet(showSheet: .constant(false)) {
-        //            VStack {
-        //                Text("Hello World")
-        //            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-        //            .background(Color.blue)
-        //            .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
-        //        }
-        
-        ListChatView()
+                FlexibleSheet(showSheet: .constant(false)) {
+                    VStack {
+                        Text("Hello World")
+                    }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.blue)
+                    .clipShape(RoundedRectangle(cornerRadius: 25.0, style: .continuous))
+                }
     }
 }
 

@@ -11,7 +11,9 @@ import Firebase
 class NotifyViewModel: ObservableObject {
     let db = Firestore.firestore()
     var ref: DocumentReference?
-    @Published var countNewNoti: Int = 0
+    @Published var countNewNotification: Int = 0
+    @Published var countNewChat: Int = 27
+    @Published var countNewFeed: Int = 6
     
     func createNotifycation(title: String, message: String, seen: Bool,type: String, time: Date) -> NotificationContent{
         return NotificationContent(title: title, message: message, seen: seen,type: type, time: time)
@@ -67,7 +69,7 @@ class NotifyViewModel: ObservableObject {
                     let notificationData = try document.data(as: NoticationModel.self)
                     let seenNoti = notificationData!.content.filter{$0.seen == false}
                     DispatchQueue.main.async {
-                        self.countNewNoti = seenNoti.count
+                        self.countNewNotification = seenNoti.count
                     }
                 }catch{
                     print(error.localizedDescription)
