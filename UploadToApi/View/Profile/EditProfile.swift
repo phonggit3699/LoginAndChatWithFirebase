@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct EditProfile: View {
+    
     @Environment (\.presentationMode) var presentationMode
     @EnvironmentObject var userModel: UserViewModel
     @AppStorage("userID") var userID = ""
     @Binding var profile: UserModel
+    
     let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
@@ -62,7 +64,10 @@ struct EditProfile: View {
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text("Done")
+                    .foregroundColor(.blue)
             })
+            
+            Spacer()
         }
         .padding()
         .navigationTitle("Edit Profile")

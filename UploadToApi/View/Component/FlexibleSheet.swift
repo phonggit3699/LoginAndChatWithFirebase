@@ -18,8 +18,8 @@ struct FlexibleSheet<Content: View>: View {
     
     let content: () -> Content
     @Binding var showSheet: Bool
-    @State var offset: CGFloat = getRect().height
-    @State var lastOffset: CGFloat = getRect().height
+    @State var offset: CGFloat = 0
+    @State var lastOffset: CGFloat = 0
     @Environment(\.colorScheme) var colorScheme
     @GestureState private var translation: CGFloat = 0
     
@@ -105,6 +105,9 @@ struct FlexibleSheet<Content: View>: View {
                 }
                 
             })
+            .onAppear{
+                offset = getRect().height
+            }
             .offset(y: self.offset)
             
             
@@ -133,6 +136,3 @@ struct FlexibleSheet_Previews: PreviewProvider {
     }
 }
 
-public func getRect() -> CGRect {
-    return UIScreen.main.bounds
-}

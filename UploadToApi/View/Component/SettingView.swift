@@ -8,20 +8,23 @@
 import SwiftUI
 
 struct SettingView: View {
+    
     @State var username: String = ""
     @State var isPrivate: Bool = true
     @State var notificationsEnabled: Bool = false
     @State var darkMode: Bool = false
     @State var autoDarkMode: Bool = true
     @State private var previewIndex = 0
+    
     var previewOptions = ["Always", "When Unlocked", "Never"]
+    
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         Form {
             Section(header: Text("Theme")) {
                 Toggle(isOn: $autoDarkMode) {
-                    Text("Auto Dark Mode")
+                    Text("Automatic")
                 }
                 
                 Toggle(isOn: $darkMode) {

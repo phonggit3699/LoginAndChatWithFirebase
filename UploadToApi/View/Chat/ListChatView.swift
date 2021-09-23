@@ -30,13 +30,7 @@ struct ListChatView: View {
                 LazyVStack(spacing: 5){
                     if room != nil {
                         ForEach(room!.listRoom, id: \.self){ fRoom in
-//                            NavigationLink(
-//                                destination: ChatView(friendRoom: fRoom, profileImg: self.profileImg).environmentObject(storage),
-//                                isActive: $isActive,
-//                                label: {
-//                                    ChatCard(room: fRoom).environmentObject(storage)
-//
-//                                })
+
                             Button {
                                 selectedRoom = fRoom
                                 isActive.toggle()

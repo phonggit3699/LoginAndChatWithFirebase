@@ -31,6 +31,7 @@ struct HomeView: View {
             if self.authVM.isLogin {
                 ZStack{
                     NavigationView{
+                        
                         TabView(selection: $selecttionTab) {
                             ListChatView(storage: storageVM, profileImg: $profileImg, hideTabBar: $hideTabBar)
                                 .environmentObject(authVM)
@@ -39,14 +40,12 @@ struct HomeView: View {
                             NewFeedView()
                                 .tag("New Feed")
                             
-                            
-                            
                             ListNotificationView(NotificationVM: NotificationVM)
                                 .tag("Notifications")
                             
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                        .navigationTitle("Chat chit")
+                        .navigationTitle(selecttionTab)
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarItems(
                             leading:
@@ -81,29 +80,29 @@ struct HomeView: View {
                                         .frame(width: 25, height: 25)
                                 })
                         )
-
+                        
                     }
+                    //Custom Tab Bar
+                    .overlay(
+                        CustomTabViewBar(selectionTab: $selecttionTab)
+                            .environmentObject(NotificationVM)
+                            .opacity( hideTabBar == true || self.authVM.isLogin == false ? 0 : 1 )
+                            .transition(.move(edge: .bottom))
+                            .zIndex(1)
+                        
+                        ,alignment: .bottom
+                    )
+                    //Custom bottom sheet
                     FlexibleSheet(showSheet: $showSheet) {
                         SettingView()
                     }.zIndex(2)
                 }
                 
-                
-                
-                
             }else{
                 LoginView().environmentObject(authVM)
                     .transition(.move(edge: .leading))
             }
-        }.overlay(
-            CustomTabViewBar(selectionTab: $selecttionTab)
-                .environmentObject(NotificationVM)
-                .opacity( hideTabBar == true || self.authVM.isLogin == false ? 0 : 1 )
-                .transition(.move(edge: .bottom))
-                .zIndex(1)
-            
-            ,alignment: .bottom
-        )
+        }
         .onAppear{
             authVM.onAppear()
             NotificationVM.countNotification(id: userID)
@@ -111,7 +110,7 @@ struct HomeView: View {
             storageVM.getImageProfile(url: userPhotoURL) { image in
                 self.profileImg = image
             }
-        
+            
         }
         .alert(isPresented: $authVM.showAlert) {
             Alert(title: Text("Hey"), message: Text("Do you want save account"), primaryButton: .default(Text("Save"), action: {

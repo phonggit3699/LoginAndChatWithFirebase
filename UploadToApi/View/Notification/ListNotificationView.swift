@@ -16,22 +16,36 @@ struct ListNotificationView: View {
     
     
     var body: some View {
+        
         VStack{
-            Button {
-                guard var allNoti = notification?.content else{
-                    return
-                }
+            ScrollView(.vertical, showsIndicators: true) {
+                LazyVStack(spacing: 5){
+                    if notification != nil {
+                        ForEach(notification!.content){ noti in
+                            Button {
+                                print("navigate")
+                            } label: {
+                                NotificationCard(notification: noti)
+                            }
+
+                        
+                        }
+                    }
                     
-                let newNoti = NotificationVM.createNotifycation(title: "Test 2", message: "Anh ban be", seen: false, type: "normal", time: Date())
-                allNoti.append(newNoti)
-                
-                NotificationVM.updateNewNotification(notification: NoticationModel(id: userID, content: allNoti))
-                
-            } label: {
-                Text("Add new Noti")
+                }
+//                if selectedRoom != nil{
+//                    NavigationLink(
+//                        destination: ChatView(friendRoom: selectedRoom!, profileImg: self.profileImg).environmentObject(storage),
+//                        isActive: $isActive,
+//                        label: {
+//                            EmptyView()
+//
+//                        })
+//                }
             }
 
-        }.onAppear{
+        }.padding()
+        .onAppear{
             
             NotificationVM.getNotification(id: userID) {value in
                 self.notification = value

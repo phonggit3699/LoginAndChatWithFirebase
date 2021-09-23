@@ -11,6 +11,7 @@ struct CustomTabViewBar: View {
     @Binding var selectionTab: String
     @Namespace var animation
     @EnvironmentObject var notificationVM: NotifyViewModel
+    @Environment (\.colorScheme) var colorScheme
     
     var body: some View {
         HStack(spacing: 0){
@@ -22,7 +23,7 @@ struct CustomTabViewBar: View {
             
         }.frame(maxWidth: .infinity)
         .border(width: 1, edges: [.top], color: Color("tabviewbg"))
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color.black : Color.white)
     }
 }
 

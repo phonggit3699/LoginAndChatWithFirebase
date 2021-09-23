@@ -94,15 +94,6 @@ struct TabViewButton: View {
                     .font(.caption2)
                     .foregroundColor(selectionTab == content.label ? .blue : .gray)
             }
-        }.onAppear{
-            switch content.typeBadge {
-            case "chat": bagde = notificationVM.countNewChat
-            case "newfeed": bagde = notificationVM.countNewFeed
-            case "notification": bagde = notificationVM.countNewNotification
-            default:
-                print("defaut \(notificationVM.countNewNotification)")
-            }
-            
         }
     }
 }
