@@ -39,7 +39,7 @@ class NotifyViewModel: ObservableObject {
             if let document = document, document.exists {
                 do {
                     var notificationData = try document.data(as: NoticationModel.self)
-                    notificationData!.content.sort { $0.time > $1.time }
+                    notificationData!.content.sort { $0.time < $1.time }
                     DispatchQueue.main.async {
                         com(notificationData!)
                     }

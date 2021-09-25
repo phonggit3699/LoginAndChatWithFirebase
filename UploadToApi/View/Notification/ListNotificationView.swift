@@ -46,9 +46,10 @@ struct ListNotificationView: View {
 
         }.padding()
         .onAppear{
-            
-            NotificationVM.getNotification(id: userID) {value in
-                self.notification = value
+            if userID != ""{
+                NotificationVM.getNotification(id: userID) {value in
+                    self.notification = value
+                }
             }
         }
         .onDisappear{

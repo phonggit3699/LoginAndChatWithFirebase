@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var auth: AuthViewModel
+    @AppStorage("userID") var userID = ""
+    @AppStorage("userPhotoURL") var userPhotoURL: URL?
+    
+    @EnvironmentObject var auth: AuthViewModel
     @EnvironmentObject var storage: StorageViewModel
     @ObservedObject var userModel = UserViewModel()
     @State var editProfile: Bool = false
     @State var showImagePicker = false
-    @AppStorage("userID") var userID = ""
-    @AppStorage("userPhotoURL") var userPhotoURL: URL?
+    
     @State var userProfile: UserModel = UserModel(id: "", name: "", address: "", phone: "", avatarUrl: nil)
     @State var showActionSheet: Bool = false
     @State var profileImg: UIImage?
@@ -110,8 +112,10 @@ struct ProfileView: View {
             return ActionSheet(title: Text("Are you sure to log out?"), message: nil, buttons: [logout, cancel])
         })
         .onAppear{
-            userModel.getProfileByID(id: userID) { profile in
-                self.userProfile = profile
+            if userID != ""{
+                userModel.getProfileByID(id: userID) { profile in
+                    self.userProfile = profile
+                }
             }
         }
     }
@@ -126,7 +130,7 @@ extension ProfileView {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(auth: AuthViewModel())
+        ProfileView().environmentObject(AuthViewModel())
     }
 }
 

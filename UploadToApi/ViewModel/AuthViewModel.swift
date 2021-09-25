@@ -83,9 +83,9 @@ class AuthViewModel: ObservableObject {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         
         
-//        let phoneRegEx = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$" //Phone of vietnam
-
-
+        //        let phoneRegEx = "^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$" //Phone of vietnam
+        
+        
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         
         if email.isEmpty {
@@ -115,18 +115,22 @@ class AuthViewModel: ObservableObject {
     
     func logout(){
         do {
+            print("run")
             try auth.signOut()
-            self.showProgress = false
-            withAnimation(){
-                isLogin = false
+            
+            DispatchQueue.main.async {
+                withAnimation(){
+                    self.isLogin = false
+                }
             }
+            self.showProgress = false
             self.user = ""
             self.userID = ""
             self.userPhotoURL = nil
             self.rememberMe = false
             self.error = ""
         } catch{
-            print(error.localizedDescription)
+            self.error = error.localizedDescription
         }
     }
     
@@ -165,17 +169,20 @@ class AuthViewModel: ObservableObject {
                     self.showProgress = false
                     return
                 }
-
+                
                 guard let user = auth.currentUser else{
                     return
                 }
                 self.user = user.displayName  ?? user.email!
                 self.userID = user.uid
                 self.userPhotoURL = user.photoURL
-                withAnimation(){
-                    self.isLogin = true
-                    showAlert.toggle()
-                    self.error = ""
+                DispatchQueue.main.async {
+                    withAnimation(){
+                        self.isLogin = true
+                        showAlert.toggle()
+                        self.error = ""
+                    }
+
                 }
                 
             }
@@ -183,7 +190,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     func signInWithFaceBook() {
-
+        
         fbLoginManager.logIn(permissions: ["public_profile", "email"], from: nil) { res, error in
             if let error = error {
                 self.error = error.localizedDescription
@@ -232,6 +239,7 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    //check authentication
     func onAppear(){
         if self.user != "" && self.userID != "" {
             self.isLogin = true

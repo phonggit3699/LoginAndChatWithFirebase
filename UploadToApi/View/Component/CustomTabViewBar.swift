@@ -40,6 +40,10 @@ struct TabButtonModel: Hashable {
     var typeBadge: String
 }
 
-var TabButtons = [TabButtonModel(systemImage1: "message", systemImage2: "message.fill",label: "Chats", typeBadge: "chat"),
-                  TabButtonModel(systemImage1: "house", systemImage2: "house.fill", label: "New Feed", typeBadge: "newfeed"),
-                  TabButtonModel(systemImage1: "bell", systemImage2: "bell.fill", label: "Notifications", typeBadge: "notification")]
+var TabButtons = [TabButtonModel(systemImage1: "house", systemImage2: "house.fill", label: "New Feed", typeBadge: "newfeed"),
+
+                  TabButtonModel(systemImage1: "message", systemImage2: "message.fill",label: "Chats", typeBadge: "chat"),
+                                    
+                  TabButtonModel(systemImage1: "bell", systemImage2: "bell.fill", label: "Notifications", typeBadge: "notification"),
+                  
+                  TabButtonModel(systemImage1: "magnifyingglass", systemImage2: "magnifyingglass", label: "Search", typeBadge: "search")]

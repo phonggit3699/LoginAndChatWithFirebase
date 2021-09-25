@@ -78,14 +78,8 @@ struct TabViewButton: View {
                                 .offset(x: 8, y: -2)
                         }
                     default:
-                        Text("0")
-                            .foregroundColor(.white)
-                            .font(.system(size: 9))
-                            .padding(3)
-                            .frame(width: 20, height: 20)
-                            .background(Color.red)
-                            .clipShape(Circle())
-                            .offset(x: 8, y: -2)
+                        Text("")
+                          
                     }
                     
                 }

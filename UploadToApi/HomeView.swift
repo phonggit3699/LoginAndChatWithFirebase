@@ -28,21 +28,28 @@ struct HomeView: View {
     var body: some View {
         
         ZStack{
-            if self.authVM.isLogin {
+            if authVM.isLogin == false {
+                
+                LoginView().environmentObject(authVM)
+                    .transition(.move(edge: .leading))
+            }else{
                 ZStack{
                     NavigationView{
                         
                         TabView(selection: $selecttionTab) {
-                            ListChatView(storage: storageVM, profileImg: $profileImg, hideTabBar: $hideTabBar)
-                                .environmentObject(authVM)
-                                .tag("Chats")
                             
                             NewFeedView()
                                 .tag("New Feed")
                             
+                            ListChatView(storage: storageVM, profileImg: $profileImg, hideTabBar: $hideTabBar)
+                                .environmentObject(authVM)
+                                .tag("Chats")
+                            
                             ListNotificationView(NotificationVM: NotificationVM)
                                 .tag("Notifications")
                             
+                            SearchView()
+                                .tag("Search")
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .navigationTitle(selecttionTab)
@@ -50,35 +57,35 @@ struct HomeView: View {
                         .navigationBarItems(
                             leading:
                                 //Show profile view
-                                //Navigate to ProfileView
-                                NavigationLink(
-                                    destination: ProfileView(auth: authVM, profileImg: self.profileImg),
-                                    label: {
-                                        if profileImg != nil {
-                                            Image(uiImage: profileImg!)
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .clipShape(Circle())
-                                                .frame(width: 30, height: 30)
-                                        }else{
-                                            Circle().fill(Color.gray.opacity(0.8))
-                                                .frame(width: 30, height: 30)
-                                        }
-                                        
-                                    })
+                            //Navigate to ProfileView
+                            NavigationLink(
+                                destination: ProfileView(profileImg: self.profileImg).environmentObject(authVM),
+                                label: {
+                                    if profileImg != nil {
+                                        Image(uiImage: profileImg!)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipShape(Circle())
+                                            .frame(width: 30, height: 30)
+                                    }else{
+                                        Circle().fill(Color.gray.opacity(0.8))
+                                            .frame(width: 30, height: 30)
+                                    }
+                                    
+                                })
                             ,
                             trailing:
                                 
                                 //Show setting
-                                Button(action: {
-                                    showSheet.toggle()
-                                }, label: {
-                                    Image(systemName: "gearshape")
-                                        .resizable()
-                                        .foregroundColor(self.colorScheme == .dark ? .white : .black)
-                                        .clipShape(Circle())
-                                        .frame(width: 25, height: 25)
-                                })
+                            Button(action: {
+                                showSheet.toggle()
+                            }, label: {
+                                Image(systemName: "gearshape")
+                                    .resizable()
+                                    .foregroundColor(self.colorScheme == .dark ? .white : .black)
+                                    .clipShape(Circle())
+                                    .frame(width: 25, height: 25)
+                            })
                         )
                         
                     }
@@ -97,32 +104,35 @@ struct HomeView: View {
                         SettingView()
                     }.zIndex(2)
                 }
-                
-            }else{
-                LoginView().environmentObject(authVM)
-                    .transition(.move(edge: .leading))
+                .transition(.move(edge: .trailing))
+                .onAppear{
+                                    
+                    if userID != "" {
+                        NotificationVM.countNotification(id: userID)
+                        
+                        storageVM.getImageProfile(url: userPhotoURL) { image in
+                            self.profileImg = image
+                        }
+                    }else {
+                        authVM.logout()
+                    }
+                    
+                }
+                .onChange(of: showSheet) { value in
+                    hideTabBar = value
+                }
+                .alert(isPresented: $authVM.showAlert) {
+                    Alert(title: Text("Hey"), message: Text("Do you want save account"), primaryButton: .default(Text("Save"), action: {
+                        rememberMe = true
+                        
+                    }), secondaryButton: .destructive(Text("Cancel")))
+                }
             }
         }
         .onAppear{
+            //check authentication
             authVM.onAppear()
-            NotificationVM.countNotification(id: userID)
-            
-            storageVM.getImageProfile(url: userPhotoURL) { image in
-                self.profileImg = image
-            }
-            
         }
-        .alert(isPresented: $authVM.showAlert) {
-            Alert(title: Text("Hey"), message: Text("Do you want save account"), primaryButton: .default(Text("Save"), action: {
-                rememberMe = true
-                
-            }), secondaryButton: .destructive(Text("Cancel")))
-        }
-        .onChange(of: showSheet) { value in
-            hideTabBar = value
-        }
-        
-        
     }
 }
 

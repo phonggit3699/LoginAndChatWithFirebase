@@ -43,6 +43,8 @@
 		3D84F17A26FC1C5400806622 /* EdgeBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17926FC1C5400806622 /* EdgeBorder.swift */; };
 		3D84F17C26FCBA2200806622 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17B26FCBA2200806622 /* Extension.swift */; };
 		3D84F17E26FCC01E00806622 /* NotificationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F17D26FCC01E00806622 /* NotificationCard.swift */; };
+		3D84F18126FD599C00806622 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F18026FD599C00806622 /* SearchBarView.swift */; };
+		3D84F18326FD5C2700806622 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D84F18226FD5C2700806622 /* SearchView.swift */; };
 		3D99A1A926F2D2080066DBFE /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D99A1A826F2D2080066DBFE /* Reachability.swift */; };
 		3D99A1AF26F341BB0066DBFE /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D99A1AE26F341BB0066DBFE /* SpinnerView.swift */; };
 		3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA54826B7779F009187B9 /* UploadToApiApp.swift */; };
@@ -93,6 +95,8 @@
 		3D84F17926FC1C5400806622 /* EdgeBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeBorder.swift; sourceTree = "<group>"; };
 		3D84F17B26FCBA2200806622 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		3D84F17D26FCC01E00806622 /* NotificationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCard.swift; sourceTree = "<group>"; };
+		3D84F18026FD599C00806622 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		3D84F18226FD5C2700806622 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		3D99A1A826F2D2080066DBFE /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		3D99A1AE26F341BB0066DBFE /* SpinnerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		3DAEA54526B7779F009187B9 /* UploadToApi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UploadToApi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +196,15 @@
 			path = NewFeed;
 			sourceTree = "<group>";
 		};
+		3D84F17F26FD57A100806622 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3D84F18026FD599C00806622 /* SearchBarView.swift */,
+				3D84F18226FD5C2700806622 /* SearchView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		3D99A1A526F2D1DD0066DBFE /* Middleware */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +273,7 @@
 		3DAEA55A26B77B47009187B9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				3D84F17F26FD57A100806622 /* Search */,
 				3D84F17026FB74CF00806622 /* NewFeed */,
 				3D84F16D26FABDC900806622 /* Notification */,
 				3D841B6426E11621006CF4FA /* Profile */,
@@ -436,11 +450,13 @@
 				3D79F6A826C8ACCA009F2ADF /* FlexibleSheet.swift in Sources */,
 				3D99A1A926F2D2080066DBFE /* Reachability.swift in Sources */,
 				3D366B3726BE0E4300AE668A /* RealtimeDatabase.swift in Sources */,
+				3D84F18326FD5C2700806622 /* SearchView.swift in Sources */,
 				3D841B6E26E45C19006CF4FA /* SettingView.swift in Sources */,
 				3DAEA56226B78A25009187B9 /* LoginView.swift in Sources */,
 				3D366B3D26BF5CFD00AE668A /* ChatModel.swift in Sources */,
 				3D841B6626E2084D006CF4FA /* RoomModel.swift in Sources */,
 				3DAEA56826B8D960009187B9 /* AuthViewModel.swift in Sources */,
+				3D84F18126FD599C00806622 /* SearchBarView.swift in Sources */,
 				3D366B4726C34C8500AE668A /* PushNotification.swift in Sources */,
 				3D84F17C26FCBA2200806622 /* Extension.swift in Sources */,
 				3D366B2726BA386E00AE668A /* StorageViewModel.swift in Sources */,
