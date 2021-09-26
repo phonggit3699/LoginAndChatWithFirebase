@@ -9,12 +9,13 @@ import SwiftUI
 import UIKit
 
 struct SearchBarView: UIViewRepresentable {
-
+    
     @Binding var text: String
+    @Binding var hideNavBar: Bool
     var placeholder: String
-
+    
     func makeCoordinator() -> Coordinator {
-        return Coordinator(text: $text)
+        return Coordinator(parent: self)
     }
     
     func makeUIView(context: Context) -> UISearchBar {
@@ -23,37 +24,45 @@ struct SearchBarView: UIViewRepresentable {
         searchBar.placeholder = placeholder
         searchBar.searchBarStyle = .minimal
         searchBar.autocapitalizationType = .none
-        searchBar.barTintColor = UIColor.init(Color.blue)
-        searchBar.tintColor = UIColor.init(Color.green)
+        searchBar.tintColor = UIColor.init(Color.blue)
         return searchBar
     }
-
+    
     func updateUIView(_ uiView: UISearchBar,
                       context: Context) {
         uiView.text = text
-        if self.text != "" {
+        
+        if self.hideNavBar {
             uiView.showsCancelButton = true
         }
         else{
             uiView.showsCancelButton = false
         }
         
+        
     }
     
     class Coordinator: NSObject, UISearchBarDelegate {
-
-        @Binding var text: String
-
-        init(text: Binding<String>) {
-            _text = text
+        
+        var parent:SearchBarView
+        
+        init(parent:SearchBarView) {
+            self.parent = parent
         }
         
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
+            parent.text = searchText
+        }
+        
+        func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+            parent.hideNavBar = true
         }
         
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            self.text = ""
+            parent.text = ""
+            
+            parent.hideNavBar = false
+            
             searchBar.resignFirstResponder()
         }
     }

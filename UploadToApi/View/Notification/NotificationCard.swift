@@ -10,6 +10,10 @@ import SwiftUI
 struct NotificationCard: View {
     var notification: NotificationContent
     
+    init(notification: NotificationContent){
+        self.notification = notification
+    }
+    
     @Environment(\.colorScheme) var colorScheme
     var body: some View {
         HStack(spacing: 10){

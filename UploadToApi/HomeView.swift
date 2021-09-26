@@ -21,9 +21,11 @@ struct HomeView: View {
     @State private var showSheet: Bool = false
     @State private var selecttionTab: String = "New Feed"
     @State private var hideTabBar: Bool = false
+    @State private var hideNavBar: Bool = false
     
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) var colorScheme
+    
     
     var body: some View {
         
@@ -89,6 +91,7 @@ struct HomeView: View {
                         )
                         
                     }
+                    .animation(.default, value: hideNavBar)
                     //Custom Tab Bar
                     .overlay(
                         CustomTabViewBar(selectionTab: $selecttionTab)

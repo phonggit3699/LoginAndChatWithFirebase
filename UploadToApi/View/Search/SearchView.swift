@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var text: String = ""
+    @State var text: String = ""
+    @State var hideNavBar: Bool = false
     
     var body: some View {
         VStack{
-            SearchBarView(text: $text, placeholder: "Search")
-            
-        }.frame(maxWidth: .infinity, maxHeight:  .infinity, alignment: .top)
+            SearchBarView(text: self.$text, hideNavBar: self.$hideNavBar, placeholder: "Search")
+            SearchContent(text: $text)
+        }.navigationBarHidden(hideNavBar)
     }
 }
 
