@@ -50,5 +50,26 @@ class UserViewModel: ObservableObject{
         }
     }
     
-    
+    func searchUser(keyword: String,_ com: @escaping ([UserModel]) -> Void){
+        self.db.collection("Users").whereField("name", isGreaterThanOrEqualTo: keyword).addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error retreiving collection: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = querySnapshot else {
+                return
+            }
+            
+            let chatData = data.documents.compactMap({ (doc) -> UserModel? in
+                return try? doc.data(as: UserModel.self)
+            })
+            
+            DispatchQueue.main.async {
+                com(chatData)
+            }
+            
+        }
+
+    }
 }

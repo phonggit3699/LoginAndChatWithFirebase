@@ -10,17 +10,22 @@ import SwiftUI
 struct SearchView: View {
     @State var text: String = ""
     @State var hideNavBar: Bool = false
+    @Binding var hideTabBar: Bool
+    
+    init(hideTabBar: Binding<Bool>){
+        _hideTabBar = hideTabBar
+    }
     
     var body: some View {
         VStack{
             SearchBarView(text: self.$text, hideNavBar: self.$hideNavBar, placeholder: "Search")
-            SearchContent(text: $text)
+            SearchContent(text: $text, hideTabBar: $hideTabBar)
         }.navigationBarHidden(hideNavBar)
     }
 }
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        SearchView(hideTabBar: .constant(false))
     }
 }

@@ -12,7 +12,7 @@ struct ListNotificationView: View {
     
     @ObservedObject var NotificationVM: NotifyViewModel
     
-    @State private var notification: NoticationModel?
+    @State private var notification: NotificationModel?
     
     
     var body: some View {
@@ -53,12 +53,12 @@ struct ListNotificationView: View {
             }
         }
         .onDisappear{
-            if let noti = notification {
-                let seenNoti = noti.content.map { value in
-                    return NotificationContent (title: value.title, message: value.message, seen: true, type: value.type, time: value.time)
+            if let notification  = notification {
+                let seenNotification = notification.content.map { value in
+                    return NotificationContent (title: value.title, message: value.message, seen: true, type: value.type, time: value.time, idSend: userID)
                 }
                 
-                NotificationVM.updateNewNotification(notification: NoticationModel(id: userID, content: seenNoti))
+                NotificationVM.updateSeenNotification(id: userID, notification: NotificationModel(id: userID, content: seenNotification))
             }
         }
     }

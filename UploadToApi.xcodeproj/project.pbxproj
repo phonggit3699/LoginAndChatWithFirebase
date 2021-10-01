@@ -31,6 +31,7 @@
 		3D79F6A826C8ACCA009F2ADF /* FlexibleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */; };
 		3D79F6AC26C9F6AF009F2ADF /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */; };
 		3D79F6AE26C9F829009F2ADF /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */; };
+		3D837EEB2701578B000FC89B /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D837EEA2701578B000FC89B /* SearchModel.swift */; };
 		3D841B6626E2084D006CF4FA /* RoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D841B6526E2084D006CF4FA /* RoomModel.swift */; };
 		3D841B6A26E3AABC006CF4FA /* ChatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D841B6926E3AABC006CF4FA /* ChatCard.swift */; };
 		3D841B6E26E45C19006CF4FA /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D841B6D26E45C19006CF4FA /* SettingView.swift */; };
@@ -86,6 +87,7 @@
 		3D79F6A726C8ACCA009F2ADF /* FlexibleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleSheet.swift; sourceTree = "<group>"; };
 		3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		3D837EEA2701578B000FC89B /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		3D841B6526E2084D006CF4FA /* RoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomModel.swift; sourceTree = "<group>"; };
 		3D841B6926E3AABC006CF4FA /* ChatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCard.swift; sourceTree = "<group>"; };
 		3D841B6D26E45C19006CF4FA /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				3D79F6AB26C9F6AF009F2ADF /* UserModel.swift */,
 				3D841B6526E2084D006CF4FA /* RoomModel.swift */,
 				3D84F16726FAB3DD00806622 /* NotificationModel.swift */,
+				3D837EEA2701578B000FC89B /* SearchModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				3D366B4326C0B0B100AE668A /* ListChatView.swift in Sources */,
 				3D7227B326EF364700C3DF47 /* RoomViewModel.swift in Sources */,
 				3D366B3926BE13E400AE668A /* Comment.swift in Sources */,
+				3D837EEB2701578B000FC89B /* SearchModel.swift in Sources */,
 				3D841B6A26E3AABC006CF4FA /* ChatCard.swift in Sources */,
 				3D84F17A26FC1C5400806622 /* EdgeBorder.swift in Sources */,
 				3D366B2526BA2F8100AE668A /* ProfileView.swift in Sources */,

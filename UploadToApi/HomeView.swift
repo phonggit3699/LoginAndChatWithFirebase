@@ -20,12 +20,12 @@ struct HomeView: View {
     @State private var profileImg: UIImage?
     @State private var showSheet: Bool = false
     @State private var selecttionTab: String = "New Feed"
-    @State private var hideTabBar: Bool = false
+    @State var hideTabBar: Bool = false
     @State private var hideNavBar: Bool = false
+    @State private var isActive: Bool = false
     
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.colorScheme) var colorScheme
-    
     
     var body: some View {
         
@@ -50,7 +50,7 @@ struct HomeView: View {
                             ListNotificationView(NotificationVM: NotificationVM)
                                 .tag("Notifications")
                             
-                            SearchView()
+                            SearchView(hideTabBar: $hideTabBar)
                                 .tag("Search")
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -58,26 +58,34 @@ struct HomeView: View {
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarItems(
                             leading:
-                                //Show profile view
-                            //Navigate to ProfileView
-                            NavigationLink(
-                                destination: ProfileView(profileImg: self.profileImg).environmentObject(authVM),
-                                label: {
-                                    if profileImg != nil {
-                                        Image(uiImage: profileImg!)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .clipShape(Circle())
-                                            .frame(width: 30, height: 30)
-                                    }else{
-                                        Circle().fill(Color.gray.opacity(0.8))
-                                            .frame(width: 30, height: 30)
+                                ZStack{
+                                    //Show profile view
+                                    Button(action: {
+                                        hideTabBar.toggle()
+                                        isActive.toggle()
+                                    }, label: {
+                                        if profileImg != nil {
+                                            Image(uiImage: profileImg!)
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .clipShape(Circle())
+                                                .frame(width: 30, height: 30)
+                                        }else{
+                                            Circle().fill(Color.gray.opacity(0.8))
+                                                .frame(width: 30, height: 30)
+                                        }
+                                    })
+                                    
+                                    //Navigate to ProfileView
+                                    NavigationLink(isActive: $isActive) {
+                                        ProfileView(idSearchResult: nil, hideTabBar: $hideTabBar).environmentObject(authVM)
+                                    } label: {
+                                        EmptyView()
                                     }
                                     
-                                })
+                                }
                             ,
                             trailing:
-                                
                                 //Show setting
                             Button(action: {
                                 showSheet.toggle()
@@ -89,9 +97,7 @@ struct HomeView: View {
                                     .frame(width: 25, height: 25)
                             })
                         )
-                        
                     }
-                    .animation(.default, value: hideNavBar)
                     //Custom Tab Bar
                     .overlay(
                         CustomTabViewBar(selectionTab: $selecttionTab)
@@ -109,7 +115,7 @@ struct HomeView: View {
                 }
                 .transition(.move(edge: .trailing))
                 .onAppear{
-                                    
+                    
                     if userID != "" {
                         NotificationVM.countNotification(id: userID)
                         

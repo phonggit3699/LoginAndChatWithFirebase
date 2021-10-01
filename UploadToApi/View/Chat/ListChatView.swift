@@ -22,7 +22,6 @@ struct ListChatView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.scenePhase) private var scenePhase
     
-    
     var body: some View {
         
         VStack {
@@ -30,22 +29,25 @@ struct ListChatView: View {
                 LazyVStack(spacing: 5){
                     if room != nil {
                         ForEach(room!.listRoom, id: \.self){ fRoom in
-
+                            
                             Button {
                                 selectedRoom = fRoom
                                 isActive.toggle()
+                                DispatchQueue.main.async {
+                                    hideTabBar = true
+                                }
                             } label: {
                                 ChatCard(room: fRoom).environmentObject(storage)
                             }
-
-                        
+                            
+                            
                         }
                     }
                     
                 }
                 if selectedRoom != nil{
                     NavigationLink(
-                        destination: ChatView(friendRoom: selectedRoom!, profileImg: self.profileImg).environmentObject(storage),
+                        destination: ChatView(hideTabBar: $hideTabBar, profileImg: self.profileImg, friendRoom: selectedRoom!).environmentObject(storage),
                         isActive: $isActive,
                         label: {
                             EmptyView()
@@ -54,10 +56,8 @@ struct ListChatView: View {
                 }
             }
             
-        }.padding(.top)
-        .onChange(of: isActive, perform: { value in
-            hideTabBar = isActive
-        })
+        }
+        .padding(.top)
         .onAppear(perform: {
             roomModel.getRoomLocal { room in
                 self.room = room

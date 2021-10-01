@@ -21,10 +21,17 @@ class RoomViewModel: ObservableObject{
         }
     }
     
-    func addRoomChat(id: String, room: RoomModel){
+    func addRoomChat(id: String, newRoom: RoomDetailModel){
+        var currentRoom: [RoomDetailModel] = []
+        
+        self.getRoomChat(id: id) { room in
+            currentRoom = room.listRoom
+        }
+        
+        currentRoom.append(newRoom)
         
         do {
-            try db.collection("Rooms").document(id).setData(from: room)
+            try db.collection("Rooms").document(id).setData(from: RoomModel(id: id, listRoom: currentRoom))
         } catch let error {
             print("Error writing city to Firestore: \(error.localizedDescription)")
         }
@@ -37,7 +44,6 @@ class RoomViewModel: ObservableObject{
             if let err = err {
                 print("Error getting documents: \(err)")
             }
-            
             
             if let document = document, document.exists {
                 do {

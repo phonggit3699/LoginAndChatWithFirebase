@@ -12,7 +12,7 @@ enum TypeNotification {
     case normalNotification
 }
 
-struct NoticationModel:Identifiable, Codable {
+struct NotificationModel:Identifiable, Codable {
     var id: String
     var content: [NotificationContent]
     
@@ -29,6 +29,7 @@ struct NotificationContent: Identifiable, Codable{
     var seen: Bool
     var type: String
     var time: Date
+    var idSend: String
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -37,5 +38,6 @@ struct NotificationContent: Identifiable, Codable{
         case seen
         case type
         case time
+        case idSend
     }
 }

@@ -10,16 +10,28 @@ import SwiftUI
 struct ProfileView: View {
     @AppStorage("userID") var userID = ""
     @AppStorage("userPhotoURL") var userPhotoURL: URL?
+    @AppStorage("currentUser") var user = ""
     
     @EnvironmentObject var auth: AuthViewModel
-    @EnvironmentObject var storage: StorageViewModel
+    @ObservedObject var storage = StorageViewModel()
     @ObservedObject var userModel = UserViewModel()
+    @ObservedObject var notificationVM = NotifyViewModel()
+    
     @State var editProfile: Bool = false
     @State var showImagePicker = false
-    
     @State var userProfile: UserModel = UserModel(id: "", name: "", address: "", phone: "", avatarUrl: nil)
     @State var showActionSheet: Bool = false
     @State var profileImg: UIImage?
+    
+    @Binding var hideTabBar: Bool
+    var idSearchResult: String?
+    
+    @Environment (\.presentationMode) var presentationMode
+    
+    init(idSearchResult: String?, hideTabBar: Binding<Bool>){
+        self.idSearchResult = idSearchResult
+        _hideTabBar = hideTabBar
+    }
     
     var body: some View {
         
@@ -65,18 +77,35 @@ struct ProfileView: View {
                     Text("Phone \(self.userProfile.phone)")
                         .foregroundColor(.gray)
                 }
-                Button(action: {
-                    self.showActionSheet.toggle()
-                }, label: {
-                    Text("Log out")
-                        .foregroundColor(Color.red)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(Rectangle().stroke(Color.gray, lineWidth: 1))
-                }).padding()
+                if idSearchResult == nil {
+                    Button(action: {
+                        self.showActionSheet.toggle()
+                    }, label: {
+                        Text("Log out")
+                            .foregroundColor(Color.red)
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(Rectangle().stroke(Color.gray, lineWidth: 1))
+                    }).padding()
+                }else{
+                    Button(action: {
+                        let newNotifi = notificationVM.createNotifycation(title: user, message: "Da gui loi moi ket ban", seen: false, type: NotificationType.addafriend.rawValue, time: Date(), idSend: userID)
+                        notificationVM.updateNewNotification(id: idSearchResult!, newNotification: newNotifi)
+                    }, label: {
+                        Text("Add friend")
+                            .foregroundColor(Color.red)
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(Rectangle().stroke(Color.gray, lineWidth: 1))
+                    }).padding()
+                }
+                
             })
             
             NavigationLink(
@@ -89,16 +118,17 @@ struct ProfileView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top)
         .toolbar(content: {
-            Button(action: {
-                self.editProfile.toggle()
-            }, label: {
-                Image(systemName: "square.and.pencil")
-            })
+            if idSearchResult == nil {
+                Button(action: {
+                    self.editProfile.toggle()
+                }, label: {
+                    Image(systemName: "square.and.pencil")
+                })
+            }
         })
         .sheet(isPresented: self.$showImagePicker, onDismiss: {}, content: {
             ImagePicker(image: $profileImg).environmentObject(storage)
         })
-        .navigationTitle("Profile")
         .actionSheet(isPresented: $showActionSheet, content: {
             let logout = ActionSheet.Button.default(Text("Logout")) {
                 self.auth.logout()
@@ -112,12 +142,43 @@ struct ProfileView: View {
             return ActionSheet(title: Text("Are you sure to log out?"), message: nil, buttons: [logout, cancel])
         })
         .onAppear{
-            if userID != ""{
+            if idSearchResult != nil {
+                userModel.getProfileByID(id: idSearchResult!) { profile in
+                    self.userProfile = profile
+                    self.storage.getImageProfile(url: userProfile.avatarUrl) { value in
+                        self.profileImg = value
+                    }
+                }
+            }
+            else if userID != ""{
                 userModel.getProfileByID(id: userID) { profile in
                     self.userProfile = profile
+                    self.storage.getImageProfile(url: userProfile.avatarUrl) { value in
+                        self.profileImg = value
+                    }
                 }
             }
         }
+        .navigationTitle("Profile")
+        .navigationBarItems(
+            leading:
+            
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+                DispatchQueue.main.async {
+                    hideTabBar = false
+                }
+            }, label: {
+                HStack(spacing: 3){
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.blue)
+                        .font(Font.system(size: 16, weight: .semibold))
+                    Text("\(idSearchResult != nil ? "Search" : "Home")")
+                        .foregroundColor(.blue)
+                }
+            })
+        )
+        .navigationBarBackButtonHidden(true)
     }
     
 }
@@ -130,7 +191,7 @@ extension ProfileView {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView().environmentObject(AuthViewModel())
+        ProfileView(idSearchResult: nil, hideTabBar: .constant(false)).environmentObject(AuthViewModel())
     }
 }
 

@@ -10,17 +10,23 @@ import Combine
 import UIKit
 
 struct ChatView: View {
-    var friendRoom: RoomDetailModel
+    
+    @AppStorage("currentUser") var user = ""
+    @AppStorage("userID") var userID = ""
+    
     @EnvironmentObject var storage: StorageViewModel
     @State var message: String = ""
     @StateObject var chat = ChatViewModel()
     @State var allMessages: [ChatModel] = []
     @State var isKeyBoardShow: Bool = false
-    @AppStorage("currentUser") var user = ""
-    @AppStorage("userID") var userID = ""
-    var profileImg: UIImage?
     @State var roomImg: UIImage?
-
+    @Binding var hideTabBar: Bool
+    
+    var profileImg: UIImage?
+    var friendRoom: RoomDetailModel
+    
+    @Environment (\.presentationMode) var presentationMode
+    
     var body: some View {
         VStack{
             ScrollViewReader { scrollView in
@@ -36,13 +42,13 @@ struct ChatView: View {
                             scrollView.scrollTo(allMessages[allMessages.endIndex - 1])
                         }
                     })
-                    .onChange(of: isKeyBoardShow, perform: { _ in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            if(!allMessages.isEmpty){
-                                scrollView.scrollTo(allMessages[allMessages.endIndex - 1])
+                        .onChange(of: isKeyBoardShow, perform: { _ in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                if(!allMessages.isEmpty){
+                                    scrollView.scrollTo(allMessages[allMessages.endIndex - 1])
+                                }
                             }
-                        }
-                    })
+                        })
                 })
             }.padding(.bottom, 5)
             
@@ -88,6 +94,25 @@ struct ChatView: View {
             NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
         }
         .navigationBarTitle("\(friendRoom.name)", displayMode: .inline)
+        .navigationBarItems(
+            leading:
+            
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+                DispatchQueue.main.async {
+                    hideTabBar = false
+                }
+            }, label: {
+                HStack(spacing: 3){
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.blue)
+                        .font(Font.system(size: 16, weight: .semibold))
+                    Text("Chats")
+                        .foregroundColor(.blue)
+                }
+            })
+        )
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -97,7 +122,7 @@ struct ChatView: View {
 struct ChatView_Previews: PreviewProvider {
     static var room = RoomDetailModel(roomID: "dsadsad", name: "VIP", friendId: "")
     static var previews: some View {
-        ChatView(friendRoom: room).environmentObject(StorageViewModel())
+        ChatView(hideTabBar: .constant(false), friendRoom: room).environmentObject(StorageViewModel())
     }
 }
 
