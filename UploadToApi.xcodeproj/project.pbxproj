@@ -10,9 +10,7 @@
 		3D366B2126BA2DC200AE668A /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2026BA2DC200AE668A /* ImagePicker.swift */; };
 		3D366B2526BA2F8100AE668A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2426BA2F8100AE668A /* ProfileView.swift */; };
 		3D366B2726BA386E00AE668A /* StorageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2626BA386E00AE668A /* StorageViewModel.swift */; };
-		3D366B2A26BA6C0700AE668A /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3D366B2926BA6C0700AE668A /* FacebookLogin */; };
 		3D366B2C26BA6F3B00AE668A /* LoginFBButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2B26BA6F3B00AE668A /* LoginFBButton.swift */; };
-		3D366B2E26BA7B7A00AE668A /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3D366B2D26BA7B7A00AE668A /* FacebookCore */; };
 		3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B2F26BB7D4200AE668A /* ResetPasswordView.swift */; };
 		3D366B3226BB861000AE668A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3D366B3126BB861000AE668A /* .gitignore */; };
 		3D366B3726BE0E4300AE668A /* RealtimeDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D366B3626BE0E4300AE668A /* RealtimeDatabase.swift */; };
@@ -128,8 +126,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D366B2A26BA6C0700AE668A /* FacebookLogin in Frameworks */,
-				3D366B2E26BA7B7A00AE668A /* FacebookCore in Frameworks */,
 				9C4CF25913011B7D2413CF2D /* Pods_UploadToApi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +215,7 @@
 		3D99A1A526F2D1DD0066DBFE /* Middleware */ = {
 			isa = PBXGroup;
 			children = (
+				3D366B4626C34C8500AE668A /* PushNotification.swift */,
 				3D99A1A826F2D2080066DBFE /* Reachability.swift */,
 			);
 			path = Middleware;
@@ -303,7 +300,6 @@
 				3D366B2626BA386E00AE668A /* StorageViewModel.swift */,
 				3D366B3626BE0E4300AE668A /* RealtimeDatabase.swift */,
 				3D366B3A26BF5BE500AE668A /* ChatViewModel.swift */,
-				3D366B4626C34C8500AE668A /* PushNotification.swift */,
 				3D79F6AD26C9F829009F2ADF /* UserViewModel.swift */,
 				3D7227B226EF364700C3DF47 /* RoomViewModel.swift */,
 				3D84F16926FAB4C900806622 /* NotifyViewModel.swift */,
@@ -347,8 +343,6 @@
 			);
 			name = UploadToApi;
 			packageProductDependencies = (
-				3D366B2926BA6C0700AE668A /* FacebookLogin */,
-				3D366B2D26BA7B7A00AE668A /* FacebookCore */,
 			);
 			productName = UploadToApi;
 			productReference = 3DAEA54526B7779F009187B9 /* UploadToApi.app */;
@@ -711,19 +705,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3D366B2926BA6C0700AE668A /* FacebookLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3D366B2826BA6C0700AE668A /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
-			productName = FacebookLogin;
-		};
-		3D366B2D26BA7B7A00AE668A /* FacebookCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3D366B2826BA6C0700AE668A /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
-			productName = FacebookCore;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3DAEA53D26B7779F009187B9 /* Project object */;
 }

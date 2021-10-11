@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SearchContent: View {
+    @AppStorage("userID") var userID = ""
+    
     @State private var searchResults:[SearchModel] = []
     @Binding var text: String
     @State private var isActive: Bool = false
@@ -38,19 +40,21 @@ struct SearchContent: View {
                         Text("See all")
                             .foregroundColor(.blue)
                     }
-
+                    
                 }.padding(.horizontal)
                 
                 LazyVStack{
                     ForEach(searchResults.filter { text.isEmpty ? true : $0.keyword.lowercased().contains(text.lowercased()) }, id: \.self){searchResult in
-                        Button {
-                            DispatchQueue.main.async {
-                                hideTabBar = true
+                        if searchResult.id != userID {
+                            Button {
+                                DispatchQueue.main.async {
+                                    hideTabBar = true
+                                }
+                                isActive.toggle()
+                                selectedsearchResult = searchResult
+                            } label: {
+                                SearchCard(searchResult: searchResult, searchResults: $searchResults)
                             }
-                            isActive.toggle()
-                            selectedsearchResult = searchResult 
-                        } label: {
-                            SearchCard(searchResult: searchResult, searchResults: $searchResults)
                         }
                     }
                 }
@@ -61,7 +65,7 @@ struct SearchContent: View {
                     label: {
                         EmptyView()
                     })
-
+                
             }
         }
         .onChange(of: text) { newValue in

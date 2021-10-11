@@ -11,16 +11,16 @@ import FirebaseFirestoreSwift
 struct ChatModel: Identifiable, Codable, Hashable {
     
     @DocumentID var id: String?
-    var name: String
     var user: User
     var message: String
     var date: Date
+    var seen: Bool
     
     enum CodingKeys: String, CodingKey {
-        case name
         case user
         case message
         case date
+        case seen
     }
 }
 

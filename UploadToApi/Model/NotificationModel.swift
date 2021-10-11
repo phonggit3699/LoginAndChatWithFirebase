@@ -12,24 +12,17 @@ enum TypeNotification {
     case normalNotification
 }
 
-struct NotificationModel:Identifiable, Codable {
+struct NotificationModel: Identifiable, Codable, Hashable{
     var id: String
-    var content: [NotificationContent]
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case content
-    }
-}
-
-struct NotificationContent: Identifiable, Codable{
-    var id = UUID().uuidString
     var title: String
     var message: String
     var seen: Bool
     var type: String
     var time: Date
     var idSend: String
+    var isPress: Bool
+    var isFriend: Bool
+    var imageUrl: URL?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -39,5 +32,8 @@ struct NotificationContent: Identifiable, Codable{
         case type
         case time
         case idSend
+        case isPress
+        case isFriend
+        case imageUrl
     }
 }

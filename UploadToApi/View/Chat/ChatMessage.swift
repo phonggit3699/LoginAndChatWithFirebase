@@ -61,13 +61,4 @@ struct ChatMessage: View {
     }
 }
 
-struct ChatMessage_Previews: PreviewProvider {
-    static var chatMessage = ChatModel(id: nil, name: "VIP", user: User(id: "12345", name: "Phong"), message: "", date: Date())
-    static var allMessages = [ChatModel(id: nil, name: "VIP", user: User(id: "12345", name: "Phong"), message: "", date: Date())]
-    
-    static var previews: some View {
-        ChatMessage(chatMessage: chatMessage)
-    }
-}
-
 

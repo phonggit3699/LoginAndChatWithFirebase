@@ -77,9 +77,11 @@ struct HomeView: View {
                                     })
                                     
                                     //Navigate to ProfileView
-                                    NavigationLink(isActive: $isActive) {
-                                        ProfileView(idSearchResult: nil, hideTabBar: $hideTabBar).environmentObject(authVM)
-                                    } label: {
+                                    NavigationLink(
+                                        destination:
+                                            ProfileView(idSearchResult: nil, hideTabBar: $hideTabBar).environmentObject(authVM),
+                                        isActive: $isActive)
+                                    {
                                         EmptyView()
                                     }
                                     
@@ -87,15 +89,15 @@ struct HomeView: View {
                             ,
                             trailing:
                                 //Show setting
-                            Button(action: {
-                                showSheet.toggle()
-                            }, label: {
-                                Image(systemName: "gearshape")
-                                    .resizable()
-                                    .foregroundColor(self.colorScheme == .dark ? .white : .black)
-                                    .clipShape(Circle())
-                                    .frame(width: 25, height: 25)
-                            })
+                                Button(action: {
+                                    showSheet.toggle()
+                                }, label: {
+                                    Image(systemName: "gearshape")
+                                        .resizable()
+                                        .foregroundColor(self.colorScheme == .dark ? .white : .black)
+                                        .clipShape(Circle())
+                                        .frame(width: 25, height: 25)
+                                })
                         )
                     }
                     //Custom Tab Bar
@@ -108,25 +110,39 @@ struct HomeView: View {
                         
                         ,alignment: .bottom
                     )
+                    
                     //Custom bottom sheet
                     FlexibleSheet(showSheet: $showSheet) {
                         SettingView()
                     }.zIndex(2)
+                    
                 }
                 .transition(.move(edge: .trailing))
                 .onAppear{
                     
+                    // setup for push notification
+                    NotificationVM.setUpPushNotificationLocal()
+                    
                     if userID != "" {
+                        
                         NotificationVM.countNotification(id: userID)
                         
                         storageVM.getImageProfile(url: userPhotoURL) { image in
                             self.profileImg = image
                         }
+                        
                     }else {
                         authVM.logout()
                     }
                     
+                    hideTabBar = false
+                    
                 }
+                .onChange(of: NotificationVM.countNewNotification, perform: { newValue in
+                    if newValue > 0 {
+                        NotificationVM.createNotificationLocal(title: "Test", subTitle: "Test")
+                    }
+                })
                 .onChange(of: showSheet) { value in
                     hideTabBar = value
                 }

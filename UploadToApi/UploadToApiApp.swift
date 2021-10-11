@@ -42,20 +42,8 @@ class Delegate: NSObject, UIApplicationDelegate{
             didFinishLaunchingWithOptions: launchOptions
         )
         
-        //TODO: Setup push notifications
-        if #available(iOS 10.0, *) {
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: { _, _ in }
-            )
-        } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
+        // register for local notications
+        
         application.registerForRemoteNotifications()
         
         //TODO: Register Background Tasks to Update Your App
@@ -103,30 +91,14 @@ class Delegate: NSObject, UIApplicationDelegate{
         }
         
     }
-}
-
-//TODO: Push notifications
-extension Delegate: UNUserNotificationCenterDelegate{
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        let userInfo = notification.request.content.userInfo
-        // Print full message.
-        print(userInfo)
-        completionHandler([.badge, .banner, .sound])
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print(error.localizedDescription)
     }
     
-    //listening to action
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        if response.actionIdentifier == "REPLY" {
-            print("reply ...")
-            
-        }
-        let userInfo = response.notification.request.content.userInfo
-        
-        print(userInfo)
-        completionHandler()
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print(deviceToken)
     }
-    
 }
 
 //TODO: Using Background Tasks to Update Your App
@@ -135,7 +107,7 @@ extension Delegate {
     func scheduleAppRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "pp.UploadToApi.refresh")
         // Fetch no earlier than 15 minutes from now.
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 1 * 60)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
         
         do {
             try BGTaskScheduler.shared.submit(request)

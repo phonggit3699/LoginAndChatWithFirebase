@@ -23,7 +23,7 @@ struct ChatView: View {
     @Binding var hideTabBar: Bool
     
     var profileImg: UIImage?
-    var friendRoom: RoomDetailModel
+    var friendRoom: RoomModel
     
     @Environment (\.presentationMode) var presentationMode
     
@@ -61,7 +61,8 @@ struct ChatView: View {
                 Button(action: {
                     withAnimation(){
                         if message != "" {
-                            chat.sendMessage(chat: ChatModel(id: nil, name: user, user: User(id: userID, name: user), message: message, date: Date()), room: friendRoom.roomID)
+                            let newChat =  ChatModel(id: nil, user: User(id: userID, name: user), message: message, date: Date(), seen: false)
+                            chat.sendMessage(chat: newChat, roomId: friendRoom.id)
                             self.message = ""
                         }
                     }
@@ -72,7 +73,7 @@ struct ChatView: View {
         }
         .onAppear{
             DispatchQueue.global(qos: .background).async {
-                chat.getMessage(room: friendRoom.roomID) { mess in
+                chat.getMessage(roomId: friendRoom.id) { mess in
                     self.allMessages = mess
                 }
                 
@@ -116,13 +117,4 @@ struct ChatView: View {
     }
 }
 
-
-
-
-struct ChatView_Previews: PreviewProvider {
-    static var room = RoomDetailModel(roomID: "dsadsad", name: "VIP", friendId: "")
-    static var previews: some View {
-        ChatView(hideTabBar: .constant(false), friendRoom: room).environmentObject(StorageViewModel())
-    }
-}
 

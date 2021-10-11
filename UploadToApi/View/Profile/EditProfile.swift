@@ -12,6 +12,7 @@ struct EditProfile: View {
     @Environment (\.presentationMode) var presentationMode
     @EnvironmentObject var userModel: UserViewModel
     @AppStorage("userID") var userID = ""
+    @AppStorage("userPhotoURL") var userPhotoURL: URL?
     @Binding var profile: UserModel
     
     let formatter: NumberFormatter = {
@@ -59,7 +60,7 @@ struct EditProfile: View {
             Spacer()
             
             Button(action: {
-                let userProfileInput = UserModel(id: self.userID, name: self.profile.name, address: self.profile.address, phone: self.profile.phone)
+                let userProfileInput = UserModel(id: self.userID, name: self.profile.name, address: self.profile.address, phone: self.profile.phone, avatarUrl: self.userPhotoURL)
                 userModel.postProfile(id: userID,user: userProfileInput)
                 presentationMode.wrappedValue.dismiss()
             }, label: {

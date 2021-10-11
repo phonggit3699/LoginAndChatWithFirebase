@@ -5,108 +5,126 @@
 //  Created by PHONG on 22/09/2021.
 //
 
-import Foundation
+import SwiftUI
 import Firebase
 
-class NotifyViewModel: ObservableObject {
+class NotifyViewModel: NSObject, ObservableObject {
     let db = Firestore.firestore()
     var ref: DocumentReference?
     @Published var countNewNotification: Int = 0
-    @Published var countNewChat: Int = 27
+    @Published var countNewChat: Int = 2
     @Published var countNewFeed: Int = 6
     
     
-    func createNotifycation(title: String, message: String, seen: Bool,type: String, time: Date, idSend: String) -> NotificationContent{
-        return NotificationContent(title: title, message: message, seen: seen,type: type, time: time, idSend: idSend)
-    }
-    
-    func updateNewNotification(id: String, newNotification: NotificationContent){
-        var notificationContent: [NotificationContent] = []
+    func addNotification(id: String, newNotification: NotificationModel){
         
-        //get previous notification
-        getNotification(id: id) { notiData in
-            notificationContent = notiData.content
-        }
-        // append new notification
-        notificationContent.append(newNotification)
-
         do {
             //Update
-            try db.collection("Notifications").document(id).setData(from: NotificationModel(id: id, content: notificationContent))
+            try self.db.collection("Notifications").document(id).collection("StoreNotification").document(newNotification.id).setData(from: newNotification)
             
-        } catch let error {
+        } catch {
             print("Error writing Notificaitons to Firestore: \(error.localizedDescription)")
         }
         
     }
     
-    func updateSeenNotification(id: String, notification: NotificationModel){
-        do {
-            //Update
-            try db.collection("Notifications").document(id).setData(from: notification)
-        } catch let error {
-            print("Error writing Notificaitons to Firestore: \(error.localizedDescription)")
+    
+    func loadNotificationImage(url: URL?, _ com: @escaping (UIImage)-> Void){
+        guard let imgURL = url else {
+            print("Url error")
+            return
+        }
+        DispatchQueue.global().async {
+            guard let data = try? Data(contentsOf: imgURL) else{
+                print("Can't get image")
+                return
+            }
+            if  let imageFromURL = UIImage(data: data){
+                DispatchQueue.main.async {
+                    com(imageFromURL)
+                }
+            }
         }
     }
     
-    func getNotification(id: String,_ com: @escaping (NotificationModel) -> Void) {
+    
+    func updateSeenNotification(id: String, idNotifi:String, message: String){
+        self.db.collection("Notifications").document(id).collection("StoreNotification")
+            .document(idNotifi).updateData(["seen" : true, "isPress" : true, "message" : message])
+    }
+    
+    func getNotification(id: String,_ com: @escaping ([NotificationModel]) -> Void) {
         
-        self.db.collection("Notifications").document(id).addSnapshotListener {[weak self] document, error in
+        self.db.collection("Notifications").document(id).collection("StoreNotification").addSnapshotListener {querySnapshot, error in
+            
             if let error = error {
-                print("Error getting documents: \(error.localizedDescription)")
+                print("Error retreiving collection: \(error.localizedDescription)")
+                return
             }
             
-            
-            if let document = document, document.exists {
-                do {
-                    var notificationData = try document.data(as: NotificationModel.self)
-                    notificationData!.content.sort { $0.time < $1.time }
-                    DispatchQueue.main.async {
-                        com(notificationData!)
-                    }
-                }catch{
-                    print(error.localizedDescription)
-                }
-                
-                
-            } else {
-                do {
-                    // create new collection Notification on Firebase
-                    try self?.db.collection("Notifications").document(id).setData(from: NotificationModel(id: id, content: []))
-                } catch let error {
-                    print("Error writing Notificaitons to Firestore: \(error.localizedDescription)")
-                }
-                print("create new collection Notification")
+            guard let data = querySnapshot else {
+                return
             }
             
+            let notificationData = data.documents.compactMap({ (doc) -> NotificationModel? in
+                return try? doc.data(as: NotificationModel.self)
+            })
+            
+            DispatchQueue.main.async {
+                com(notificationData)
+            }
         }
         
     }
     
     func countNotification(id: String) {
         
-        self.db.collection("Notifications").document(id).addSnapshotListener { document, error in
+        self.db.collection("Notifications").document(id).collection("StoreNotification").addSnapshotListener {querySnapshot, error in
+            
             if let error = error {
-                print("Error getting documents: \(error.localizedDescription)")
+                print("Error retreiving collection: \(error.localizedDescription)")
+                return
             }
             
-            
-            if let document = document, document.exists {
-                do {
-                    let notificationData = try document.data(as: NotificationModel.self)
-                    let seenNoti = notificationData!.content.filter{$0.seen == false}
-                    DispatchQueue.main.async {
-                        self.countNewNotification = seenNoti.count
-                    }
-                }catch{
-                    print(error.localizedDescription)
-                }
-                
-                
-            } else {
-                print("Document does not exist")
+            guard let data = querySnapshot else {
+                return
             }
             
+            let notificationData = data.documents.compactMap({ (doc) -> NotificationModel? in
+                return try? doc.data(as: NotificationModel.self)
+            })
+            
+            let seenNoti = notificationData.filter{$0.seen == false}
+            
+            DispatchQueue.main.async {
+                self.countNewNotification = seenNoti.count
+            }
+        }
+        
+    }
+    
+    func countNewMessage(roomId: String) {
+        
+        self.db.collection("Chats").document(roomId).collection("StoreNotification").addSnapshotListener {querySnapshot, error in
+            
+            if let error = error {
+                print("Error retreiving collection: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = querySnapshot else {
+                return
+            }
+            
+            let notificationData = data.documents.compactMap({ (doc) -> NotificationModel? in
+                return try? doc.data(as: NotificationModel.self)
+            })
+            
+            let seenNoti = notificationData.filter{$0.seen == false}
+            
+            DispatchQueue.main.async {
+                self.countNewNotification = seenNoti.count
+            }
         }
         
     }
@@ -133,5 +151,47 @@ class NotifyViewModel: ObservableObject {
 
 enum NotificationType: String{
     case normal
-    case addafriend
+    case addfriend
+}
+
+extension NotifyViewModel: UNUserNotificationCenterDelegate {
+    
+    func setUpPushNotificationLocal(){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound ,.badge]) { (_, _) in
+        }
+        
+        let close = UNNotificationAction(identifier: "CLOSE", title: "Close", options: .destructive)
+        let reply = UNNotificationAction(identifier: "REPLY", title: "Reply", options: .foreground)
+        
+        let category = UNNotificationCategory(identifier: "ACTIONS", actions: [close, reply], intentIdentifiers: [], options: [])
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        UNUserNotificationCenter.current().delegate = self
+    }
+    
+    func createNotificationLocal(title: String, subTitle: String){
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.subtitle = subTitle
+        content.categoryIdentifier = "ACTIONS"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        
+        let request = UNNotificationRequest.init(identifier: "IN-APP", content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.badge, .banner, .sound])
+    }
+    
+    // listening to action
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.actionIdentifier == "REPLY" {
+            print("reply ...")
+            
+        }
+        completionHandler()
+    }
 }

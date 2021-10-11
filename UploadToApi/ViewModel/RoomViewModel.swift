@@ -5,77 +5,93 @@
 //  Created by PHONG on 13/09/2021.
 //
 
-import Foundation
+import SwiftUI
 import Firebase
 
 class RoomViewModel: ObservableObject{
+   
+    @Published var isPending: Bool = false
+    @Published var isFriend: Bool = false
+    
+    @AppStorage("userID") var userID = ""
+    
     let db = Firestore.firestore()
     var ref: DocumentReference?
     
-    func createRoomChat(id: String){
-        let firstRoom = RoomModel(id: "", listRoom: [])
-        do {
-            try db.collection("Rooms").document(id).setData(from: firstRoom)
-        } catch let error {
-            print("Error writing city to Firestore: \(error.localizedDescription)")
-        }
-    }
     
-    func addRoomChat(id: String, newRoom: RoomDetailModel){
-        var currentRoom: [RoomDetailModel] = []
-        
-        self.getRoomChat(id: id) { room in
-            currentRoom = room.listRoom
-        }
-        
-        currentRoom.append(newRoom)
-        
-        do {
-            try db.collection("Rooms").document(id).setData(from: RoomModel(id: id, listRoom: currentRoom))
-        } catch let error {
-            print("Error writing city to Firestore: \(error.localizedDescription)")
-        }
-    }
     
-    func getRoomChat(id: String,_ com: @escaping (RoomModel) -> Void){
-        let docRef = db.collection("Rooms").document(id)
-        docRef.getDocument{[weak self]  (document, err) in
+    func addRoomChat(id: String, newRoom: RoomModel){
+       
+        do {
+            //Update
+            try self.db.collection("Rooms").document(id).collection("StoreRoom").document(newRoom.id).setData(from: newRoom)
             
-            if let err = err {
-                print("Error getting documents: \(err)")
+        } catch {
+            print("Error writing Notificaitons to Firestore: \(error.localizedDescription)")
+        }
+    }
+    
+    func getRoomChat(id: String,_ com: @escaping ([RoomModel]) -> Void){
+        self.db.collection("Rooms").document(id).collection("StoreRoom").addSnapshotListener {querySnapshot, error in
+            
+            if let error = error {
+                print("Error retreiving collection: \(error.localizedDescription)")
+                return
             }
             
-            if let document = document, document.exists {
-                do {
-                    let roomData = try document.data(as: RoomModel.self)
-                    DispatchQueue.main.async {
-                        com(roomData!)
-                    }
-                }catch{
-                    print(error.localizedDescription)
+            guard let data = querySnapshot else {
+                return
+            }
+            
+            let roomData = data.documents.compactMap({ (doc) -> RoomModel? in
+                return try? doc.data(as: RoomModel.self)
+            })
+            
+            DispatchQueue.main.async {
+                com(roomData)
+            }
+        }
+        
+    }
+
+    
+    func friendCheck(otherId: String){
+        self.db.collection("Rooms").document(userID).collection("StoreRoom").whereField("friendId", isEqualTo: otherId).getDocuments { querySnapshot, error in
+            
+            if let error = error {
+                print("Error retreiving collection: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = querySnapshot else {
+                return
+            }
+            
+            let roomData = data.documents.compactMap({ (doc) -> RoomModel? in
+                return try? doc.data(as: RoomModel.self)
+            })
+            
+            DispatchQueue.main.async {
+                if roomData.count > 0 {
+                    self.isFriend = true
+                }else{
+                    self.isFriend = false
                 }
-                
-                
-            } else {
-                self?.createRoomChat(id: id)
-                
-                print("Document does not exist")
             }
-            
         }
     }
     
-    func saveRoom(room: RoomModel){
+    func saveRoom(room: [RoomModel]){
         guard let saveRoom = try? PropertyListEncoder().encode(room) else {
             return
         }
         UserDefaults.standard.set(saveRoom, forKey: "saveRooms")
     }
     
-    func getRoomLocal(_ com: @escaping (RoomModel) -> Void){
+    func getRoomLocal(_ com: @escaping ([RoomModel]) -> Void){
         guard let roomData = UserDefaults.standard.value(forKey: "saveRooms") as? Data else { return }
         
-        if let room = try? PropertyListDecoder().decode(RoomModel.self, from: roomData){
+        if let room = try? PropertyListDecoder().decode([RoomModel].self, from: roomData){
             DispatchQueue.main.async {
                 com(room)
                 

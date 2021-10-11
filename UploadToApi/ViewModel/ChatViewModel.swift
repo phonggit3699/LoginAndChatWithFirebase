@@ -12,19 +12,19 @@ class ChatViewModel: ObservableObject{
     let db = Firestore.firestore()
     var docRef: DocumentReference?
     
-    func sendMessage(chat: ChatModel, room: String) {
+    func sendMessage(chat: ChatModel, roomId: String) {
         
         do {
             
-            try docRef = db.collection(room).addDocument(from: chat)
-        } catch let error {
-            print("Error writing city to Firestore: \(error.localizedDescription)")
+            self.docRef = try self.db.collection("Chats").document(roomId).collection("StoreChat").addDocument(from: chat)
+        } catch{
+            print("Error send message: \(error.localizedDescription)")
         }
     }
     
-    func getMessage(room: String,_ com: @escaping ([ChatModel]) -> Void) {
-
-        self.db.collection(room).order(by: "date").addSnapshotListener { querySnapshot, error in
+    func getMessage(roomId: String,_ com: @escaping ([ChatModel]) -> Void) {
+        
+        self.db.collection("Chats").document(roomId).collection("StoreChat").order(by: "date").addSnapshotListener {querySnapshot, error in
             if let error = error {
                 print("Error retreiving collection: \(error.localizedDescription)")
                 return
@@ -47,10 +47,8 @@ class ChatViewModel: ObservableObject{
         
     }
     
-    func getLastMessage(roomDetail: RoomDetailModel,_ com: @escaping ([ChatModel]) -> Void){
-        let docRef = db.collection(roomDetail.roomID).order(by: "date", descending: true).limit(to: 1)
-        
-        docRef.addSnapshotListener { querySnapshot, error in
+    func getLastMessage(roomId: String,_ com: @escaping ([ChatModel]) -> Void){
+        self.db.collection("Chats").document(roomId).collection("StoreChat").order(by: "date", descending: true).limit(to: 1).addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -68,15 +66,11 @@ class ChatViewModel: ObservableObject{
             DispatchQueue.main.async {
                 com(chatData)
             }
-
+            
         }
-        
-        
-       
-        
         
     }
     
-   
+    
     
 }

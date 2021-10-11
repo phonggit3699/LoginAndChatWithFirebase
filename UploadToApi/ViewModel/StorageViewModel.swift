@@ -73,9 +73,9 @@ class StorageViewModel: ObservableObject{
                 print("Can't get image")
                 return
             }
-            if  let imageFromOnline = UIImage(data: data){
+            if  let imageFromURL = UIImage(data: data){
                 DispatchQueue.main.async {
-                    com(imageFromOnline)
+                    com(imageFromURL)
                 }
             }
         }

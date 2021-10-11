@@ -16,6 +16,7 @@ struct ProfileView: View {
     @ObservedObject var storage = StorageViewModel()
     @ObservedObject var userModel = UserViewModel()
     @ObservedObject var notificationVM = NotifyViewModel()
+    @ObservedObject var roomVM = RoomViewModel()
     
     @State var editProfile: Bool = false
     @State var showImagePicker = false
@@ -66,7 +67,7 @@ struct ProfileView: View {
                 }
                 
                 //TODO: Detail profile component
-                VStack{
+                VStack(spacing: 20){
                     Text("\(self.userProfile.name)")
                         .font(.title)
                         .fontWeight(.bold)
@@ -77,9 +78,11 @@ struct ProfileView: View {
                     Text("Phone \(self.userProfile.phone)")
                         .foregroundColor(.gray)
                 }
+                // check result of search to hide button logout and show button add friend
                 if idSearchResult == nil {
                     Button(action: {
                         self.showActionSheet.toggle()
+                      
                     }, label: {
                         Text("Log out")
                             .foregroundColor(Color.red)
@@ -91,19 +94,29 @@ struct ProfileView: View {
                             .background(Rectangle().stroke(Color.gray, lineWidth: 1))
                     }).padding()
                 }else{
-                    Button(action: {
-                        let newNotifi = notificationVM.createNotifycation(title: user, message: "Da gui loi moi ket ban", seen: false, type: NotificationType.addafriend.rawValue, time: Date(), idSend: userID)
-                        notificationVM.updateNewNotification(id: idSearchResult!, newNotification: newNotifi)
-                    }, label: {
-                        Text("Add friend")
-                            .foregroundColor(Color.red)
-                            .font(.title3)
-                            .fontWeight(.semibold)
+                    ZStack{
+                        if roomVM.isFriend == true {
+                            Text("Friend")
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color("mainBg"))
+                        }else{
+                            Button(action: {
+                                let newNotifi = NotificationModel(id: UUID().uuidString,title: user, message: "Friend request", seen: false, type: NotificationType.addafriend.rawValue, time: Date(), idSend: userID, isPress: false, isFriend: false, imageUrl: userPhotoURL)
+                                notificationVM.addNotification(id: idSearchResult!, newNotification: newNotifi)
+                                roomVM.isPending.toggle()
+                            }, label: {
+                                Text(roomVM.isPending == true ? "Pending" : "Add friend")
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .padding(5)
+                                    .padding(.horizontal, 10)
+                                    .background(Color("mainBg"))
+                                    .cornerRadius(5)
+                            })
                             .padding()
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Rectangle().stroke(Color.gray, lineWidth: 1))
-                    }).padding()
+                            .disabled(roomVM.isPending)
+                        }
+                    }
                 }
                 
             })
@@ -132,6 +145,8 @@ struct ProfileView: View {
         .actionSheet(isPresented: $showActionSheet, content: {
             let logout = ActionSheet.Button.default(Text("Logout")) {
                 self.auth.logout()
+                self.presentationMode.wrappedValue.dismiss()
+                self.hideTabBar = false
             }
             
             let cancel = ActionSheet.Button.cancel(Text("Cancel")) {
@@ -149,6 +164,8 @@ struct ProfileView: View {
                         self.profileImg = value
                     }
                 }
+                
+                roomVM.friendCheck(otherId: idSearchResult!)
             }
             else if userID != ""{
                 userModel.getProfileByID(id: userID) { profile in
@@ -158,25 +175,27 @@ struct ProfileView: View {
                     }
                 }
             }
+            
+            
         }
         .navigationTitle("Profile")
         .navigationBarItems(
             leading:
-            
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-                DispatchQueue.main.async {
-                    hideTabBar = false
-                }
-            }, label: {
-                HStack(spacing: 3){
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.blue)
-                        .font(Font.system(size: 16, weight: .semibold))
-                    Text("\(idSearchResult != nil ? "Search" : "Home")")
-                        .foregroundColor(.blue)
-                }
-            })
+                
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                    DispatchQueue.main.async {
+                        hideTabBar = false
+                    }
+                }, label: {
+                    HStack(spacing: 3){
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.blue)
+                            .font(Font.system(size: 16, weight: .semibold))
+                        Text("\(idSearchResult != nil ? "Search" : "Home")")
+                            .foregroundColor(.blue)
+                    }
+                })
         )
         .navigationBarBackButtonHidden(true)
     }

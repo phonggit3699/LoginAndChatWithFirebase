@@ -38,11 +38,11 @@ struct TabViewButton: View {
                     
                     Image(systemName: selectionTab == content.label ? content.systemImage2 : content.systemImage1)
                         .resizable()
-                        .foregroundColor(selectionTab == content.label ? .blue : .gray)
+                        .foregroundColor(selectionTab == content.label ? Color("mainBg") : .gray)
                         .frame(width: 25, height: 25)
                     
                     
-                    //badge
+                    // badge, count new
                     switch content.typeBadge {
                     case "chat":
                         if notificationVM.countNewChat > 0 {
@@ -86,7 +86,7 @@ struct TabViewButton: View {
                 
                 Text(content.label)
                     .font(.caption2)
-                    .foregroundColor(selectionTab == content.label ? .blue : .gray)
+                    .foregroundColor(selectionTab == content.label ? Color("mainBg") : .gray)
             }
         }
     }

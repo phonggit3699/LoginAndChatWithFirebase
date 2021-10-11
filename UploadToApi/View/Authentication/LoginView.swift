@@ -28,191 +28,204 @@ struct LoginView: View {
                 }
                 else{
                     
-                    VStack {
-                        //username field
-                        TextField("Email", text: $username)
-                            .foregroundColor(.white)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal)
-                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.username != "" || self.isTabFieldUsername ? Color.white: Color.gray, lineWidth: 1))
-                            .padding(.horizontal)
-                            .onTapGesture {
-                                self.isTabFieldUsername.toggle()
-                                self.isTabFieldPassword = false
-                            }.padding(.top, 10)
+                    VStack{
+                        // Logo
+                        Image("Circle-icons")
+                            .resizable()
+                            .foregroundColor(.gray)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
                         
-                        // Password field
-                        ZStack{
-                            if self.showPassword {
-                                TextField("Password", text: $password)
-                                    .foregroundColor(.white)
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal)
-                                    .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" || self.isTabFieldPassword ? Color.white: Color.gray, lineWidth: 1))
-                                    .onTapGesture {
-                                        self.isTabFieldPassword.toggle()
-                                        self.isTabFieldUsername = false
-                                    }
-                            }else{
-                                SecureField("Password", text: $password)
-                                    .foregroundColor(.white)
-                                    .padding(.vertical, 10)
-                                    .padding(.horizontal)
-                                    .background(RoundedRectangle(cornerRadius: 4).stroke(self.password !=  "" || self.isTabFieldPassword ? Color.white: Color.gray, lineWidth: 1))
-                                    .onTapGesture {
-                                        self.isTabFieldPassword.toggle()
-                                        self.isTabFieldUsername = false
-                                    }
-                            }
+                        
+                        VStack {
+                            //username field
+                            TextField("Email", text: $username)
+                                .foregroundColor(.white)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal)
+                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.username != "" || self.isTabFieldUsername ? Color.white: Color.gray, lineWidth: 1))
+                                .padding(.horizontal)
+                                .onTapGesture {
+                                    self.isTabFieldUsername.toggle()
+                                    self.isTabFieldPassword = false
+                                }.padding(.top, 10)
                             
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    self.showPassword.toggle()
-                                }, label: {
-                                    Image(systemName: self.showPassword ? "eye.slash.fill" : "eye.fill")
-                                        .foregroundColor(self.password != "" || self.isTabFieldPassword ? Color.white: Color.gray)
-                                }).padding(.trailing, 5)
-                            }
-                        }.padding(.horizontal)
-                        .padding(.top, 10)
-                        
-                        HStack{
-                            //TODO: Button Create account
-                            Button(action: {
-                                self.isCreateAccount.toggle()
-                            }, label: {
-                                Text("Create new account")
-                                    .font(.subheadline)
-                                    .foregroundColor(colorScheme == .dark ? .white : .gray)
-                            })
-                            
-                            Spacer()
-                            //TODO: Button forgot pass
-                            Button(action: {
-                                self.isResetPassword.toggle()
-                            }, label: {
-                                Text("Forgot password ?")
-                                    .font(.subheadline)
-                                    .foregroundColor(colorScheme == .dark ? .white : .gray)
-                            })
-                        }.padding(.horizontal)
-                        .padding(.top, 10)
-                        
-                        
-                        //TODO: Button login by account
-                        Button(action: {
-                            auth.showProgress = true
-                            auth.login(email: self.username, password: self.password)
-                        }, label: {
-                            HStack {
-                                Spacer()
-                                Text("Login")
-                                    .foregroundColor(self.password != "" && self.username != "" ? Color.white: Color.gray)
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                                    .padding()
-                                    .frame(width: 150, height: 50)
-                                    .background(Capsule().fill(Color("buttonLoginColor")))
-                                Spacer()
-                            }
-                        }).disabled(self.password == "" || self.username == "")
-                        .padding(.top, 10)
-                        
-                        //TODO: Button Remember user
-                        Button(action: {
-                            withAnimation {
-                                isRemember.toggle()
-                            }
-                        }, label: {
-                            HStack{
-                                Image(systemName: isRemember ? "checkmark.square" : "square")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(colorScheme == .dark ? .white : .gray)
+                            // Password field
+                            ZStack{
+                                if self.showPassword {
+                                    TextField("Password", text: $password)
+                                        .foregroundColor(.white)
+                                        .padding(.vertical, 10)
+                                        .padding(.horizontal)
+                                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" || self.isTabFieldPassword ? Color.white: Color.gray, lineWidth: 1))
+                                        .onTapGesture {
+                                            self.isTabFieldPassword.toggle()
+                                            self.isTabFieldUsername = false
+                                        }
+                                }else{
+                                    SecureField("Password", text: $password)
+                                        .foregroundColor(.white)
+                                        .padding(.vertical, 10)
+                                        .padding(.horizontal)
+                                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password !=  "" || self.isTabFieldPassword ? Color.white: Color.gray, lineWidth: 1))
+                                        .onTapGesture {
+                                            self.isTabFieldPassword.toggle()
+                                            self.isTabFieldUsername = false
+                                        }
+                                }
                                 
-                                Text("Remember Me")
-                                    .foregroundColor(colorScheme == .dark ? .white : .gray)
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        self.showPassword.toggle()
+                                    }, label: {
+                                        Image(systemName: self.showPassword ? "eye.slash.fill" : "eye.fill")
+                                            .foregroundColor(self.password != "" || self.isTabFieldPassword ? Color.white: Color.gray)
+                                    }).padding(.trailing, 5)
+                                }
+                            }.padding(.horizontal)
+                            .padding(.top, 10)
+                            
+                            HStack{
+                                //TODO: Button Create account
+                                Button(action: {
+                                    self.isCreateAccount.toggle()
+                                }, label: {
+                                    Text("Create new account")
+                                        .font(.subheadline)
+                                        .foregroundColor(colorScheme == .dark ? .white : .gray)
+                                })
+                                
+                                Spacer()
+                                //TODO: Button forgot pass
+                                Button(action: {
+                                    self.isResetPassword.toggle()
+                                }, label: {
+                                    Text("Forgot password ?")
+                                        .font(.subheadline)
+                                        .foregroundColor(colorScheme == .dark ? .white : .gray)
+                                })
+                            }.padding(.horizontal)
+                            .padding(.top, 10)
+                            
+                            
+                            //TODO: Button login by account
+                            Button(action: {
+                                auth.showProgress = true
+                                auth.login(email: self.username, password: self.password)
+                            }, label: {
+                                HStack {
+                                    Spacer()
+                                    Text("Login")
+                                        .foregroundColor(self.password != "" && self.username != "" ? Color.white: Color.gray)
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                        .padding()
+                                        .frame(width: 150, height: 50)
+                                        .background(Capsule().fill(Color("buttonLoginColor")))
+                                    Spacer()
+                                }
+                            }).disabled(self.password == "" || self.username == "")
+                            .padding(.top, 10)
+                            
+                            //TODO: Button Remember user
+                            Button(action: {
+                                withAnimation {
+                                    isRemember.toggle()
+                                }
+                            }, label: {
+                                HStack{
+                                    Image(systemName: isRemember ? "checkmark.square" : "square")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundColor(colorScheme == .dark ? .white : .gray)
+                                    
+                                    Text("Remember Me")
+                                        .foregroundColor(colorScheme == .dark ? .white : .gray)
+                                }
+                                
+                            })
+                            .padding(.top, 10)
+                            .onChange(of: isRemember) { value in
+                                if value {
+                                    rememberMe = true
+                                }else{
+                                    rememberMe = false
+                                }
                             }
                             
-                        })
-                        .padding(.top, 10)
-                        .onChange(of: isRemember) { value in
-                            if value {
-                                rememberMe = true
-                            }else{
-                                rememberMe = false
-                            }
+                            // TODO: Login with GG btn
+                            Button(action: {
+                                auth.showProgress = true
+                                auth.sighInWithGoogle()
+                            }, label: {
+                                ZStack {
+                                    HStack(alignment: .center) {
+                                        Image("google")
+                                            .resizable()
+                                            .frame(width: 30, height: 30, alignment: .center)
+                                            .padding(.leading, 5)
+                                        Spacer()
+                                        
+                                    }
+                                    Text("Continue with Google")
+                                        .font(.subheadline)
+                                        .foregroundColor(.black)
+                                        .padding()
+                                }.background(Color.white.cornerRadius(3))
+                            })
+                            .padding(.vertical, 10)
+                            .frame(height: 60)
+                            
+                            // TODO: Login with FB btn
+                            Button(action: {
+                                auth.showProgress = true
+                                auth.signInWithFaceBook()
+                            }, label: {
+                                ZStack {
+                                    HStack(alignment: .center) {
+                                        Image("facebook")
+                                            .resizable()
+                                            .frame(width: 30, height: 30, alignment: .center)
+                                            .padding(.leading, 5)
+                                        Spacer()
+                                        
+                                    }
+                                    Text("Continue with Facebook")
+                                        .font(.subheadline)
+                                        .foregroundColor(.white)
+                                        .padding()
+                                }.background(Color.blue.cornerRadius(3))
+                                
+                            }).padding(.vertical, 10)
+                            .frame(height: 60)
+                            
+                            //Link to SignIn View
+                            NavigationLink(
+                                destination: SignInView(),
+                                isActive: self.$isCreateAccount,
+                                label: {
+                                    EmptyView()
+                                })
+                            
+                            //Link to Reset Password View
+                            NavigationLink(
+                                destination: ResetPasswordView().environmentObject(auth),
+                                isActive: self.$isResetPassword,
+                                label: {
+                                    EmptyView()
+                                })
+                            
                         }
-                        
-                        // TODO: Login with GG btn
-                        Button(action: {
-                            auth.showProgress = true
-                            auth.sighInWithGoogle()
-                        }, label: {
-                            ZStack {
-                                HStack(alignment: .center) {
-                                    Image("google")
-                                        .resizable()
-                                        .frame(width: 30, height: 30, alignment: .center)
-                                        .padding(.leading, 5)
-                                    Spacer()
-                                    
-                                }
-                                Text("Continue with Google")
-                                    .font(.subheadline)
-                                    .foregroundColor(.black)
-                                    .padding()
-                            }.background(Color.white.cornerRadius(3))
-                        })
-                        .padding(.vertical, 10)
-                        .frame(height: 60)
-                        
-                        // TODO: Login with FB btn
-                        Button(action: {
-                            auth.showProgress = true
-                            auth.signInWithFaceBook()
-                        }, label: {
-                            ZStack {
-                                HStack(alignment: .center) {
-                                    Image("facebook")
-                                        .resizable()
-                                        .frame(width: 30, height: 30, alignment: .center)
-                                        .padding(.leading, 5)
-                                    Spacer()
-                                    
-                                }
-                                Text("Continue with Facebook")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }.background(Color.blue.cornerRadius(3))
-                            
-                        }).padding(.vertical, 10)
-                        .frame(height: 60)
-                        
-                        //Link to SignIn View
-                        NavigationLink(
-                            destination: SignInView(),
-                            isActive: self.$isCreateAccount,
-                            label: {
-                                EmptyView()
-                            })
-                        
-                        //Link to Reset Password View
-                        NavigationLink(
-                            destination: ResetPasswordView().environmentObject(auth),
-                            isActive: self.$isResetPassword,
-                            label: {
-                                EmptyView()
-                            })
-                        
+                        .padding()
+                        .background(Color.white.opacity(0.2).clipShape(RoundedRectangle.init(cornerRadius: 15)))
                     }
-                    .padding()
-                    .background(Color.white.opacity(0.2).clipShape(RoundedRectangle.init(cornerRadius: 15)))
                 }
                 
-            }.navigationTitle("Login")
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(true)
             .padding()
             .padding(.top, 50)
             .frame(maxWidth: .infinity, maxHeight: .infinity)

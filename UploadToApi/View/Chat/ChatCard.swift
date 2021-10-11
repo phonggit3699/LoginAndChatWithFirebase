@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ChatCard: View {
-    var room: RoomDetailModel
+    var room: RoomModel
     @EnvironmentObject var storage: StorageViewModel
     @Environment(\.colorScheme) var colorScheme
     @State var roomImg: UIImage?
     @ObservedObject var chat = ChatViewModel()
-    @State var newMessage: String = ""
+    @State var lastMessage: String = ""
     @AppStorage("userID") var userID = ""
     
-    init(room: RoomDetailModel){
+    init(room: RoomModel){
         self.room = room
     }
     
@@ -49,7 +49,7 @@ struct ChatCard: View {
                     .fontWeight(.bold)
                     .foregroundColor( colorScheme == .light ? .black : .white )
                 
-                Text(newMessage)
+                Text(lastMessage)
                     .foregroundColor(.gray)
                     .lineLimit(1)
             }
@@ -63,19 +63,16 @@ struct ChatCard: View {
                 self.roomImg = img
             }
             
-            chat.getLastMessage(roomDetail: room) { mgs in
+            chat.getLastMessage(roomId: room.id) { mgs in
                 if mgs.isEmpty == false {
                     if mgs[0].user.id == userID {
-                        self.newMessage = "You: " + mgs[0].message
+                        self.lastMessage = "You: " + mgs[0].message
                     }else{
-                        self.newMessage = mgs[0].message
+                        self.lastMessage = mgs[0].message
                     }
                     
                 }
             }
-            
-            
-            
         }
         .frame(maxWidth: .infinity)
         .frame(height: 60)
@@ -83,8 +80,3 @@ struct ChatCard: View {
     }
 }
 
-struct ChatCard_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatCard(room: RoomDetailModel(roomID: "", name: "", friendId: "",roomImgUrl: nil)).environmentObject(StorageViewModel())
-    }
-}

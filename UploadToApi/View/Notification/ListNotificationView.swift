@@ -12,7 +12,7 @@ struct ListNotificationView: View {
     
     @ObservedObject var NotificationVM: NotifyViewModel
     
-    @State private var notification: NotificationModel?
+    @State private var notifications: [NotificationModel]?
     
     
     var body: some View {
@@ -20,46 +20,28 @@ struct ListNotificationView: View {
         VStack{
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(spacing: 5){
-                    if notification != nil {
-                        ForEach(notification!.content){ noti in
+                    if notifications != nil {
+                        ForEach(notifications!, id: \.self){ noti in
                             Button {
                                 print("navigate")
                             } label: {
-                                NotificationCard(notification: noti)
+                                NotificationCard(notification: noti).environmentObject(NotificationVM)
                             }
 
-                        
+
                         }
                     }
-                    
+
                 }
-//                if selectedRoom != nil{
-//                    NavigationLink(
-//                        destination: ChatView(friendRoom: selectedRoom!, profileImg: self.profileImg).environmentObject(storage),
-//                        isActive: $isActive,
-//                        label: {
-//                            EmptyView()
-//
-//                        })
-//                }
             }
 
         }.padding()
         .onAppear{
-            if userID != ""{
-                NotificationVM.getNotification(id: userID) {value in
-                    self.notification = value
+            if userID != "" {
+                NotificationVM.getNotification(id: userID) { notificationDatas in
+                    self.notifications = notificationDatas
                 }
-            }
-        }
-        .onDisappear{
-            if let notification  = notification {
-                let seenNotification = notification.content.map { value in
-                    return NotificationContent (title: value.title, message: value.message, seen: true, type: value.type, time: value.time, idSend: userID)
-                }
-                
-                NotificationVM.updateSeenNotification(id: userID, notification: NotificationModel(id: userID, content: seenNotification))
-            }
+            }  
         }
     }
 }

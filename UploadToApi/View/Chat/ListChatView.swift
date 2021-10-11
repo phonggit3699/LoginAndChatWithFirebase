@@ -14,10 +14,10 @@ struct ListChatView: View {
     @StateObject var roomModel = RoomViewModel()
     
     @Binding var profileImg: UIImage?
-    @State private var room: RoomModel?
+    @State private var room: [RoomModel]?
     @State var isActive: Bool = false
     @Binding var hideTabBar: Bool
-    @State var selectedRoom: RoomDetailModel?
+    @State var selectedRoom: RoomModel?
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.scenePhase) private var scenePhase
@@ -28,12 +28,11 @@ struct ListChatView: View {
             ScrollView(.vertical, showsIndicators: true) {
                 LazyVStack(spacing: 5){
                     if room != nil {
-                        ForEach(room!.listRoom, id: \.self){ fRoom in
-                            
+                        ForEach(room!, id: \.self){ fRoom in
                             Button {
-                                selectedRoom = fRoom
                                 isActive.toggle()
                                 DispatchQueue.main.async {
+                                    selectedRoom = fRoom
                                     hideTabBar = true
                                 }
                             } label: {
@@ -59,23 +58,23 @@ struct ListChatView: View {
         }
         .padding(.top)
         .onAppear(perform: {
-            roomModel.getRoomLocal { room in
-                self.room = room
-            }
-            
-            roomModel.getRoomChat(id: userID) { roomData in
-                self.room = roomData
-            }
-            
-        })
-        .onChange(of: scenePhase) { value in
-            if scenePhase == .background || scenePhase == .inactive {
-                if let room = self.room {
-                    roomModel.saveRoom(room: room)
+//            roomModel.getRoomLocal { room in
+//                self.room = room
+//            }
+            if userID != "" {
+                roomModel.getRoomChat(id: userID) { roomData in
+                    self.room = roomData
                 }
-                
             }
-        }
+        })
+//        .onChange(of: scenePhase) { value in
+//            if scenePhase == .background || scenePhase == .inactive {
+//                if let room = self.room {
+//                    roomModel.saveRoom(room: room)
+//                }
+//
+//            }
+//        }
     }
     
 }

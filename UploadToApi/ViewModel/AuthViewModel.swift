@@ -20,6 +20,7 @@ class AuthViewModel: ObservableObject {
     @Published var showProgress = false
     @Published var error: String = ""
     @Published var fbLoginManager = LoginManager()
+    
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
     @AppStorage("userPhotoURL") var userPhotoURL: URL?
@@ -117,7 +118,6 @@ class AuthViewModel: ObservableObject {
         do {
             print("run")
             try auth.signOut()
-            
             DispatchQueue.main.async {
                 withAnimation(){
                     self.isLogin = false
@@ -215,6 +215,7 @@ class AuthViewModel: ObservableObject {
                     self.user = user.displayName  ?? user.email!
                     self.userID = user.uid
                     self.userPhotoURL = user.photoURL
+                    
                     withAnimation(){
                         self.isLogin = true
                         self.showAlert.toggle()
