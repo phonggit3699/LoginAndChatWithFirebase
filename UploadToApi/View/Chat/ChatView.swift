@@ -53,11 +53,14 @@ struct ChatView: View {
             }.padding(.bottom, 5)
             
             HStack{
-                TextField("", text: $message)
-                    .padding(.vertical, 10)
-                    .padding(.horizontal, 10)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .frame(height: 50)
+                TextField("Aa", text: $message)
+                    .font(.system(size: isSmallScreen ? 18 : 20))
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 20)
+                    .frame(height: isSmallScreen ? 40 : 48)
+                    .background(Capsule().fill(Color("lightGray2")))
+                
+                // button send message
                 Button(action: {
                     withAnimation(){
                         if message != "" {
@@ -68,8 +71,12 @@ struct ChatView: View {
                     }
                 }, label: {
                     Image(systemName: "paperplane.fill")
+                        .resizable()
+                        .foregroundColor(Color("mainBg"))
+                        .frame(width: isSmallScreen ? 25 : 30, height: isSmallScreen ? 25 : 30)
                 })
             }.padding(.horizontal)
+            .padding(.bottom, 5)
         }
         .onAppear{
             DispatchQueue.global(qos: .background).async {
