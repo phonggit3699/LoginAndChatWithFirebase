@@ -101,7 +101,7 @@ struct ProfileView: View {
                                 .foregroundColor(Color("mainBg"))
                         }else{
                             Button(action: {
-                                let newNotifi = NotificationModel(id: UUID().uuidString,title: user, message: "Friend request", seen: false, type: NotificationType.addafriend.rawValue, time: Date(), idSend: userID, isPress: false, isFriend: false, imageUrl: userPhotoURL)
+                                let newNotifi = NotificationModel(id: UUID().uuidString,title: user, message: "Friend request", seen: false, type: NotificationType.addfriend.rawValue, time: Date(), idSend: userID, isPress: false, isFriend: false, imageUrl: userPhotoURL)
                                 notificationVM.addNotification(id: idSearchResult!, newNotification: newNotifi)
                                 roomVM.isPending.toggle()
                             }, label: {

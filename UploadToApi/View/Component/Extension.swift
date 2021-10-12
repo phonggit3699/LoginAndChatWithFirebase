@@ -13,6 +13,12 @@ extension View {
         overlay(EdgeBorder(width: width, edges: edges).foregroundColor(color))
     }
     
+    public var isSmallScreen: Bool {
+        return getRect().width <= 375.0
+    }
+    
+    public var textColor: Color{ return Color("mainBg") }
+    
     public func getRect() -> CGRect {
         return UIScreen.main.bounds
     }

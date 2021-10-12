@@ -32,13 +32,13 @@ struct NotificationCard: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipShape(Circle())
-                        .frame(width: 50, height: 50)
+                        .frame(width: isSmallScreen ? 45 : 50, height: isSmallScreen ? 45 : 50)
                 }else{
                     Image(systemName: "bell.badge")
                         .resizable()
                         .foregroundColor(.gray)
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
+                        .frame(width: isSmallScreen ? 45 : 50, height: isSmallScreen ? 45 : 50)
                         .clipShape(Circle())
                 }
             }
@@ -46,13 +46,15 @@ struct NotificationCard: View {
             VStack(alignment: .leading, spacing: 5){
                 Text(notification.title)
                     .fontWeight(.bold)
+                    .font(isSmallScreen ? .system(size: 15) : .body)
                     .foregroundColor( colorScheme == .light ? .black : .white )
                 
                 Text(notification.message)
                     .foregroundColor(.gray)
+                    .font(isSmallScreen ? .system(size: 15) : .body)
                     .lineLimit(1)
                 
-                if notification.type == NotificationType.addafriend.rawValue && notification.isPress == false {
+                if notification.type == NotificationType.addfriend.rawValue && notification.isPress == false {
                     HStack{
                         
                         // Accept request
@@ -64,6 +66,7 @@ struct NotificationCard: View {
                             Text("Add Friend")
                                 .fontWeight(.semibold)
                                 .foregroundColor(.white)
+                                .font(isSmallScreen ? .system(size: 15) : .body)
                                 .padding(5)
                                 .padding(.horizontal, 10)
                                 .background(Color("mainBg"))
@@ -77,6 +80,7 @@ struct NotificationCard: View {
                             Text("Remove")
                                 .fontWeight(.semibold)
                                 .foregroundColor(.black)
+                                .font(isSmallScreen ? .system(size: 15) : .body)
                                 .padding(5)
                                 .padding(.horizontal, 10)
                                 .background(Color("lightGray"))

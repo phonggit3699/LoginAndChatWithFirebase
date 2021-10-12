@@ -5,12 +5,15 @@
 //  Created by PHONG on 16/08/2021.
 //
 
-import Foundation
+import SwiftUI
 import Firebase
 
 class UserViewModel: ObservableObject{
     let db = Firestore.firestore()
     var ref: DocumentReference?
+    
+    @AppStorage("currentUser") var user = ""
+    @AppStorage("userPhotoURL") var userPhotoURL: URL?
     
     func postProfile(id: String, user: UserModel) {
         
@@ -23,8 +26,7 @@ class UserViewModel: ObservableObject{
     }
     
     func getProfileByID(id: String,_ com: @escaping (UserModel) -> Void){
-        let docRef = db.collection("Users").document(id)
-        docRef.getDocument{ (document, err) in
+        self.db.collection("Users").document(id).getDocument{ (document, err) in
             
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -45,6 +47,26 @@ class UserViewModel: ObservableObject{
                 
             } else {
                 print("Document does not exist")
+            }
+            
+        }
+    }
+    
+    func checkUser(id: String){
+        self.db.collection("Users").document(id).getDocument{ (document, err) in
+            
+            if let err = err {
+                print("Error getting documents: \(err)")
+                return
+            }
+            
+            
+            if let document = document, document.exists {
+              print("document exist") 
+            } else {
+                let newUser: UserModel = UserModel(id: id, name: self.user, address: "", phone: "", avatarUrl: self.userPhotoURL)
+                self.postProfile(id: id, user: newUser)
+                print("update user information success")
             }
             
         }

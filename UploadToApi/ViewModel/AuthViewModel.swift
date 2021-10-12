@@ -19,12 +19,15 @@ class AuthViewModel: ObservableObject {
     @Published var showError = false
     @Published var showProgress = false
     @Published var error: String = ""
+    @Published var alert: String = ""
     @Published var fbLoginManager = LoginManager()
     
     @AppStorage("currentUser") var user = ""
     @AppStorage("userID") var userID = ""
     @AppStorage("userPhotoURL") var userPhotoURL: URL?
     @AppStorage("rememberMe") var rememberMe = false
+    
+    @ObservedObject var userVM = UserViewModel()
     
     static let shared = AuthViewModel()
     
@@ -41,15 +44,21 @@ class AuthViewModel: ObservableObject {
     }
     
     func createAccount(email: String, password: String) {
+        
+        checkField(email: email, password: password, repass: password)
+        
         auth.createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            withAnimation(){
-                self.isLogin = true
-            }
             
+            DispatchQueue.main.async {
+                withAnimation(){
+                    self.alert = "Create account success. Already to login"
+                    self.showAlert.toggle()
+                }
+            }
         }
     }
     
@@ -71,10 +80,11 @@ class AuthViewModel: ObservableObject {
             self.user = user.displayName  ?? user.email!
             self.userID = user.uid
             self.userPhotoURL = user.photoURL
-            
-            withAnimation(){
-                self.isLogin = true
-                self.error = ""
+            DispatchQueue.main.async {
+                withAnimation(){
+                    self.isLogin = true
+                    self.error = ""
+                }
             }
         }
     }
@@ -116,7 +126,6 @@ class AuthViewModel: ObservableObject {
     
     func logout(){
         do {
-            print("run")
             try auth.signOut()
             DispatchQueue.main.async {
                 withAnimation(){
@@ -182,7 +191,7 @@ class AuthViewModel: ObservableObject {
                         showAlert.toggle()
                         self.error = ""
                     }
-
+                    
                 }
                 
             }
@@ -215,11 +224,12 @@ class AuthViewModel: ObservableObject {
                     self.user = user.displayName  ?? user.email!
                     self.userID = user.uid
                     self.userPhotoURL = user.photoURL
-                    
-                    withAnimation(){
-                        self.isLogin = true
-                        self.showAlert.toggle()
-                        self.error = ""
+                    DispatchQueue.main.async {
+                        withAnimation(){
+                            self.isLogin = true
+                            self.showAlert.toggle()
+                            self.error = ""
+                        }
                     }
                 }
             }

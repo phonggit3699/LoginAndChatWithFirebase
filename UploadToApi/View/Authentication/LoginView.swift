@@ -20,6 +20,8 @@ struct LoginView: View {
     @State private var isRemember = false
     @Environment(\.colorScheme) var colorScheme
     
+   
+    
     var body: some View {
         NavigationView{
             ZStack{
@@ -32,19 +34,19 @@ struct LoginView: View {
                         // Logo
                         Image("Circle-icons")
                             .resizable()
-                            .foregroundColor(.gray)
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 100, height: 100)
                             .clipShape(Circle())
+                            .offset(y: -50)
                         
                         
                         VStack {
                             //username field
                             TextField("Email", text: $username)
-                                .foregroundColor(.white)
+                                .foregroundColor(textColor)
                                 .padding(.vertical, 10)
                                 .padding(.horizontal)
-                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.username != "" || self.isTabFieldUsername ? Color.white: Color.gray, lineWidth: 1))
+                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.username != "" || self.isTabFieldUsername ? textColor: Color.gray, lineWidth: 1))
                                 .padding(.horizontal)
                                 .onTapGesture {
                                     self.isTabFieldUsername.toggle()
@@ -55,20 +57,20 @@ struct LoginView: View {
                             ZStack{
                                 if self.showPassword {
                                     TextField("Password", text: $password)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(textColor)
                                         .padding(.vertical, 10)
                                         .padding(.horizontal)
-                                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" || self.isTabFieldPassword ? Color.white: Color.gray, lineWidth: 1))
+                                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" || self.isTabFieldPassword ? textColor: Color.gray, lineWidth: 1))
                                         .onTapGesture {
                                             self.isTabFieldPassword.toggle()
                                             self.isTabFieldUsername = false
                                         }
                                 }else{
                                     SecureField("Password", text: $password)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(textColor)
                                         .padding(.vertical, 10)
                                         .padding(.horizontal)
-                                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password !=  "" || self.isTabFieldPassword ? Color.white: Color.gray, lineWidth: 1))
+                                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password !=  "" || self.isTabFieldPassword ? textColor: Color.gray, lineWidth: 1))
                                         .onTapGesture {
                                             self.isTabFieldPassword.toggle()
                                             self.isTabFieldUsername = false
@@ -81,7 +83,7 @@ struct LoginView: View {
                                         self.showPassword.toggle()
                                     }, label: {
                                         Image(systemName: self.showPassword ? "eye.slash.fill" : "eye.fill")
-                                            .foregroundColor(self.password != "" || self.isTabFieldPassword ? Color.white: Color.gray)
+                                            .foregroundColor(self.password != "" || self.isTabFieldPassword ? textColor: Color.gray)
                                     }).padding(.trailing, 5)
                                 }
                             }.padding(.horizontal)
@@ -123,7 +125,7 @@ struct LoginView: View {
                                         .fontWeight(.semibold)
                                         .padding()
                                         .frame(width: 150, height: 50)
-                                        .background(Capsule().fill(Color("buttonLoginColor")))
+                                        .background(Capsule().fill(Color("mainBg")))
                                     Spacer()
                                 }
                             }).disabled(self.password == "" || self.username == "")
@@ -220,21 +222,22 @@ struct LoginView: View {
                         }
                         .padding()
                         .background(Color.white.opacity(0.2).clipShape(RoundedRectangle.init(cornerRadius: 15)))
+                        .offset(y: -40)
                     }
                 }
                 
             }
-            .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(true)
             .padding()
             .padding(.top, 50)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(LinearGradient(gradient: Gradient(colors: [Color("lightBlue"), Color.blue]), startPoint: .topLeading, endPoint: .bottomTrailing))
+            .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color("mainBg")]), startPoint: .topLeading, endPoint: .bottomTrailing))
             .alert(isPresented: self.$auth.showError, content: {
                 Alert(title: Text("Erorr"), message: Text("\(self.auth.error)"), dismissButton: .default(Text("OK")))
             })
             .onAppear{
                 auth.onAppear()
+                UITextField.appearance().tintColor = UIColor(textColor)
             }
             .ignoresSafeArea()
         }

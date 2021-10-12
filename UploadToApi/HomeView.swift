@@ -17,6 +17,8 @@ struct HomeView: View {
     @StateObject var authVM = AuthViewModel()
     @StateObject var NotificationVM = NotifyViewModel()
     @StateObject var storageVM = StorageViewModel()
+    @ObservedObject var userVM = UserViewModel()
+    
     @State private var profileImg: UIImage?
     @State private var showSheet: Bool = false
     @State private var selecttionTab: String = "New Feed"
@@ -130,6 +132,8 @@ struct HomeView: View {
                         storageVM.getImageProfile(url: userPhotoURL) { image in
                             self.profileImg = image
                         }
+                        
+                        userVM.checkUser(id: userID)
                         
                     }else {
                         authVM.logout()

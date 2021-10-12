@@ -39,7 +39,7 @@ struct TabViewButton: View {
                     Image(systemName: selectionTab == content.label ? content.systemImage2 : content.systemImage1)
                         .resizable()
                         .foregroundColor(selectionTab == content.label ? Color("mainBg") : .gray)
-                        .frame(width: 25, height: 25)
+                        .frame(width: isSmallScreen ? 22 : 25, height: isSmallScreen ? 22 : 25)
                     
                     
                     // badge, count new
@@ -85,7 +85,7 @@ struct TabViewButton: View {
                 }
                 
                 Text(content.label)
-                    .font(.caption2)
+                    .font(isSmallScreen ? .system(size: 10) : .caption2)
                     .foregroundColor(selectionTab == content.label ? Color("mainBg") : .gray)
             }
         }

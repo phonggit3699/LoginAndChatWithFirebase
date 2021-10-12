@@ -28,7 +28,7 @@ struct ChatCard: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipShape(Circle())
-                        .frame(width: 50, height: 50)
+                        .frame(width: isSmallScreen ? 45 : 50, height: isSmallScreen ? 45 : 50)
                     
                 }else{
                     Circle()
@@ -47,10 +47,12 @@ struct ChatCard: View {
             VStack(alignment: .leading){
                 Text(room.name)
                     .fontWeight(.bold)
+                    .font(isSmallScreen ? .system(size: 15) : .body)
                     .foregroundColor( colorScheme == .light ? .black : .white )
                 
                 Text(lastMessage)
                     .foregroundColor(.gray)
+                    .font(isSmallScreen ? .system(size: 15) : .body)
                     .lineLimit(1)
             }
             
