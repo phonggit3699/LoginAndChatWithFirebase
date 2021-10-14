@@ -75,7 +75,7 @@ struct NotificationCard: View {
                         
                         // Remove request
                         Button {
-                            NotificationVM.updateSeenNotification(id: userID, idNotifi: notification.id, message: "Removed request")
+                            NotificationVM.updateSeenNotification(id: userID, idNotifi: notification.id, message: "Removed request", isPress: true)
                         } label: {
                             Text("Remove")
                                 .fontWeight(.semibold)
@@ -97,6 +97,8 @@ struct NotificationCard: View {
             NotificationVM.loadNotificationImage(url: notification.imageUrl) { image in
                 self.imageNotification = image
             }
+            
+            NotificationVM.updateSeenNotification(id: userID, idNotifi: notification.id, message: notification.message, isPress: false)
         }
     }
 }
@@ -125,7 +127,7 @@ extension NotificationCard{
                 RoomVM.addRoomChat(id: userID, newRoom: newRoom)
             }
             
-            NotificationVM.updateSeenNotification(id: userID, idNotifi: notification.id, message: "Accepted request")
+            NotificationVM.updateSeenNotification(id: userID, idNotifi: notification.id, message: "Accepted request", isPress: true)
         }
         
     }

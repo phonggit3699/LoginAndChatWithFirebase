@@ -45,9 +45,9 @@ class AuthViewModel: ObservableObject {
     
     func createAccount(email: String, password: String) {
         
-        checkField(email: email, password: password, repass: password)
+        checkField(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password.trimmingCharacters(in: .whitespacesAndNewlines), repass: password)
         
-        auth.createUser(withEmail: email, password: password) { authResult, error in
+        auth.createUser(withEmail: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password.trimmingCharacters(in: .whitespacesAndNewlines)) { authResult, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
@@ -64,9 +64,9 @@ class AuthViewModel: ObservableObject {
     
     func login(email: String, password: String){
         //Validate text input
-        checkField(email: email, password: password, repass: password)
+        checkField(email: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password.trimmingCharacters(in: .whitespacesAndNewlines), repass: password.trimmingCharacters(in: .whitespacesAndNewlines))
         
-        auth.signIn(withEmail: email, password: password) { re, error in
+        auth.signIn(withEmail: email.trimmingCharacters(in: .whitespacesAndNewlines), password: password.trimmingCharacters(in: .whitespacesAndNewlines)) { re, error in
             if let error = error {
                 print(error.localizedDescription)
                 self.showProgress = false

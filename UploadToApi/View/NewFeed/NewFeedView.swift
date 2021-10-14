@@ -8,14 +8,28 @@
 import SwiftUI
 
 struct NewFeedView: View {
+    @Binding var avatarImg: UIImage?
+    
+    init(avatarImg: Binding<UIImage?>) {
+        _avatarImg = avatarImg
+    }
+    
     var body: some View {
-        Text("NEW FEED")
-            .font(.title)
+        RefreshScrollView(content: {
+            
+            CreatePostView(avatarImg: $avatarImg)
+            
+            LazyVStack{
+                ForEach(1...3, id: \.self){post in
+                    NewFeedCard()
+                }
+            }
+        }, onRefresh: { refreshControl in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                refreshControl.endRefreshing()
+            }
+        })
+        .padding(.bottom, getSafeArea().bottom + 25) // padding = size of safe area botton + height of tab bar
     }
 }
 
-struct NewFeedView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewFeedView()
-    }
-}

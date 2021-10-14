@@ -48,9 +48,9 @@ class NotifyViewModel: NSObject, ObservableObject {
     }
     
     
-    func updateSeenNotification(id: String, idNotifi:String, message: String){
+    func updateSeenNotification(id: String, idNotifi:String, message: String, isPress: Bool){
         self.db.collection("Notifications").document(id).collection("StoreNotification")
-            .document(idNotifi).updateData(["seen" : true, "isPress" : true, "message" : message])
+            .document(idNotifi).updateData(["seen" : true, "isPress" : isPress, "message" : message])
     }
     
     func getNotification(id: String,_ com: @escaping ([NotificationModel]) -> Void) {

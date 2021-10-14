@@ -42,7 +42,7 @@ struct HomeView: View {
                         
                         TabView(selection: $selecttionTab) {
                             
-                            NewFeedView()
+                            NewFeedView(avatarImg: $profileImg)
                                 .tag("New Feed")
                             
                             ListChatView(storage: storageVM, profileImg: $profileImg, hideTabBar: $hideTabBar)

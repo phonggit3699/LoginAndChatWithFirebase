@@ -58,6 +58,13 @@
 		3DAEA56426B78A37009187B9 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA56326B78A37009187B9 /* SignInView.swift */; };
 		3DAEA56826B8D960009187B9 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEA56726B8D960009187B9 /* AuthViewModel.swift */; };
 		3DAEA56A26BA1DDE009187B9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEA56926BA1DDE009187B9 /* Launch Screen.storyboard */; };
+		3DE3162C271663D500FEF006 /* NewFeedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3162B271663D500FEF006 /* NewFeedCard.swift */; };
+		3DE3162E2716643D00FEF006 /* NewFeedCardHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3162D2716643D00FEF006 /* NewFeedCardHeader.swift */; };
+		3DE316302716691900FEF006 /* NewFeedCardContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3162F2716691900FEF006 /* NewFeedCardContent.swift */; };
+		3DE316322716701B00FEF006 /* NewFeedCardReactBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE316312716701B00FEF006 /* NewFeedCardReactBar.swift */; };
+		3DE316342716C77000FEF006 /* RefreshScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE316332716C77000FEF006 /* RefreshScrollView.swift */; };
+		3DE31636271718F300FEF006 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE31635271718F300FEF006 /* CreatePostView.swift */; };
+		3DE3163827171F5E00FEF006 /* CreatePostSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE3163727171F5E00FEF006 /* CreatePostSheet.swift */; };
 		9C4CF25913011B7D2413CF2D /* Pods_UploadToApi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8289B81C4454251BCA4B8329 /* Pods_UploadToApi.framework */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +123,13 @@
 		3DAEA56326B78A37009187B9 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		3DAEA56726B8D960009187B9 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		3DAEA56926BA1DDE009187B9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		3DE3162B271663D500FEF006 /* NewFeedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeedCard.swift; sourceTree = "<group>"; };
+		3DE3162D2716643D00FEF006 /* NewFeedCardHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeedCardHeader.swift; sourceTree = "<group>"; };
+		3DE3162F2716691900FEF006 /* NewFeedCardContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeedCardContent.swift; sourceTree = "<group>"; };
+		3DE316312716701B00FEF006 /* NewFeedCardReactBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFeedCardReactBar.swift; sourceTree = "<group>"; };
+		3DE316332716C77000FEF006 /* RefreshScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshScrollView.swift; sourceTree = "<group>"; };
+		3DE31635271718F300FEF006 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		3DE3163727171F5E00FEF006 /* CreatePostSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostSheet.swift; sourceTree = "<group>"; };
 		701712CA3D6725DDDF63F9DA /* Pods-UploadToApi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UploadToApi.release.xcconfig"; path = "Target Support Files/Pods-UploadToApi/Pods-UploadToApi.release.xcconfig"; sourceTree = "<group>"; };
 		8289B81C4454251BCA4B8329 /* Pods_UploadToApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UploadToApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F31494201332C916131EA8C8 /* Pods-UploadToApi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UploadToApi.debug.xcconfig"; path = "Target Support Files/Pods-UploadToApi/Pods-UploadToApi.debug.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +161,7 @@
 				3D84F17726FC119600806622 /* CustomTabViewBar.swift */,
 				3D84F17926FC1C5400806622 /* EdgeBorder.swift */,
 				3D84F17B26FCBA2200806622 /* Extension.swift */,
+				3DE316332716C77000FEF006 /* RefreshScrollView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -196,6 +211,12 @@
 			isa = PBXGroup;
 			children = (
 				3D84F17126FB74DC00806622 /* NewFeedView.swift */,
+				3DE3162B271663D500FEF006 /* NewFeedCard.swift */,
+				3DE3162D2716643D00FEF006 /* NewFeedCardHeader.swift */,
+				3DE3162F2716691900FEF006 /* NewFeedCardContent.swift */,
+				3DE316312716701B00FEF006 /* NewFeedCardReactBar.swift */,
+				3DE31635271718F300FEF006 /* CreatePostView.swift */,
+				3DE3163727171F5E00FEF006 /* CreatePostSheet.swift */,
 			);
 			path = NewFeed;
 			sourceTree = "<group>";
@@ -465,6 +486,7 @@
 				3D84F18126FD599C00806622 /* SearchBarView.swift in Sources */,
 				3D366B4726C34C8500AE668A /* PushNotification.swift in Sources */,
 				3D84F17C26FCBA2200806622 /* Extension.swift in Sources */,
+				3DE3163827171F5E00FEF006 /* CreatePostSheet.swift in Sources */,
 				3D366B2726BA386E00AE668A /* StorageViewModel.swift in Sources */,
 				3D366B4526C20F7500AE668A /* ChatBubble.swift in Sources */,
 				3D366B2126BA2DC200AE668A /* ImagePicker.swift in Sources */,
@@ -474,18 +496,24 @@
 				3D99A1AF26F341BB0066DBFE /* SpinnerView.swift in Sources */,
 				3D84F17626FC103A00806622 /* TabViewButton.swift in Sources */,
 				3D84F16826FAB3DD00806622 /* NotificationModel.swift in Sources */,
+				3DE31636271718F300FEF006 /* CreatePostView.swift in Sources */,
+				3DE3162C271663D500FEF006 /* NewFeedCard.swift in Sources */,
 				3D366B3F26BF61F600AE668A /* ChatView.swift in Sources */,
 				3D37238C26FF026000A52B89 /* SearchCard.swift in Sources */,
 				3DAEA54B26B7779F009187B9 /* HomeView.swift in Sources */,
 				3DAEA56426B78A37009187B9 /* SignInView.swift in Sources */,
 				3D366B4326C0B0B100AE668A /* ListChatView.swift in Sources */,
+				3DE316342716C77000FEF006 /* RefreshScrollView.swift in Sources */,
 				3D7227B326EF364700C3DF47 /* RoomViewModel.swift in Sources */,
 				3D366B3926BE13E400AE668A /* Comment.swift in Sources */,
 				3D837EEB2701578B000FC89B /* SearchModel.swift in Sources */,
+				3DE3162E2716643D00FEF006 /* NewFeedCardHeader.swift in Sources */,
 				3D841B6A26E3AABC006CF4FA /* ChatCard.swift in Sources */,
 				3D84F17A26FC1C5400806622 /* EdgeBorder.swift in Sources */,
 				3D366B2526BA2F8100AE668A /* ProfileView.swift in Sources */,
 				3D84F17426FB75B600806622 /* NotificationButton.swift in Sources */,
+				3DE316322716701B00FEF006 /* NewFeedCardReactBar.swift in Sources */,
+				3DE316302716691900FEF006 /* NewFeedCardContent.swift in Sources */,
 				3D366B3026BB7D4200AE668A /* ResetPasswordView.swift in Sources */,
 				3D841B7026E4B57C006CF4FA /* EditProfile.swift in Sources */,
 				3DAEA54926B7779F009187B9 /* UploadToApiApp.swift in Sources */,
